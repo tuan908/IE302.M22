@@ -1,0 +1,4 @@
+const SHOW_VIEWER = 'SHOW_VIEWER';
+const HIDE_VIEWER = 'HIDE_VIEWER';
+
+export { HIDE_VIEWER, SHOW_VIEWER };
