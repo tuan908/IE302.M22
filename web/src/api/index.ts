@@ -35,7 +35,7 @@ const getPhotoList = async (requestString: string) => {
       })
     );
     return data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error.message);
   }
 };

@@ -7,6 +7,7 @@ import store, { persistedStore } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from '@mui/material';
 import globalTheme from './style/globalTheme';
+import UserUtils from './util/user';
 
 interface AppProps {
   history?: History;
@@ -15,7 +16,8 @@ interface AppProps {
 const App: FC<AppProps> = ({ history }: AppProps) => {
   const [isVerifiedPage, setIsVerifiedPage] = useState<boolean>(false);
   const [pin, setNewPin] = useState<[] | null>([]);
-  const userInfo = user.getUserInfo();
+  const { getUserInfoFromStorage } = UserUtils;
+  const userInfo = getUserInfoFromStorage();
   const navigator = useNavigate();
 
   useEffect(() => {
