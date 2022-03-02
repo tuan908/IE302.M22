@@ -1,9 +1,9 @@
 import map from 'lodash/map';
 
 export interface PinterestScreenTypes {
-  name: string;
-  path: string;
-  component: string;
+  name?: string;
+  path?: string;
+  component?: string;
 }
 
 const PinterestScreenList: PinterestScreenTypes[] = [
@@ -53,7 +53,7 @@ const PinterestMenuScreen: PinterestScreenTypes[] = [
 ];
 
 const screenWithPermission = [...PinterestScreenList];
-const screenWithoutPermission = [];
+const screenWithoutPermission: PinterestScreenTypes[] = [];
 
 const routesWithRoles = {
   screenListIfHaveAdminRole: map(PinterestScreenList, 'path'),

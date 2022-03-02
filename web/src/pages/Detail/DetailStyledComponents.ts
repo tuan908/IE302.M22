@@ -17,11 +17,13 @@ const ImageDetail = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   img {
     width: 300px;
     height: 300px;
     object-fit: contain;
   }
+
   video {
     width: 300px;
     height: 300px;
@@ -54,4 +56,20 @@ const ImageContainer = styled.div`
   padding: 20px;
 `;
 
-export { DetailWrapper, ImageContainer, ImageDetail, ImageInfo };
+const HeaderLevel4PStyle = styled.p`
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+`;
+
+export {
+  DetailWrapper,
+  ImageContainer,
+  ImageDetail,
+  ImageInfo,
+  HeaderLevel4PStyle,
+};

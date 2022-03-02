@@ -1,14 +1,6 @@
-import { map } from 'lodash';
-import { useState, useEffect, useRef, FC, MouseEventHandler } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import {
-  Wrapper,
-  LogoWrapper,
-  SearchWrapper,
-  SearchBarWrapper,
-  IconsWrapper,
-} from './HeaderStyledComponent';
+import FaceIcon from '@mui/icons-material/Face';
+import KeyboardArrowIcon from '@mui/icons-material/KeyboardArrowDown';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import SearchIcon from '@mui/icons-material/Search';
 import TextsmsIcon from '@mui/icons-material/Textsms';
@@ -23,52 +15,92 @@ import {
   Popper,
   Tooltip,
 } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import KeyboardArrowIcon from '@mui/icons-material/KeyboardArrowDown';
-import FaceIcon from '@mui/icons-material/Face';
-import { getPhotoList } from '../api';
 import { History } from 'history';
-import { PinterestMenuScreen, PinterestScreenTypes } from '../config/page';
+import { map } from 'lodash';
+import {
+  Dispatch,
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import ApiServices from 'src/api';
+import { PinterestMenuScreen, PinterestScreenTypes } from '../../config/page';
+import { getCurrentUser } from '../../redux/action/user';
+import AuthorizationServices from '../../service/auth.service';
+import UserServices from '../../service/user.services';
+import {
+  IconsWrapper,
+  LogoWrapper,
+  SearchBarWrapper,
+  SearchWrapper,
+  Wrapper,
+} from './HeaderStyledComponent';
 
 interface PinterestHeaderProps {
   history?: History;
 }
 
+interface UserProfile {
+  avatarUrl?: string;
+}
+
+const { getUserProfile } = UserServices;
+const { handleLogout: logOutFn } = AuthorizationServices;
+const { getNewPhotoList, getPhotoList } = ApiServices;
+
 const PinterestHeader: FC<PinterestHeaderProps> = ({
   history,
 }: PinterestHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [userProfile, setUserProfile] = useState<>();
+  const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
   const [userInput, setUserInput] = useState<string>();
 
-  const ref = useRef<>();
-  const dispatcher = useDispatch<>();
+  const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch<Dispatch<any>>();
 
   const handleSubmitSearchImage: MouseEventHandler<HTMLButtonElement> = async (
     e
   ) => {
     e.preventDefault();
-    const requestedPhotoList = await getPhotoList(userInput);
-    const sortedRequestedPhotoList = requestedPhotoList.sort(
+    const requestedPhotoList = await getPhotoList(userInput!);
+    const sortedRequestedPhotoList = requestedPhotoList?.sort(
       () => 0.5 - Math.random()
     );
     setUserInput('');
-    dispatcher(sortedRequestedPhotoList);
+    dispatch(sortedRequestedPhotoList);
   };
-  useEffect(async () => {
-    getNewPins().then((value) => {
-      // console.log("Pins lúc này: ", pins);
-      dispatch(apiPins(value));
-    });
 
-    //Lấy ảnh đại diện
-    userService
-      .getProfile()
-      .then((res) => {
-        setUserProfile(res);
-        dispatch(getCurrentUser(res));
-      })
-      .catch((err) => {});
+  const getNewPhotosFromApi = async () => {
+    try {
+      const photos = await getNewPhotoList();
+      return photos;
+    } catch (error: any) {
+      console.error(error.message);
+    } finally {
+      return 1;
+    }
+  };
+
+  const getUserAvatar = async () => {
+    const userInfo = await getUserProfile();
+    try {
+      const { data } = userInfo!;
+      setUserProfile(data);
+      dispatch(getCurrentUser(data));
+    } catch (error: any) {
+      console.error(error.message);
+    } finally {
+      return userInfo;
+    }
+  };
+
+  useEffect(() => {
+    getNewPhotosFromApi();
+    getUserAvatar();
   }, []);
 
   const ClickAwayListenerFn = () => setIsMenuOpen(!isMenuOpen);
@@ -78,14 +110,14 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
   };
 
   const handleLogout = () => {
-    authService.logout();
-    history.push('/login');
+    logOutFn();
+    history!.push('/login');
   };
 
   const handleClose = (path: string) => {
     toggleMenu();
     if (path !== '/signout') {
-      history.push(path);
+      history!.push(path);
     } else handleLogout();
   };
   return (
@@ -124,13 +156,13 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
             <NotificationsIcon style={{ height: 30, width: 30 }} />
           </Tooltip>
         </IconButton>
-        <IconButton onClick={(e) => history.push('/profile')}>
+        <IconButton onClick={() => history!.push('/profile')}>
           {!userProfile ? (
             <FaceIcon />
           ) : (
             <Avatar
               style={{ height: 40, width: 40 }}
-              src={userProfile.profilePhoto}
+              src={userProfile!.avatarUrl}
             />
           )}
         </IconButton>
@@ -146,7 +178,7 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
       <Popper
         open={isMenuOpen}
         transition
-        anchorEl={ref.current}
+        anchorEl={ref!.current}
         disablePortal
         className="popper"
       >
@@ -165,7 +197,7 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
                     PinterestMenuScreen,
                     ({ path, name }: PinterestScreenTypes) => {
                       return (
-                        <MenuItem key={path} onClick={() => handleClose(path)}>
+                        <MenuItem key={path} onClick={() => handleClose(path!)}>
                           {name}
                         </MenuItem>
                       );
@@ -180,3 +212,5 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
     </Wrapper>
   );
 };
+
+export default PinterestHeader;

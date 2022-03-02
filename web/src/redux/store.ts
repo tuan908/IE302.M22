@@ -38,3 +38,9 @@ const store = createStore(reducerWithPersistConfig, composeEnhancers());
 export default store;
 
 export const persistedStore = persistStore(store);
+
+type PinterestRootAppState = ReturnType<typeof store.getState>;
+
+type AppDispatch = typeof store.dispatch;
+
+export { PinterestRootAppState, AppDispatch };

@@ -32,7 +32,7 @@ const parseJwt = (token: string) => {
   return JSON.parse(jsonPayload);
 };
 
-const userInfo = () => {
+const getUserInfo = () => {
   const userInfoFromStorage = getUserInfoFromStorage();
   const { accessToken, refreshToken } = userInfoFromStorage;
 
@@ -85,7 +85,7 @@ const handleRememberMeExpired = () => {
 };
 
 const UserUtils = {
-  getUserInfoFromStorage,
+  getUserInfo,
   checkValidRememberMe,
   handleRememberMeExpired,
   saveUserInfoIntoStorage,
