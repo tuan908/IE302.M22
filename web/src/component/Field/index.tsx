@@ -48,7 +48,7 @@ const PinterestField: React.FC<Props> = ({
       />
     );
   } else if (inputType === 'select') {
-    const isFieldValidation = !isEmpty(control);
+    const isValidating = !isEmpty(control);
     return (
       <Grid container alignItems="flex-end" className="field">
         <Grid item className="field-text" xs={layout.labelCol}>
@@ -62,7 +62,7 @@ const PinterestField: React.FC<Props> = ({
             fullWidth
           >
             {/* <InputLabel id="role-required">{label}</InputLabel> */}
-            {isFieldValidation ? (
+            {isValidating ? (
               <Controller
                 as={
                   <Select>
