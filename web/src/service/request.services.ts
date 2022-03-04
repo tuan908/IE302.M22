@@ -49,9 +49,8 @@ const getRequest = async ({ path = '', params = {} }: GetRequestProps) => {
     return response;
   } catch (error: unknown) {
     console.error(error);
-  } finally {
-    return response;
   }
+  return response;
 };
 
 const putRequest = async ({ path = '', body = {} }: RequestProps) => {
@@ -60,9 +59,8 @@ const putRequest = async ({ path = '', body = {} }: RequestProps) => {
     return response;
   } catch (error: unknown) {
     console.error(error);
-  } finally {
-    return response;
   }
+  return response;
 };
 
 const refreshTokenIfExpired = async (payload: any) => {
@@ -71,9 +69,8 @@ const refreshTokenIfExpired = async (payload: any) => {
     return response;
   } catch (error: unknown) {
     console.error(error);
-  } finally {
-    return response;
   }
+  return response;
 };
 
 const requestHandler = async (request: AxiosRequestConfig<any>) => {

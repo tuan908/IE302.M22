@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useCallback } from 'react';
 import { getCurrentUser } from 'src/redux/action/user';
 
-import PinterestReduxHooks from 'src/redux/reduxHooks';
+import PinterestReduxHooks from 'src/redux/hooks';
 import UserServices from 'src/service/user.services';
 
 interface PinterestProfileProps {}

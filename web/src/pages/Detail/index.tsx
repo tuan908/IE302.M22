@@ -19,9 +19,12 @@ import {
 import GoBack from '../../component/Button/GoBack';
 import PinterestComment from '../../component/Comment';
 import ScrollToTop from '../../component/Button/ScrollTop';
+import { PinterestFile } from '../Viewer/Dialog/Content';
 
 interface DetailScreenProps {
   history?: History;
+  file?: PinterestFile;
+  visible?: boolean;
 }
 
 const PinterestDetail: FC<DetailScreenProps> = ({

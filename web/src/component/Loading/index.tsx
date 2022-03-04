@@ -1,12 +1,21 @@
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import { FC } from 'react';
+import clsx from 'clsx';
 
-interface Props {}
+interface Props {
+  fitContainer?: boolean;
+  className?: string;
+}
 
-const PinterestLoading: FC<Props> = (props: Props) => {
+const PinterestLoading: FC<Props> = ({ fitContainer, className }: Props) => {
+  const PinterestLoadingClassName = clsx(fitContainer, className);
   return (
     <>
-      <CircularProgress />
+      <Grid alignItems="center" className={PinterestLoadingClassName}>
+        <Grid item>
+          <CircularProgress />
+        </Grid>
+      </Grid>
     </>
   );
 };
