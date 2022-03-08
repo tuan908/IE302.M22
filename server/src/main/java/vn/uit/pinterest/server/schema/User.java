@@ -1,19 +1,14 @@
 package vn.uit.pinterest.server.schema;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Document(collection = "UserCollection")
 public class User {
-	@Id
+	@MongoId
 	@Indexed(unique = true)
 	public String userId;
 

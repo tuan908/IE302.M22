@@ -1,21 +1,15 @@
 package vn.uit.pinterest.server.schema;
 
-import javax.persistence.Id;
-
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Document(collection = "CommentCollection")
 public class Comment {
-	@Id
-	public Long commentId;
+	@MongoId
+	public String commentId;
 
 	@Field(name = "userId", targetType = FieldType.STRING)
 	public String userId;
@@ -33,11 +27,11 @@ public class Comment {
 	@Field(name = "commentContent", targetType = FieldType.STRING)
 	public String commentContent;
 
-	public Long getCommentId() {
+	public String getCommentId() {
 		return this.commentId;
 	}
 
-	public void setCommentId(Long commentId) {
+	public void setCommentId(String commentId) {
 		this.commentId = commentId;
 	}
 

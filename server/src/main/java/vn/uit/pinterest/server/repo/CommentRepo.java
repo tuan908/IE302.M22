@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import vn.uit.pinterest.server.schema.Comment;
 
 @Repository
-public interface CommentRepo extends MongoRepository<Comment, Long> {
+public interface CommentRepo extends MongoRepository<Comment, String> {
 
 }

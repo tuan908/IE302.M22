@@ -12,20 +12,20 @@ import vn.uit.pinterest.server.schema.Post;
 
 @RestController
 public class PostController {
-    @GetMapping(value = "path")
-    public Post getMethodName(@RequestParam String param) {
+    @GetMapping(value = "/api/post/get")
+    public Post getPostById(@RequestParam String param) {
         return new Post();
     }
 
-    @PostMapping(value = "path")
-    public Post postMethodName(@RequestBody Post entity) {
+    @PostMapping(value = "/api/post/post")
+    public Post createNewPost(@RequestBody Post entity) {
         // TODO: process POST request
 
         return entity;
     }
 
-    @PutMapping(value = "path/{id}")
-    public Post putMethodName(@PathVariable String id, @RequestBody Post entity) {
+    @PutMapping(value = "/api/post/put/{id}")
+    public Post updatePost(@PathVariable String id, @RequestBody Post entity) {
         // TODO: process PUT request
 
         return entity;

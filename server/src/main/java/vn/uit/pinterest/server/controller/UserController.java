@@ -12,20 +12,20 @@ import vn.uit.pinterest.server.schema.User;
 
 @RestController
 public class UserController {
-    @GetMapping(value = "path")
-    public User getMethodName(@RequestParam String param) {
+    @GetMapping(value = "/api/user/get")
+    public User getUserInfo(@RequestParam String param) {
         return new User();
     }
 
-    @PostMapping(value = "path")
-    public User postMethodName(@RequestBody User entity) {
+    @PostMapping(value = "/api/user/create")
+    public User createNewUserInfo(@RequestBody User entity) {
         // TODO: process POST request
 
         return entity;
     }
 
-    @PutMapping(value = "path/{id}")
-    public User putMethodName(@PathVariable String id, @RequestBody User entity) {
+    @PutMapping(value = "/api/user/update/{id}")
+    public User updateExistedUserInfo(@PathVariable String id, @RequestBody User entity) {
         // TODO: process PUT request
 
         return entity;
