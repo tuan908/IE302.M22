@@ -1,6 +1,5 @@
 package vn.uit.pinterest.server.schema;
 
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Document(collection = "UserCollection")
 public class User {
 	@MongoId
-	@Indexed(unique = true)
 	public String userId;
 
 	@Field(name = "postId", targetType = FieldType.STRING)
@@ -23,14 +21,6 @@ public class User {
 
 	@Field(name = "postContent", targetType = FieldType.STRING)
 	public String postContent;
-
-	public String getUserId() {
-		return this.userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 	public String getPostId() {
 		return this.postId;
