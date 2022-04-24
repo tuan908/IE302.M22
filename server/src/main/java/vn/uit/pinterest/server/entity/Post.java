@@ -1,14 +1,14 @@
-package vn.uit.pinterest.server.schema;
+package vn.uit.pinterest.server.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document(collection = "PostCollection")
 public class Post {
-    @MongoId
+    @Id
     public String postId;
 
     @Indexed(unique = true)
@@ -24,17 +24,20 @@ public class Post {
     @Field(name = "postReactCount", targetType = FieldType.STRING)
     public Long postReactCount;
 
-    @Field(name = "imageOriginalName", targetType = FieldType.STRING)
-    public String imageOriginalName;
+    @Field(name = "image", targetType = FieldType.STRING)
+    public Image image;
 
-    @Field(name = "nameOfAuthor", targetType = FieldType.STRING)
-    public String nameOfAuthor;
+    public Post() {
+    }
 
-    @Field(name = "views", targetType = FieldType.INT32)
-    public Long views;
-
-    @Field(name = "downloads", targetType = FieldType.INT32)
-    public Long downloads;
+    public Post(String postId, String userId, String postStatus, String postUrl, Long postReactCount, Image image) {
+        this.postId = postId;
+        this.userId = userId;
+        this.postStatus = postStatus;
+        this.postUrl = postUrl;
+        this.postReactCount = postReactCount;
+        this.image = image;
+    }
 
     public String getPostId() {
         return this.postId;
@@ -76,36 +79,12 @@ public class Post {
         this.postReactCount = postReactCount;
     }
 
-    public String getImageOriginalName() {
-        return this.imageOriginalName;
+    public Image getImage() {
+        return this.image;
     }
 
-    public void setImageOriginalName(String imageOriginalName) {
-        this.imageOriginalName = imageOriginalName;
-    }
-
-    public String getNameOfAuthor() {
-        return this.nameOfAuthor;
-    }
-
-    public void setNameOfAuthor(String nameOfAuthor) {
-        this.nameOfAuthor = nameOfAuthor;
-    }
-
-    public Long getViews() {
-        return this.views;
-    }
-
-    public void setViews(Long views) {
-        this.views = views;
-    }
-
-    public Long getDownloads() {
-        return this.downloads;
-    }
-
-    public void setDownloads(Long downloads) {
-        this.downloads = downloads;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
 }

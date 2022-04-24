@@ -1,13 +1,13 @@
 import { Navigate } from 'react-router-dom';
-import { PinterestPrivateRouteProps } from '../routeConfigs';
+import { RouteProps } from '../routeConfigs';
 
-interface Props extends PinterestPrivateRouteProps {}
+interface Props extends RouteProps {}
 
-const PinterestPrivateRoute = ({ outlet, authPath, isAuth }: Props) => {
+const PrivateRoute = ({ outlet, authPath, isAuth }: Props) => {
   if (isAuth) {
     return outlet;
   } else {
     return <Navigate to={{ pathname: authPath }} />;
   }
 };
-export default PinterestPrivateRoute;
+export default PrivateRoute;

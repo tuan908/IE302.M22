@@ -28,7 +28,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ApiServices from 'src/api';
-import { PinterestMenuScreen, PinterestScreenTypes } from '../../config/page';
+import { ScreenTypes, SideRoutes } from '../../config/page';
 import { getCurrentUser } from '../../redux/action/user';
 import AuthorizationServices from '../../service/auth.service';
 import UserServices from '../../service/user.services';
@@ -40,7 +40,7 @@ import {
   Wrapper,
 } from './HeaderStyledComponent';
 
-interface PinterestHeaderProps {
+interface HeaderProps {
   history?: History;
 }
 
@@ -52,9 +52,7 @@ const { getUserProfile } = UserServices;
 const { handleLogout: logOutFn } = AuthorizationServices;
 const { getNewPhotoList, getPhotoList } = ApiServices;
 
-const PinterestHeader: FC<PinterestHeaderProps> = ({
-  history,
-}: PinterestHeaderProps) => {
+const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
   const [userInput, setUserInput] = useState<string>();
@@ -193,16 +191,13 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
             <Paper>
               <ClickAwayListener onClickAway={ClickAwayListenerFn}>
                 <MenuList>
-                  {map(
-                    PinterestMenuScreen,
-                    ({ path, name }: PinterestScreenTypes) => {
-                      return (
-                        <MenuItem key={path} onClick={() => handleClose(path!)}>
-                          {name}
-                        </MenuItem>
-                      );
-                    }
-                  )}
+                  {map(SideRoutes, ({ path, name }: ScreenTypes) => {
+                    return (
+                      <MenuItem key={path} onClick={() => handleClose(path!)}>
+                        {name}
+                      </MenuItem>
+                    );
+                  })}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -213,4 +208,4 @@ const PinterestHeader: FC<PinterestHeaderProps> = ({
   );
 };
 
-export default PinterestHeader;
+export default Header;

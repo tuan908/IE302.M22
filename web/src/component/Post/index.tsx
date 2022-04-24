@@ -1,14 +1,11 @@
 import { FC } from 'react';
 
-interface PinterestPostProps {
+interface PostProps {
   isOpen?: boolean;
   handleClose: () => void;
 }
 
-const PinterestPost: FC<PinterestPostProps> = ({
-  isOpen,
-  handleClose,
-}: PinterestPostProps) => {
+const PinterestPost: FC<PostProps> = ({ isOpen, handleClose }: PostProps) => {
   return <div>Post</div>;
 };
 

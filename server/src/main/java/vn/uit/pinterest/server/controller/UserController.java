@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.uit.pinterest.server.repo.UserRepository;
-import vn.uit.pinterest.server.schema.User;
+import vn.uit.pinterest.server.entity.User;
+import vn.uit.pinterest.server.repository.UserRepository;
 
 @RestController
 public class UserController {
@@ -41,8 +40,8 @@ public class UserController {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @GetMapping(value = "/api/user/get")
-    public ResponseEntity<?> getUserInfo(@RequestParam(name = "userId") String userId) {
+    @GetMapping(value = "/api/user/{userId}/get")
+    public ResponseEntity<?> getUserInfo(@PathVariable(name = "userId") String userId) {
         User userInfoExist = mongoOperations.findById(userId, User.class);
 
         if (userInfoExist != null) {
@@ -57,13 +56,11 @@ public class UserController {
 
     @Transactional(rollbackFor = Exception.class)
     @PostMapping(value = "/api/user/create")
-    public ResponseEntity<?> createNewUserInfo(@RequestBody User user) {
+    public ResponseEntity<?> create(@RequestBody User user) {
         if (user != null) {
             User newUser = new User();
             newUser.postId = user.postId;
             newUser.avatarUrl = user.avatarUrl;
-            newUser.ownerName = user.ownerName;
-            newUser.postContent = user.postContent;
 
             userRepository.save(newUser);
             new ResponseEntity<User>(HttpStatus.OK);
@@ -74,14 +71,12 @@ public class UserController {
         }
     }
 
-    @PutMapping(value = "/api/user/update")
-    public ResponseEntity<?> updateExistedUserInfo(@RequestParam(name = "userId") String id, @RequestBody User entity) {
+    @PutMapping(value = "/api/user/{userId}/update")
+    public ResponseEntity<?> update(@PathVariable(name = "userId") String id, @RequestBody User entity) {
         User requestedUpdateInfoUser = mongoOperations.findById(id, User.class);
 
         if (requestedUpdateInfoUser != null) {
             requestedUpdateInfoUser.avatarUrl = entity.avatarUrl;
-            requestedUpdateInfoUser.ownerName = entity.ownerName;
-            requestedUpdateInfoUser.postContent = entity.postContent;
             mongoOperations.save(requestedUpdateInfoUser);
 
             new ResponseEntity<User>(HttpStatus.OK);

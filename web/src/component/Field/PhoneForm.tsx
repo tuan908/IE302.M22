@@ -1,10 +1,7 @@
-import {
-  FormControl,
-  InputLabel,
-  TextField,
-  FormHelperText,
-} from '@mui/material';
-import { rest } from 'lodash';
+import { Controller, useForm } from 'react-hook-form';
+import PhoneInputWithCountrySelect, {
+  isValidPhoneNumber,
+} from 'react-phone-number-input';
 
 interface Props {
   disabled?: boolean;
@@ -21,24 +18,32 @@ const PhoneForm = ({
   label,
   required,
 }: Props) => {
+  const { handleSubmit, control } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
-    <FormControl disabled={disabled} className="field" required={required}>
-      <InputLabel className="MuiInputLabel-shrink">{label}</InputLabel>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="">
+        <label htmlFor="">Phone number</label>
+      </div>
       <Controller
-        as={NumberFormat}
-        thousandSeparator
+        name="phone-input"
         control={control}
-        rules={{
-          validate: isValidPhoneNumber,
-        }}
-        allowEmptyFormatting
-        customInput={TextField}
-        format="+## ## #### ####"
-        defaultValue={defaultValue}
-        {...rest}
+        rules={{ validate: (inputValue) => isValidPhoneNumber(inputValue) }}
+        render={({ field: { onChange, value } }) => (
+          <PhoneInputWithCountrySelect
+            value={value}
+            onChange={onChange}
+            defaultCountry="VN"
+          />
+        )}
       />
-      <FormHelperText className="error-text">{helperText}</FormHelperText>
-    </FormControl>
+      (errors["phone-input"] &&
+      <p className="error-message">Invalid phone number</p>)
+    </form>
   );
 };
 

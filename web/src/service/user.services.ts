@@ -34,7 +34,7 @@ const postComment = (comments: any) =>
 
 const UserServices = {
   getUserProfile,
-  postUserInfo, //Post khi user post ảnh mới lên
+  postUserInfo,
   getPhotos,
   postWithTicket,
   postComment,

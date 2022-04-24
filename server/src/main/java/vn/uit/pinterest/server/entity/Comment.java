@@ -1,39 +1,37 @@
-package vn.uit.pinterest.server.schema;
+package vn.uit.pinterest.server.entity;
 
+import java.io.Serializable;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document(collection = "CommentCollection")
-public class Comment {
-	@MongoId
-	public String commentId;
+public class Comment implements Serializable {
 
-	@Field(name = "userId", targetType = FieldType.STRING)
-	public String userId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5876562025231498205L;
 
+	@Id
 	@Indexed(unique = true)
 	@Field(name = "postId", targetType = FieldType.STRING)
 	public String postId;
 
-	@Field(name = "postAuthorName", targetType = FieldType.STRING)
-	public String postAuthorName;
+	@Field(name = "userId", targetType = FieldType.STRING)
+	public String userId;
+
+	@Field(name = "username", targetType = FieldType.STRING)
+	public String username;
 
 	@Field(name = "avatarUrl", targetType = FieldType.STRING)
 	public String avatarUrl;
 
 	@Field(name = "commentContent", targetType = FieldType.STRING)
 	public String commentContent;
-
-	public String getCommentId() {
-		return this.commentId;
-	}
-
-	public void setCommentId(String commentId) {
-		this.commentId = commentId;
-	}
 
 	public String getUserId() {
 		return this.userId;
@@ -52,11 +50,11 @@ public class Comment {
 	}
 
 	public String getPostAuthorName() {
-		return this.postAuthorName;
+		return this.username;
 	}
 
 	public void setPostAuthorName(String postAuthorName) {
-		this.postAuthorName = postAuthorName;
+		this.username = postAuthorName;
 	}
 
 	public String getAvatarUrl() {

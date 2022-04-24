@@ -1,12 +1,10 @@
 import { FC } from 'react';
 
-interface PinterestCommentProps {
+interface CommentProps {
   postId?: string;
 }
-const PinterestComment: FC<PinterestCommentProps> = ({
-  postId,
-}: PinterestCommentProps) => {
+const Comment: FC<CommentProps> = ({ postId }: CommentProps) => {
   return <div>{postId}</div>;
 };
 
-export default PinterestComment;
+export default Comment;

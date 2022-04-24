@@ -2,7 +2,7 @@ import { Create } from '@mui/icons-material';
 import clsx from 'clsx';
 import moment from 'moment';
 import { FC } from 'react';
-import Hooks from 'src/redux/hooks';
+import hooks from 'src/redux/hooks';
 import { FileServices } from 'src/service/file.services';
 import { getMess } from 'src/util/message';
 import useStyles from './DetailPanelMuiStyledComponent';
@@ -18,7 +18,7 @@ interface Props {
     _id?: string;
   };
 }
-const { usePinterestDispatch, usePinterestSelector } = Hooks;
+const { usePinterestDispatch, usePinterestSelector } = hooks;
 
 const PinterestDetailPanel: FC<Props> = ({ visible, file }: Props) => {
   const dispatch = usePinterestDispatch();
@@ -84,15 +84,15 @@ const PinterestDetailPanel: FC<Props> = ({ visible, file }: Props) => {
       )}
 
       {file!?.status !== undefined && (
-        <div>
+        <>
           <textarea
             className={textBox}
             id="statusB"
             name="status"
             disabled
             defaultValue={file!?.status}
-          ></textarea>
-        </div>
+          />
+        </>
       )}
 
       {file!?.updatedAt !== undefined && (

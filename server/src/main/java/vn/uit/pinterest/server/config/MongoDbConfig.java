@@ -1,4 +1,4 @@
-package vn.uit.pinterest.config;
+package vn.uit.pinterest.server.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +12,9 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 @Configuration
 public class MongoDbConfig {
-
     @Autowired
     MongoDatabaseFactory mongoDbFactory;
+    
     @Autowired
     MongoMappingContext mongoMappingContext;
 

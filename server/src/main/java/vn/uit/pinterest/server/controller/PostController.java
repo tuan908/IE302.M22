@@ -1,7 +1,7 @@
 package vn.uit.pinterest.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
@@ -12,34 +12,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.uit.pinterest.server.repo.PostRepo;
-import vn.uit.pinterest.server.schema.Post;
+import vn.uit.pinterest.server.entity.Post;
+import vn.uit.pinterest.server.repository.PostRepository;
 
 @RestController
 public class PostController {
     @Autowired
-    public MongoOperations mongoOperations;
+    public MongoTemplate mongoTemplate;
 
     @Autowired
-    public PostRepo postRepo;
+    public PostRepository postRepo;
 
-    @GetMapping(value = "/api/post/get")
-    public ResponseEntity<?> getPostById(@RequestParam(name = "postId") String postId) {
+    @GetMapping(value = "/api/post/{postId}/get")
+    public ResponseEntity<?> getPostById(@PathVariable String postId) {
         if (postId != null) {
-            Query findPostByIdQuery = new Query(Criteria.where(postId));
-            Post post = mongoOperations.findOne(findPostByIdQuery, Post.class);
+            Query findPostByIdQuery = new Query(Criteria.where("_id").is(postId));
+            Post post = mongoTemplate.findOne(findPostByIdQuery, Post.class);
+
             if (post != null) {
                 new ResponseEntity<Post>(HttpStatus.OK);
                 return ResponseEntity.status(200).body(post);
             } else {
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
                 return ResponseEntity.status(404).body("Not found any post");
             }
         } else {
-            new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            new ResponseEntity<Post>(HttpStatus.BAD_REQUEST);
             return ResponseEntity.status(400).body("Bad request");
         }
     }
@@ -58,11 +58,33 @@ public class PostController {
 
     }
 
-    @PutMapping(value = "/api/post/put/{id}")
-    public Post updatePost(@PathVariable String id, @RequestBody Post entity) {
-        // TODO: process PUT request
+    @Transactional(rollbackFor = Exception.class)
+    @PutMapping(value = "/api/post/{postId}/update")
+    public ResponseEntity<?> updatePost(@PathVariable String postId, @RequestBody Post updatedPost) {
+        Post post = postRepo.findByPostId(postId);
 
-        return entity;
+        if (post != null) {
+            if (updatedPost != null) {
+                post.setPostReactCount(updatedPost.getPostReactCount());
+                post.setPostStatus(updatedPost.getPostStatus());
+                post.setPostUrl(updatedPost.getPostUrl());
+                post.setImage(updatedPost.getImage());
+
+                postRepo.save(post);
+
+                new ResponseEntity<Post>(HttpStatus.OK);
+                return ResponseEntity.status(200).body(post);
+            } else {
+                new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return ResponseEntity.status(400).body("Bad request!!!");
+            }
+
+        } else {
+            new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(404).body("Not found any post!!!");
+
+        }
+
     }
 
 }

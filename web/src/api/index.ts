@@ -36,7 +36,7 @@ const getPhotoList = async (requestString: string) => {
 };
 
 async function getNewPhotoList() {
-  let inputStringList = ['girl', 'landscape', 'dog', 'sexy girl'];
+  let inputStringList = ['girl', 'landscape', 'dog', 'anime'];
   let data: PixabayPhoto[] = [];
   for (let requestString in inputStringList) {
     const rawData = await get(PIXABAY_API_URL, {

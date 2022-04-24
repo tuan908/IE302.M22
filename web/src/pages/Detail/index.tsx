@@ -8,18 +8,17 @@ import {
 } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import GoBack from '../../component/Button/GoBack';
+import ScrollToTop from '../../component/Button/ScrollTop';
+import Comment from '../../component/Comment';
+import { PinterestFile } from '../Viewer/Dialog/Content';
 import {
   DetailWrapper,
+  HeaderLevel4PStyle,
   ImageContainer,
   ImageDetail,
   ImageInfo,
-  HeaderLevel4PStyle,
 } from './DetailStyledComponents';
-
-import GoBack from '../../component/Button/GoBack';
-import PinterestComment from '../../component/Comment';
-import ScrollToTop from '../../component/Button/ScrollTop';
-import { PinterestFile } from '../Viewer/Dialog/Content';
 
 interface DetailScreenProps {
   history?: History;
@@ -106,7 +105,7 @@ const PinterestDetail: FC<DetailScreenProps> = ({
         </ImageInfo>
       </ImageContainer>
 
-      <PinterestComment postId={postId} />
+      <Comment postId={postId} />
       <ScrollToTop />
     </DetailWrapper>
   );

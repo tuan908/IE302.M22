@@ -1,5 +1,5 @@
+import device from 'src/style/device';
 import styled from 'styled-components';
-import device from '../../../style/device';
 
 const GoBack = styled.button`
   z-index: 4;

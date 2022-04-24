@@ -1,4 +1,13 @@
+import {
+  FormControl,
+  FormHelperText,
+  Grid,
+  MenuItem,
+  Select,
+} from '@mui/material';
+import { isEmpty } from 'lodash';
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import PhoneForm from './PhoneForm';
 
 interface Props {
@@ -7,10 +16,10 @@ interface Props {
   helperText?: string;
   defaultValue?: string | number;
   typeField?: string;
-  options: {
+  options?: Array<{
     name: string;
     value: string;
-  };
+  }>;
   inputType?: string;
   label?: string;
   rules?: object;
@@ -29,7 +38,6 @@ const PinterestField: React.FC<Props> = ({
   label,
   required,
   helperText,
-  control,
   rules,
   notRightLabel,
   typeField,
@@ -37,6 +45,8 @@ const PinterestField: React.FC<Props> = ({
   layout,
   ...rest
 }: Props) => {
+  const { control } = useForm();
+
   if (inputType === 'phone') {
     return (
       <PhoneForm
@@ -51,43 +61,34 @@ const PinterestField: React.FC<Props> = ({
     const isValidating = !isEmpty(control);
     return (
       <Grid container alignItems="flex-end" className="field">
-        <Grid item className="field-text" xs={layout.labelCol}>
+        <Grid item className="field-text" xs={layout!.labelCol}>
           <span>{label}</span>
         </Grid>
-        <Grid item xs={layout.inputCol}>
+        <Grid item xs={layout!.inputCol}>
           <FormControl
             disabled={disabled}
             required={required}
             className={`field-${typeField} field-select`}
             fullWidth
           >
-            {/* <InputLabel id="role-required">{label}</InputLabel> */}
             {isValidating ? (
               <Controller
-                as={
+                name="field"
+                render={() => (
                   <Select>
-                    {map(options, (option, i) => (
-                      <MenuItem
-                        name={option.value}
-                        key={i}
-                        value={option.value}
-                      >
-                        {option.name}
-                      </MenuItem>
+                    {options?.map((option, index) => (
+                      <MenuItem key={index} value={option.value} />
                     ))}
                   </Select>
-                }
+                )}
                 rules={rules}
                 control={control}
                 defaultValue={defaultValue}
-                {...rest}
               />
             ) : (
               <Select defaultValue={defaultValue} {...rest}>
-                {map(options, (option, i) => (
-                  <MenuItem name={option.value} key={i} value={option.value}>
-                    {option.name}
-                  </MenuItem>
+                {options?.map((option, index) => (
+                  <MenuItem key={index} value={option.value} />
                 ))}
               </Select>
             )}

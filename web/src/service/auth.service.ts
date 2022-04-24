@@ -1,5 +1,6 @@
 import requestUrl from '../config/requestUrl';
 import RequestServices from './request.services';
+
 const { postRequest } = RequestServices;
 const { AUTH_URL, REGISTER_URL, UPDATE_USER_PROFILE_URL, FORGOT_PASSWORD_URL } =
   requestUrl;

@@ -1,27 +1,37 @@
 import { FC } from 'react';
 
-interface PinterestPinProps {
+interface PinProps {
   isVideo?: boolean;
-  photoUrl?: string;
+  webformatURL?: string;
   user?: string;
   userId?: string;
   likes?: number;
   postId?: string;
   tags: string;
-  views: number;
+  views: string;
 }
 
-const PinterestPin: FC<PinterestPinProps> = ({
+const Pin: FC<PinProps> = ({
   isVideo,
-  photoUrl,
+  webformatURL,
   user,
   userId,
   likes,
   postId,
   tags,
   views,
-}: PinterestPinProps) => {
-  return <>{user}</>;
+}: PinProps) => {
+  return (
+    <div
+      style={{ display: 'inline-block', width: '100%', borderRadius: '1em' }}
+    >
+      <img
+        src={webformatURL}
+        alt=""
+        style={{ display: 'block', width: '100%' }}
+      />
+    </div>
+  );
 };
 
-export default PinterestPin;
+export default Pin;

@@ -1,11 +1,10 @@
 import {
-  Grid,
   FormControl,
-  Select,
-  MenuItem,
   FormHelperText,
+  Grid,
+  MenuItem,
+  Select,
 } from '@mui/material';
-import { map, rest } from 'lodash';
 
 interface Props {
   layout?: {
@@ -16,15 +15,15 @@ interface Props {
   required?: boolean;
   disabled?: boolean;
   fieldType?: string;
-  options?: {
+  options?: Array<{
     name?: string;
     value?: string;
-  };
+  }>;
   rules?: string;
   defaultValue?: string;
   helperText?: string;
-    isValidating?: boolean;
-    control?: string;
+  isValidating?: boolean;
+  control?: string;
 }
 
 const SelectForm = ({
@@ -38,6 +37,7 @@ const SelectForm = ({
   required,
   rules,
   isValidating,
+  ...rest
 }: Props) => {
   return (
     <Grid container alignItems="flex-end" className="field">
@@ -52,28 +52,14 @@ const SelectForm = ({
           fullWidth
         >
           {isValidating ? (
-            <Controller
-              as={
-                <Select>
-                  {map(options!, (option!, i) => (
-                    <MenuItem name={option!.value} key={i} value={option!?.value}>
-                      {option!?.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              }
-              rules={rules}
-              control={control}
-              defaultValue={defaultValue}
-              {...rest}
-            />
+            <Select>
+              {options?.map((option, index) => (
+                <MenuItem value={option.value} key={index} />
+              ))}
+            </Select>
           ) : (
             <Select defaultValue={defaultValue} {...rest}>
-              {map(options, (option, i) => (
-                <MenuItem name={option.value} key={i} value={option.value}>
-                  {option.name}
-                </MenuItem>
-              ))}
+              {options}
             </Select>
           )}
           <FormHelperText className="error-text">{helperText}</FormHelperText>
