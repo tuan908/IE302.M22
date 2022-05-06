@@ -1,0 +1,11 @@
+logging:
+  level:
+    org:
+      springframework:
+        data: debug
+server:
+  port: 8081
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://tuanna:1@cluster0.iyswr.mongodb.net/pinterest?retryWrites=true&w=majority

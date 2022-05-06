@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 interface PostProps {
   isOpen?: boolean;
-  handleClose: () => void;
+  handleClose?: () => void;
 }
 
 const PinterestPost: FC<PostProps> = ({ isOpen, handleClose }: PostProps) => {
