@@ -3,7 +3,7 @@ package vn.uit.pinterest.server.dto;
 import java.io.Serializable;
 import java.util.Set;
 
-public class SignupRequest implements Serializable {
+public class RegisterRequest implements Serializable {
 
 	/**
 	 *
@@ -13,10 +13,10 @@ public class SignupRequest implements Serializable {
 	private String password;
 	private Set<String> roles;
 
-	public SignupRequest() {
+	public RegisterRequest() {
 	}
 
-	public SignupRequest(String username, String password, Set<String> roles) {
+	public RegisterRequest(String username, String password, Set<String> roles) {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;

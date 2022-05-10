@@ -23,7 +23,7 @@ import vn.uit.pinterest.server.service.UserDetailsImplement;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("jwt.secret.tuanna")
+    @Value("tuanna.app.jwtSecret")
     private String jwtSecret;
 
     @Value("86400")

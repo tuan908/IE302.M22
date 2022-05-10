@@ -9,7 +9,7 @@ public class JwtResponse implements Serializable {
 	 */
 	private static final long serialVersionUID = 6666385038134885735L;
 	private String token;
-	private String type = "Bearer";
+	private String type = "Jwt";
 	private String username;
 
 	private List<String> roles;

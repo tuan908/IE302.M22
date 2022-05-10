@@ -1,6 +1,9 @@
 package vn.uit.pinterest.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,19 +11,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import vn.uit.pinterest.server.entity.User;
-import vn.uit.pinterest.server.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImplement implements UserDetailsService {
 
 	@Autowired
-	UserRepository userRepository;
+	MongoTemplate mongoTemplate;
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUserName(username)
-				.orElseThrow(() -> new UsernameNotFoundException("Can't find any user with " + username));
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		Query query = new Query(Criteria.where("userName").is(userName));
+		User user = mongoTemplate.findOne(query, User.class);
+				
+		if (user == null) {
+			String message = "Can't find username" + userName;
+			throw new UsernameNotFoundException(message);
+		}
 		return UserDetailsImplement.build(user);
 	}
 

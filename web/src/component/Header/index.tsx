@@ -49,7 +49,7 @@ interface UserProfile {
 }
 
 const { getUserProfile } = UserServices;
-const { handleLogout: logOutFn } = AuthorizationServices;
+const { logout } = AuthorizationServices;
 const { getNewPhotoList, getPhotoList } = ApiServices;
 
 const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
@@ -108,7 +108,7 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
   };
 
   const handleLogout = () => {
-    logOutFn();
+    logout();
     history!.push('/login');
   };
 

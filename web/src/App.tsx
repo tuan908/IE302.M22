@@ -1,32 +1,31 @@
-import { isEmpty } from 'lodash';
-import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import PinterestErrorBoundary from './component/ErrorBoundary';
 import DefaultLayout from './component/Layout/DefaultLayout';
 import { privateRoutes, publicRoutes } from './route';
-import UserUtils from './util/user';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { getUserInfo } = UserUtils;
-  const userInfo = getUserInfo();
-  const redirect = useNavigate();
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const { getUserInfo } = UserUtils;
+  // const userInfo = getUserInfo();
+  // const redirect = useNavigate();
 
   useEffect(() => {
-    if (isEmpty(userInfo)) {
-      setIsLoggedIn(false);
-      redirect('/login');
-    } else {
-      setIsLoggedIn(true);
-      redirect('/');
-    }
+    // if (isEmpty(userInfo)) {
+    //   setIsLoggedIn(false);
+    //   redirect('/login');
+    // } else {
+    //   setIsLoggedIn(true);
+    //   redirect('/');
+    // }
   }, []);
 
+  const isLoggedIn = false;
   return (
     <PinterestErrorBoundary>
       <Routes>
-        {isLoggedIn
+        {!isLoggedIn
           ? privateRoutes.map(({ layout, element, path }, index) => {
               const Layout = layout || DefaultLayout;
               const Page = element;
