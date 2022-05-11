@@ -45,7 +45,7 @@ import vn.uit.pinterest.server.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -71,7 +71,7 @@ public class AuthController {
 	// @Autowired
 	// JavaMailSender mailSender;
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@Validated @RequestBody LoginRequest request) {
 		String username = request.getUsername();
 		String password = request.getPassword();
