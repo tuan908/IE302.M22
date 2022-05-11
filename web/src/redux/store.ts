@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { persistStore } from 'redux-persist';
 import fileReducer from './reducer/file';
 import messageReducer from './reducer/message';
 import pinReducer from './reducer/pin';
@@ -27,5 +26,4 @@ type AppState = ReturnType<typeof store.getState>;
 type AppDispatch = typeof store.dispatch;
 
 export { AppState, AppDispatch };
-export const persistedStore = persistStore(store);
 export default store;

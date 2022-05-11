@@ -1,30 +1,30 @@
 import {
-  Grid,
-  Tooltip,
-  IconButton,
-  Typography,
-  Dialog,
-  Paper,
-} from '@mui/material';
-import clsx from 'clsx';
-import { isEmpty } from 'lodash';
-import { FC, useState, useEffect } from 'react';
-import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import { hideViewer } from 'src/redux/action/viewer';
-import PinterestVideoViewer from '../../VideoViewer';
-import useStyles from './DialogMuiStyledComponent';
-import { FileServices } from 'src/service/file.services';
-import Loading from 'src/component/Loading';
-import {
   ChevronLeft,
+  Close,
   Code,
   Delete,
   GetApp,
   InfoOutlined,
-  Close,
 } from '@mui/icons-material';
-import EmbeddedDialog from '../EmbeddedDialog';
+import {
+  Dialog,
+  Grid,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import clsx from 'clsx';
+import { isEmpty } from 'lodash';
+import { FC, useEffect, useState } from 'react';
+import Loading from 'src/component/Loading';
 import PinterestDetail from 'src/pages/Detail';
+import { hideViewer } from 'src/redux/action/viewer';
+import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
+import { FileServices } from 'src/service/file.services';
+import PinterestVideoViewer from '../../VideoViewer';
+import EmbeddedDialog from '../EmbeddedDialog';
+import useStyles from './DialogMuiStyledComponent';
 
 interface Props {}
 
@@ -46,7 +46,7 @@ const PinterestDialogContent: FC<Props> = ({}: Props) => {
   const [deleteConfirmOpened, setDeleteConfirmOpened] = useState(false);
   const [embedDialogOpened, setEmbedDialogOpened] = useState(false);
   const [isLoading] = useState(false);
-  const [file, setFile] = useState<PinterestFile>();
+  const [file, setFile] = useState<PinterestFile | undefined>();
   const [_, setApiError] = useState();
 
   useEffect(() => {
@@ -165,7 +165,7 @@ const PinterestDialogContent: FC<Props> = ({}: Props) => {
         )}
 
         <EmbeddedDialog
-          item={!isEmpty(file) ? file : ''}
+          item={!isEmpty(file) ? file : undefined}
           onClose={() => setEmbedDialogOpened(false)}
           open={embedDialogOpened}
         />

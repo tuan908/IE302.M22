@@ -1,8 +1,7 @@
-import { FC, useCallback, useState } from 'react';
-
-import useStyles from './ImageViewerMuiStyledComponent';
 import { select } from 'd3-selection';
 import { zoom as d3Zoom } from 'd3-zoom';
+import { FC, useCallback, useState } from 'react';
+import useStyles from './ImageViewerMuiStyledComponent';
 
 interface Props {
   file?: {
@@ -16,7 +15,7 @@ const PinterestImageViewer: FC<Props> = ({ file }: Props) => {
   const { container, image } = classes;
   const [imageUrl] = useState<string>('');
   const [svgTransform, setSvgTransform] = useState();
-  const SVGContainer = useCallback((node) => {
+  const SVGContainer = useCallback((node: SVGSVGElement) => {
     if (node) {
       const selection = select(node);
 

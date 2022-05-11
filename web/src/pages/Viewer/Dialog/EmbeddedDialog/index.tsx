@@ -1,11 +1,12 @@
 import { Dialog } from '@mui/material';
 import React from 'react';
 import { makeStyles } from 'tss-react/mui';
+import { PinterestFile } from '../Content';
 
 interface Props {
   open?: boolean;
   onClose?: () => void;
-  item?: React.ReactNode;
+  item?: PinterestFile;
 }
 
 const useStyles = makeStyles()(() => ({

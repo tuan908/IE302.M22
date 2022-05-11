@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import Detail from 'src/pages/Detail';
 import Home from 'src/pages/Home';
 import { Signout } from 'src/pages/Logout';
@@ -7,7 +6,7 @@ import Profile from 'src/pages/Profile';
 export interface ScreenTypes {
   pageName?: string;
   path?: string;
-  element?: ReactElement<any, any>;
+  element?: JSX.Element;
 }
 
 const privatePages: ScreenTypes[] = [

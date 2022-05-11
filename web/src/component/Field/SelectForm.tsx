@@ -59,7 +59,9 @@ const SelectForm = ({
             </Select>
           ) : (
             <Select defaultValue={defaultValue} {...rest}>
-              {options}
+              {options?.map(({ value }, index) => (
+                <MenuItem value={value} key={index} />
+              ))}
             </Select>
           )}
           <FormHelperText className="error-text">{helperText}</FormHelperText>

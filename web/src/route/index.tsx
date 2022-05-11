@@ -12,6 +12,8 @@ const ProtectedRoute: FC<IProps> = ({
   children,
   redirectPath = '/login',
 }) => {
+  console.log(children);
+  console.log(isAllowed);
   if (!isAllowed) {
     <Navigate to={redirectPath} replace />;
   }

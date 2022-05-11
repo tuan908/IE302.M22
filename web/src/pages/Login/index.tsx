@@ -4,10 +4,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import './Login.scss';
-import auth from 'src/service/auth.service';
 import { getCurrentUser } from 'src/redux/action/user';
 import { usePinterestDispatch } from 'src/redux/hooks';
+import auth from 'src/service/auth.service';
+import './Login.scss';
 
 // interface LoginResponse extends AxiosResponse {
 //   token?: string;
@@ -31,11 +31,12 @@ function Login() {
       const rawData = await auth.login(loginFormValues);
       const { data } = rawData;
       if (data) {
-        console.log(getCurrentUser(data));
         dispatch(getCurrentUser(data));
-        navigate('/');
+        navigate('/home');
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <Grid container className="login">

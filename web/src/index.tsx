@@ -1,10 +1,9 @@
 import { ThemeProvider } from '@mui/material';
+import 'normalize.css';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-
-import 'normalize.css';
 import './index.css';
 import store from './redux/store';
 import globalTheme from './style/globalTheme';
