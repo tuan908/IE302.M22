@@ -9,14 +9,12 @@ import {
 import clsx from 'clsx';
 import { FC, useMemo, useState } from 'react';
 import setMessage from 'src/redux/action/message';
-import PinterestReduxHooks from 'src/redux/hooks';
+import { usePinterestDispatch } from 'src/redux/hooks';
 import useStyles from './EmbeddedContentMuiStyledComponent';
 
 interface Props {
   item?: { _id: string };
 }
-
-const { usePinterestDispatch } = PinterestReduxHooks;
 
 const EmbeddedContent: FC<Props> = ({ item }: Props) => {
   const { classes } = useStyles();

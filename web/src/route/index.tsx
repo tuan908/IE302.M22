@@ -1,34 +1,21 @@
-import { ElementType } from 'react';
-import type { RouteObject } from 'react-router-dom';
-import PinterestPost from 'src/component/Post';
-import PinterestHome from 'src/pages/Home';
-import Login from 'src/pages/Login';
-import PinterestProfile from 'src/pages/Profile';
+import { FC } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-interface PinterestRouteObject extends RouteObject {
-  layout?: ElementType;
+interface IProps {
+  isAllowed: Boolean;
+  children?: any;
+  redirectPath?: string;
 }
 
-const publicRoutes: PinterestRouteObject[] = [
-  {
-    path: '/login',
-    element: <Login />,
-  },
-];
+const ProtectedRoute: FC<IProps> = ({
+  isAllowed,
+  children,
+  redirectPath = '/login',
+}) => {
+  if (!isAllowed) {
+    <Navigate to={redirectPath} replace />;
+  }
+  return children ? children : <Outlet />;
+};
 
-const privateRoutes: PinterestRouteObject[] = [
-  {
-    path: '/',
-    element: <PinterestHome />,
-  },
-  {
-    path: '/user/:id',
-    element: <PinterestProfile />,
-  },
-  {
-    path: '/post/:id',
-    element: <PinterestPost />,
-  },
-];
-
-export { privateRoutes, publicRoutes };
+export default ProtectedRoute;

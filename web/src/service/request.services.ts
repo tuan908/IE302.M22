@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import appHistory from '../config/appHistory';
-import requestUrl from '../config/requestUrl';
+import appHistory from '../common/appHistory';
+import requestUrl from '../common/requestUrl';
 import UserUtils from '../util/user';
 
 const { create, Cancel } = axios;
@@ -22,29 +22,25 @@ const logOut = () => {
   pushBack('/login', logOutState);
 };
 
-interface RequestProps {
-  path?: string;
-  body?: object;
-  header?: object;
-}
+interface RequestProps extends AxiosRequestConfig {}
 
 interface GetRequestProps extends RequestProps {
   params?: {};
 }
 
-const postRequest = async ({ path = '', body = {} }: RequestProps) => {
+const postRequest = async ({ data, baseURL }: RequestProps) => {
+  const response = await axiosPost(baseURL as string, data);
+  console.log(response);
   try {
-    const response = await axiosPost(path, body);
     return response;
   } catch (error: any) {
     console.error(error.message);
-  } finally {
-    return 1;
   }
+  return response;
 };
 
-const getRequest = async ({ path = '', params = {} }: GetRequestProps) => {
-  const response = await axiosGet(path, { params });
+const getRequest = async ({ baseURL, params }: GetRequestProps) => {
+  const response = await axiosGet(baseURL as string, { params });
   try {
     return response;
   } catch (error: unknown) {
@@ -53,8 +49,8 @@ const getRequest = async ({ path = '', params = {} }: GetRequestProps) => {
   return response;
 };
 
-const putRequest = async ({ path = '', body = {} }: RequestProps) => {
-  const response = await axiosPut(path, body);
+const putRequest = async ({ baseURL, data }: RequestProps) => {
+  const response = await axiosPut(baseURL as string, data);
   try {
     return response;
   } catch (error: unknown) {

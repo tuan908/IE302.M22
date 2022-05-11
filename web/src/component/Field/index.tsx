@@ -4,16 +4,18 @@ import {
   Grid,
   MenuItem,
   Select,
+  TextField,
 } from '@mui/material';
 import { isEmpty } from 'lodash';
-import React from 'react';
+import { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { allowPositive } from 'src/util/form';
 import PhoneForm from './PhoneForm';
 
-interface Props {
+interface IProps {
   disabled?: boolean;
   required?: boolean;
-  helperText?: string;
+  helperText: string;
   defaultValue?: string | number;
   typeField?: string;
   options?: Array<{
@@ -21,7 +23,7 @@ interface Props {
     value: string;
   }>;
   inputType?: string;
-  label?: string;
+  label: string;
   rules?: object;
   control?: object;
   notRightLabel?: boolean;
@@ -31,7 +33,7 @@ interface Props {
   };
 }
 
-const PinterestField: React.FC<Props> = ({
+export default function PinterestField({
   disabled,
   defaultValue,
   options,
@@ -44,7 +46,7 @@ const PinterestField: React.FC<Props> = ({
   inputType,
   layout,
   ...rest
-}: Props) => {
+}: IProps): ReactElement {
   const { control } = useForm();
 
   if (inputType === 'phone') {
@@ -98,7 +100,33 @@ const PinterestField: React.FC<Props> = ({
       </Grid>
     );
   }
-  return <div>PinterestField</div>;
-};
 
-export default PinterestField;
+  return (
+    <Grid container alignItems="flex-end" className="field">
+      {!notRightLabel && (
+        <Grid item className="field-text" xs={layout!.labelCol}>
+          <span>{label}</span>
+        </Grid>
+      )}
+      <Grid item xs={notRightLabel ? 12 : layout!.inputCol}>
+        <TextField
+          label={notRightLabel ? label : ''}
+          inputProps={{ readOnly: disabled }}
+          defaultValue={defaultValue}
+          fullWidth
+          required={required}
+          error={!!helperText}
+          helperText={helperText}
+          className={`field-${typeField} ${disabled ? 'filed-disable' : ''}`}
+          onChange={(e) => {
+            if (inputType === 'number') {
+              return allowPositive(e);
+            }
+            return e;
+          }}
+          {...rest}
+        />
+      </Grid>
+    </Grid>
+  );
+}

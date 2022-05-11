@@ -1,75 +1,42 @@
-import { Container } from '@mui/material';
+import { Container, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { AxiosResponse } from 'axios';
-import get from 'lodash/get'; //get(obj, path, [defaultValue])
-import isEmpty from 'lodash/isEmpty';
-import React, { useEffect, useState } from 'react';
-import { FormState, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { AnyAction } from 'redux';
-import Field from 'src/component/Field';
-import authService from 'src/service/auth.service'; //Các mothod liên quan đến gọi api ở backend
-import userServices from 'src/util/user'; //
-import { getMess } from '../../util/message'; //Liên quan đến các messenger thông báo
-// import './Login.scss';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.scss';
+import auth from 'src/service/auth.service';
+import { getCurrentUser } from 'src/redux/action/user';
+import { usePinterestDispatch } from 'src/redux/hooks';
 
-interface LoginResponse extends AxiosResponse {
-  token?: string;
-}
+// interface LoginResponse extends AxiosResponse {
+//   token?: string;
+// }
 
-interface LoginFormState extends FormState<any> {
-  email?: string;
-}
+// interface LoginFormState extends FormState<any> {
+//   email?: string;
+// }
+type LoginFormValues = {
+  username: string;
+  password: string;
+};
 
-function Login(props: any) {
-  const { handleSubmit } = useForm();
-  const history = get(props, 'history', {});
-  const stateHistory = history.location.state || {};
+function Login() {
+  const { handleSubmit, register } = useForm<LoginFormValues>();
+  const navigate = useNavigate();
+  const dispatch = usePinterestDispatch();
 
-  const [apiError, setApiError] = useState(
-    stateHistory.expired ? getMess('M15') : ''
-  );
-
-  //Tương tự componentDidMount
-  useEffect(() => {
-    const userInfo = userServices.getUserInfo();
-    const unLogin = isEmpty(userInfo);
-    if (!unLogin) {
-      if (userInfo.status === 'defer') return history.push('/verify');
-      return history.push('/');
-    }
-  }, []);
-
-  const onSubmit = (formState: LoginFormState) => {
-    setApiError('');
-
-    authService
-      .login(formState)
-      .then((res: LoginResponse) => {
-        userServices.saveUserInfoIntoStorage({
-          accessToken: res.token,
-        });
-        console.log('StateHistory: ', stateHistory.prePath);
-        return history.push(stateHistory.prePath || '/home');
-      })
-      .catch(
-        (err: {
-          code: number;
-          message: React.SetStateAction<string | AnyAction>;
-        }) => {
-          const requiredNewPassCode = 401;
-
-          if (err.code === requiredNewPassCode) {
-            return history.push(`/change-password/${formState.email}`);
-          }
-
-          return setApiError(err.message);
-        }
-      );
+  const onSubmit: SubmitHandler<LoginFormValues> = async (loginFormValues) => {
+    try {
+      const rawData = await auth.login(loginFormValues);
+      const { data } = rawData;
+      if (data) {
+        console.log(getCurrentUser(data));
+        dispatch(getCurrentUser(data));
+        navigate('/');
+      }
+    } catch (error) {}
   };
-
   return (
     <Grid container className="login">
       <Grid container className="login-content">
@@ -93,14 +60,21 @@ function Login(props: any) {
                 ""
               </Typography>
             </Grid>
-            <p className="error-text">{apiError}</p>
-            <Field />
+            <TextField helperText={''} label={''} {...register('username')} />
 
-            <Field />
+            <TextField helperText={''} label={''} {...register('password')} />
             <Link className="forgot-password-link" to="/forgotpassword">
               <p>Forgot password?</p>
             </Link>
-            <Button />
+            <Button
+              title="Login"
+              type="submit"
+              color="primary"
+              variant="contained"
+              disableElevation
+            >
+              Login
+            </Button>
             <div className="register-link">
               Don&apos;t have an account?&nbsp;
               <Link to="/register">

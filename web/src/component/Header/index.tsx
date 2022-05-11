@@ -28,7 +28,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ApiServices from 'src/api';
-import { ScreenTypes, SideRoutes } from '../../config/page';
+import { ScreenTypes, sidePages } from '../../common/page';
 import { getCurrentUser } from '../../redux/action/user';
 import AuthorizationServices from '../../service/auth.service';
 import UserServices from '../../service/user.services';
@@ -191,10 +191,10 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
             <Paper>
               <ClickAwayListener onClickAway={ClickAwayListenerFn}>
                 <MenuList>
-                  {map(SideRoutes, ({ path, name }: ScreenTypes) => {
+                  {map(sidePages, ({ path, pageName }: ScreenTypes) => {
                     return (
                       <MenuItem key={path} onClick={() => handleClose(path!)}>
-                        {name}
+                        {pageName}
                       </MenuItem>
                     );
                   })}

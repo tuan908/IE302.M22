@@ -1,23 +1,20 @@
+import {
+  FormControl,
+  FormControlProps,
+  FormHelperText,
+  InputLabel,
+} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import PhoneInputWithCountrySelect, {
   isValidPhoneNumber,
 } from 'react-phone-number-input';
 
-interface Props {
-  disabled?: boolean;
-  required?: boolean;
-  label?: string;
-  defaultValue?: string | number;
-  helperText?: string;
+interface IProps extends FormControlProps {
+  label: string;
+  helperText: string;
 }
 
-const PhoneForm = ({
-  defaultValue,
-  disabled,
-  helperText,
-  label,
-  required,
-}: Props) => {
+const PhoneForm = ({ disabled, label }: IProps) => {
   const { handleSubmit, control } = useForm();
 
   const onSubmit = (data: any) => {
@@ -25,10 +22,13 @@ const PhoneForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="">
-        <label htmlFor="">Phone number</label>
-      </div>
+    <FormControl
+      disabled={disabled}
+      className="field"
+      required
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <InputLabel className="MuiInputLabel-shrink">{label}</InputLabel>
       <Controller
         name="phone-input"
         control={control}
@@ -42,8 +42,8 @@ const PhoneForm = ({
         )}
       />
       (errors["phone-input"] &&
-      <p className="error-message">Invalid phone number</p>)
-    </form>
+      <FormHelperText>Invalid phone number</FormHelperText>)
+    </FormControl>
   );
 };
 

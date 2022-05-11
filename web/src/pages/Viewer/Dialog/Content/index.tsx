@@ -9,7 +9,7 @@ import {
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
 import { FC, useState, useEffect } from 'react';
-import PinterestReduxHooks from 'src/redux/hooks';
+import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import { hideViewer } from 'src/redux/action/viewer';
 import PinterestVideoViewer from '../../VideoViewer';
 import useStyles from './DialogMuiStyledComponent';
@@ -37,8 +37,6 @@ export interface PinterestFile {
   updatedAt?: string;
   size?: string;
 }
-
-const { usePinterestDispatch, usePinterestSelector } = PinterestReduxHooks;
 
 const PinterestDialogContent: FC<Props> = ({}: Props) => {
   const dispatch = usePinterestDispatch();

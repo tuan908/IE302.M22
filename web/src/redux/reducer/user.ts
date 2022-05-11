@@ -7,6 +7,7 @@ const initialState = {
 };
 
 const userReducer = (state = initialState, { payload, type }: AnyAction) => {
+  console.log(state);
   switch (type) {
     case GET_CURRENT_USER:
       return {

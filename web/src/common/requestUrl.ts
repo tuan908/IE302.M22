@@ -7,6 +7,7 @@ const POST_USER_INFO_URL = '/api/user/post';
 const POST_HAVE_TICKET = '/api/user/postWithTicket';
 const GET_PHOTO_LIST_URL = '/api/user/getPhotos';
 const POST_USER_COMMENT_URL = '/api/user/postComment';
+const API_ENDPOINT = 'http://localhost:8081';
 
 const GET_USER_FILE_BY_FILE_ID_URL = '/api/file/getFileById';
 const DELETE_FILE_BY_FILE_ID_URL = '/api/file/deleteFileById';
@@ -31,6 +32,7 @@ const requestUrl = {
   POST_USER_COMMENT_URL,
   GET_COMMENT_LIST_BY_POST_ID_URL,
   UPDATE_FILE_BY_FILE_ID_URL,
+  API_ENDPOINT,
 };
 
 export default requestUrl;

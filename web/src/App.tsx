@@ -1,47 +1,35 @@
-import { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import PinterestErrorBoundary from './component/ErrorBoundary';
-import DefaultLayout from './component/Layout/DefaultLayout';
-import { privateRoutes, publicRoutes } from './route';
+import { privatePages } from './common/page';
+import PinterestNotFound from './pages/404';
+import Login from './pages/Login';
+import { usePinterestSelector } from './redux/hooks';
+import ProtectedRoute from './route';
 
 const App = () => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const { getUserInfo } = UserUtils;
-  // const userInfo = getUserInfo();
-  // const redirect = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const userState = usePinterestSelector((userState) => userState);
+  React.useEffect(() => {
+    console.log(userState);
+    if (userState) setIsLoggedIn(true);
+    else setIsLoggedIn(false);
+  }, [userState]);
 
-  useEffect(() => {
-    // if (isEmpty(userInfo)) {
-    //   setIsLoggedIn(false);
-    //   redirect('/login');
-    // } else {
-    //   setIsLoggedIn(true);
-    //   redirect('/');
-    // }
-  }, []);
-
-  const isLoggedIn = false;
   return (
-    <PinterestErrorBoundary>
-      <Routes>
-        {!isLoggedIn
-          ? privateRoutes.map(({ layout, element, path }, index) => {
-              const Layout = layout || DefaultLayout;
-              const Page = element;
-              return (
-                <Route
-                  key={index}
-                  path={path}
-                  element={<Layout>{Page}</Layout>}
-                />
-              );
-            })
-          : publicRoutes.map(({ path, element }, index) => (
-              <Route key={index} path={path} element={element} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        element={
+          <ProtectedRoute isAllowed={isLoggedIn}>
+            {privatePages.map(({ element, path }, index) => (
+              <Route path={path} element={element} key={index} />
             ))}
-      </Routes>
-    </PinterestErrorBoundary>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<PinterestNotFound />} />
+    </Routes>
   );
 };
 

@@ -1,7 +1,8 @@
 import { FC, useState, useEffect, useCallback } from 'react';
 import { getCurrentUser } from 'src/redux/action/user';
 
-import PinterestReduxHooks from 'src/redux/hooks';
+import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
+import { AppState } from 'src/redux/store';
 import UserServices from 'src/service/user.services';
 
 interface PinterestProfileProps {}
@@ -12,13 +13,14 @@ interface UserProfileProps {
   email?: string;
 }
 
-const { usePinterestDispatch, usePinterestSelector } = PinterestReduxHooks;
 const { getPhotos, getUserProfile } = UserServices;
 
 const PinterestProfile: FC<PinterestProfileProps> = (
   props: PinterestProfileProps
 ) => {
-  const isLoad = usePinterestSelector((state) => state.userReducer.isLoad);
+  const isLoad = usePinterestSelector(
+    (state: AppState) => state.userReducer.isLoad
+  );
   const dispatch = usePinterestDispatch();
   const [isOpen, setOpen] = useState<boolean>(false);
   const NUM_IMG_RENDER = 5;
