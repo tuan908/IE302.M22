@@ -64,7 +64,7 @@ function Login() {
             <TextField helperText={''} label={''} {...register('username')} />
 
             <TextField helperText={''} label={''} {...register('password')} />
-            <Link className="forgot-password-link" to="/forgotpassword">
+            <Link className="forgot-password-link" to="/forgot-password">
               <p>Forgot password?</p>
             </Link>
             <Button

@@ -18,7 +18,7 @@ import clsx from 'clsx';
 import { isEmpty } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 import Loading from 'src/component/Loading';
-import PinterestDetail from 'src/pages/Detail';
+import PinterestDetail from 'src/pages/Image';
 import { hideViewer } from 'src/redux/action/viewer';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import { FileServices } from 'src/service/file.services';

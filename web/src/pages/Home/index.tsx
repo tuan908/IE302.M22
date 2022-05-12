@@ -1,45 +1,36 @@
 import { Add } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { FC, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import ScrollToTop from 'src/component/Button/ScrollTop';
 import PinterestContent from 'src/component/Content';
 import PinterestPost from 'src/component/Post';
-import { usePinterestSelector } from 'src/redux/hooks';
-import HomeStyledComponents from './HomeStyledComponent';
+import Components from './Components';
 
-interface IProps {
+interface IHomeProps {
   redirectPath?: string;
 }
 
-const PinterestHome: FC<IProps> = ({ redirectPath = '/login' }) => {
-  const { HomeWrapper, PostBtnWrapper, ScrollTopBtnWrapper } =
-    HomeStyledComponents;
-
-  const user = usePinterestSelector((state) => state.userReducer.user);
+const PinterestHome: FC<IHomeProps> = () => {
+  const { Wrapper, CreatePostWrapper, ScrollTopWrapper } = Components;
 
   const [isOpen, setOpen] = useState<boolean>(false);
   const handleClose = () => setOpen(!isOpen);
-
-  if (!user) {
-    return <Navigate to={redirectPath} replace />;
-  }
   return (
-    <HomeWrapper>
+    <Wrapper>
       <PinterestContent />
 
-      <PostBtnWrapper>
+      <CreatePostWrapper>
         <IconButton onClick={() => setOpen(!isOpen)}>
           <Add fontSize="large" />
         </IconButton>
-      </PostBtnWrapper>
+      </CreatePostWrapper>
 
-      <ScrollTopBtnWrapper>
+      <ScrollTopWrapper>
         <ScrollToTop />
-      </ScrollTopBtnWrapper>
+      </ScrollTopWrapper>
 
-      <PinterestPost handleClose={handleClose} isOpen={isOpen} />
-    </HomeWrapper>
+      <PinterestPost closePost={handleClose} isPostOpen={isOpen} />
+    </Wrapper>
   );
 };
 

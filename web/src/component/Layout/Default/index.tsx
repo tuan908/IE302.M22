@@ -1,21 +1,27 @@
-import { Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { IServerResponse } from 'src/common/serverResponse';
 import Header from 'src/component/Header';
+import { usePinterestSelector } from 'src/redux/hooks';
 
 type IProps = {
   children?: JSX.Element;
-  isLoggedIn: Boolean;
 };
 
-export default function DefaultLayout({ children, isLoggedIn }: IProps) {
+export default function DefaultLayout({ children }: IProps) {
+  const userState: IServerResponse = usePinterestSelector(
+    (userState) => userState.userReducer.user
+  );
+  const { token } = userState;
+
   return (
     <>
-      {isLoggedIn ? (
+      {token ? (
         <>
           <Header />
           <div className="container">{children}</div>
         </>
       ) : (
-        <Outlet />
+        <Navigate to="/login" />
       )}
     </>
   );

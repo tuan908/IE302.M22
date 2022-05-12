@@ -1,36 +1,37 @@
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PixabayPhoto } from 'src/api';
+import { PinWrapper } from './Component';
 
-interface PinProps {
-  isVideo?: boolean;
-  webformatURL?: string;
-  user?: string;
-  userId?: string;
-  likes?: number;
-  postId?: string;
-  tags: string;
-  views: string;
-}
+interface IPinProps extends PixabayPhoto {}
 
-const Pin: FC<PinProps> = ({
-  isVideo,
+const Pin: FC<IPinProps> = ({
+  id,
   webformatURL,
-  user,
-  userId,
-  likes,
-  postId,
-  tags,
-  views,
-}: PinProps) => {
+  ...otherImageProps
+}: IPinProps) => {
+  const navigate = useNavigate();
+
+  const pinState = {
+    id,
+    webformatURL,
+    ...otherImageProps,
+  };
+
   return (
-    <div
-      style={{ display: 'inline-block', width: '100%', borderRadius: '1em' }}
+    <PinWrapper
+      onClick={() =>
+        navigate(`/image/${id}`, {
+          state: pinState,
+        })
+      }
     >
       <img
         src={webformatURL}
-        alt=""
         style={{ display: 'block', width: '100%' }}
+        alt=""
       />
-    </div>
+    </PinWrapper>
   );
 };
 

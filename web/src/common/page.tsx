@@ -1,4 +1,4 @@
-import Detail from 'src/pages/Detail';
+import Detail from 'src/pages/Image';
 import Home from 'src/pages/Home';
 import { Signout } from 'src/pages/Logout';
 import Profile from 'src/pages/Profile';
@@ -19,7 +19,7 @@ const privatePages: ScreenTypes[] = [
     element: <Profile />,
   },
   {
-    path: '/detail/:id',
+    path: '/image/:id',
     element: <Detail />,
   },
 ];

@@ -21,6 +21,7 @@ const store = configureStore({
   devTools: true,
 });
 
+console.log(store);
 type AppState = ReturnType<typeof store.getState>;
 
 type AppDispatch = typeof store.dispatch;
