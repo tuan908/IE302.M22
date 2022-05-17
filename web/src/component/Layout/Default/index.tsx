@@ -1,24 +1,19 @@
+import { PropsWithChildren, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { IServerResponse } from 'src/common/serverResponse';
 import Header from 'src/component/Header';
-import { usePinterestSelector } from 'src/redux/hooks';
+import { DefaultLayoutContainer } from './DefaultLayoutComponents';
 
-type IProps = {
-  children?: JSX.Element;
-};
-
-export default function DefaultLayout({ children }: IProps) {
-  const userState: IServerResponse = usePinterestSelector(
-    (userState) => userState.userReducer.user
-  );
-  const { token } = userState;
+export default function DefaultLayout({
+  children,
+}: PropsWithChildren<{ children?: ReactNode; token: string | undefined }>) {
+  const token = localStorage.getItem('token');
 
   return (
     <>
       {token ? (
         <>
           <Header />
-          <div className="container">{children}</div>
+          <DefaultLayoutContainer>{children}</DefaultLayoutContainer>
         </>
       ) : (
         <Navigate to="/login" />

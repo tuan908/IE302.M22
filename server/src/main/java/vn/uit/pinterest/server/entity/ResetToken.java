@@ -14,7 +14,7 @@ public class ResetToken implements Serializable {
 	 */
 	private static final long serialVersionUID = 5131456378781009812L;
 
-	private static final int TOKEN_EXPIRED_TIME = 60 * 24;
+	private final int TOKEN_EXPIRED_TIME = 60 * 24 * 3600;
 
 	@Id
 	private ObjectId tokenId;
@@ -111,12 +111,12 @@ public class ResetToken implements Serializable {
 
 	@Override
 	public String toString() {
-		return "{" +
-				" tokenId='" + getTokenId() + "'" +
-				", token='" + getToken() + "'" +
-				", user='" + getUser() + "'" +
-				", expiredDate='" + getExpiredDate() + "'" +
-				"}";
+		return "{" + " tokenId='" + getTokenId() + "'" + ", token='" + getToken() + "'" + ", user='" + getUser() + "'"
+				+ ", expiredDate='" + getExpiredDate() + "'" + "}";
+	}
+
+	public int getTokenExpiredTime() {
+		return this.TOKEN_EXPIRED_TIME;
 	}
 
 }

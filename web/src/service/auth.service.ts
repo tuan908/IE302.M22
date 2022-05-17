@@ -2,13 +2,8 @@ import requestUrl from '../common/requestUrl';
 import RequestServices from './request.services';
 
 const { postRequest } = RequestServices;
-const {
-  AUTH_URL,
-  REGISTER_URL,
-  UPDATE_USER_PROFILE_URL,
-  FORGOT_PASSWORD_URL,
-  API_ENDPOINT,
-} = requestUrl;
+const { AUTH_URL, REGISTER_URL, FORGOT_PASSWORD_URL, API_ENDPOINT } =
+  requestUrl;
 
 const login = (userLoginInfo: any) =>
   postRequest({
@@ -21,8 +16,8 @@ const register = (newUserInfo: any) =>
 
 const logout = () => localStorage.clear();
 
-const changeInfo = (updatedUserInfo: any) =>
-  postRequest({ baseURL: UPDATE_USER_PROFILE_URL, data: updatedUserInfo });
+const changeInfo = (userId: string, updatedInfo: any) =>
+  postRequest({ baseURL: `/api/user/${userId}/update`, data: updatedInfo });
 
 const forgot = (payload: any) =>
   postRequest({ baseURL: FORGOT_PASSWORD_URL, data: payload });

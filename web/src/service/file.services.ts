@@ -25,10 +25,12 @@ const updateFileById = (payload: any) =>
     data: payload,
   });
 
-export const FileServices = {
+const FileServices = {
   getFileById,
   deleteFileById,
   getAllFile,
   getAllCommentById,
   updateFileById,
 };
+
+export default FileServices;

@@ -1,8 +1,8 @@
 const AUTH_URL = '/api/user/login';
 const REGISTER_URL = '/api/user/register';
-const UPDATE_USER_PROFILE_URL = '/api/user/updateRegisterProfile';
+const REFRESH_TOKEN_URL = '/api/user/token/refresh';
 const FORGOT_PASSWORD_URL = '/api/user/forgotPassword';
-const GET_USER_PROFILE_URL = '/api/user/getProfile';
+
 const POST_USER_INFO_URL = '/api/user/post';
 const POST_HAVE_TICKET = '/api/user/postWithTicket';
 const GET_PHOTO_LIST_URL = '/api/user/getPhotos';
@@ -19,9 +19,7 @@ const UPDATE_FILE_BY_FILE_ID_URL = '/api/file/updateFileById';
 const requestUrl = {
   AUTH_URL,
   REGISTER_URL,
-  UPDATE_USER_PROFILE_URL,
   FORGOT_PASSWORD_URL,
-  GET_USER_PROFILE_URL,
   POST_USER_INFO_URL,
   POST_HAVE_TICKET,
   GET_PHOTO_LIST_URL,
@@ -33,6 +31,7 @@ const requestUrl = {
   GET_COMMENT_LIST_BY_POST_ID_URL,
   UPDATE_FILE_BY_FILE_ID_URL,
   API_ENDPOINT,
+  REFRESH_TOKEN_URL,
 };
 
 export default requestUrl;

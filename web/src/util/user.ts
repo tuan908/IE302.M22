@@ -2,55 +2,33 @@ import moment from 'moment';
 
 interface UserInfo {
   role?: string;
-  accessToken?: string;
+  token?: string;
   refreshToken?: string;
-  exp?: string;
-  email?: string;
-  status?: string;
-  id?: string;
+  expiredTime?: string;
 }
 
-const getUserInfoFromStorage = (): UserInfo => {
-  const userInfo = localStorage.getItem('userInfo');
-  if (!userInfo) {
+const getJwtTokenFromStorage = (): UserInfo => {
+  const token = localStorage.getItem('token');
+  console.log(token);
+
+  if (!token) {
     return {};
   } else {
-    return JSON.parse(userInfo);
+    return {
+      token,
+    };
   }
 };
 
 const saveUserInfoIntoStorage = (userInfo: UserInfo) =>
   localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
-const parseJwt = (token: string) => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    Buffer.from(base64, 'base64').toString()
-  );
-
-  return JSON.parse(jsonPayload);
-};
-
 const getUserInfo = () => {
-  const userInfoFromStorage = getUserInfoFromStorage();
-  const { accessToken, refreshToken } = userInfoFromStorage;
-
-  if (accessToken) {
-    const userAfterParse = parseJwt(accessToken);
-    const { user, exp } = userAfterParse;
-
-    return {
-      role: 'admin',
-      accessToken,
-      refreshToken,
-      exp,
-      email: user.email,
-      status: user.status,
-      id: user._id,
-    };
-  }
-  return {};
+  const userInfoFromStorage = getJwtTokenFromStorage();
+  const { ...info } = userInfoFromStorage;
+  return {
+    ...info,
+  };
 };
 
 const checkValidRememberMe = (checked: boolean) => {

@@ -1,14 +1,13 @@
-import { FC, useState } from 'react';
-import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import { useForm } from 'react-hook-form';
-
-import './Post.scss';
-import setMessage from 'src/redux/action/message';
-import { IconButton } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+import { FC, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import setMessage from 'src/redux/action/message';
 import { loadPhotos } from 'src/redux/action/user';
-import { ContentContainer, ImgWrapper, FormWrapper } from './Component';
+import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import UserServices from 'src/service/user.services';
+import './Post.scss';
+import { ContentContainer, FormWrapper, ImgWrapper } from './PostComponents';
 
 interface IPostProps {
   isPostOpen: boolean;
@@ -216,7 +215,7 @@ const Post: FC<IPostProps> = ({ isPostOpen, closePost }) => {
       </form>
     </div>
   ) : (
-    ''
+    <></>
   );
 };
 

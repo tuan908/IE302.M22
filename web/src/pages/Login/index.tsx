@@ -25,13 +25,14 @@ function Login() {
   const { handleSubmit, register } = useForm<LoginFormValues>();
   const navigate = useNavigate();
   const dispatch = usePinterestDispatch();
-
   const onSubmit: SubmitHandler<LoginFormValues> = async (loginFormValues) => {
     try {
       const rawData = await auth.login(loginFormValues);
       const { data } = rawData;
       if (data) {
         dispatch(getCurrentUser(data));
+        localStorage.setItem('token', `Bearer ${data.token}`);
+        localStorage.setItem('userId', `${data.userId}`);
         navigate('/home');
       }
     } catch (error) {

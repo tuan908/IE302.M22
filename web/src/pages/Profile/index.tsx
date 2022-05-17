@@ -1,100 +1,23 @@
-import { FC, useState, useEffect, useCallback } from 'react';
-import { getCurrentUser } from 'src/redux/action/user';
+import { useLocation } from 'react-router-dom';
 
-import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import { AppState } from 'src/redux/store';
-import UserServices from 'src/service/user.services';
-
-interface PinterestProfileProps {}
-
-interface UserProfileProps {
-  firstName?: string;
-  lastName?: string;
+interface UserInfoProps {
+  avatarUrl?: string;
+  username?: string;
   email?: string;
 }
 
-const { getPhotos, getUserProfile } = UserServices;
+function PinterestProfile() {
+  const location = useLocation();
 
-const PinterestProfile: FC<PinterestProfileProps> = (
-  props: PinterestProfileProps
-) => {
-  const isLoad = usePinterestSelector(
-    (state: AppState) => state.userReducer.isLoad
-  );
-  const dispatch = usePinterestDispatch();
-  const [isOpen, setOpen] = useState<boolean>(false);
-  const NUM_IMG_RENDER = 5;
-  const [userProfile, setUserProfile] = useState<
-    UserProfileProps | undefined
-  >();
-  const [videos, setVideos] = useState<any>();
-  const [photos, setPhotos] = useState<any>();
-  const [photoList, setPhotoList] = useState<Array<any> | []>([]);
+  const { avatarUrl, email, username } = location.state as UserInfoProps;
 
-  const getUserAvatar = async () => {
-    const rawData = await getUserProfile();
-    try {
-      const { data } = rawData;
-      setUserProfile(data);
-      dispatch(getCurrentUser(data));
-    } catch (error) {
-      throw new Error(error.message);
-    } finally {
-      return rawData;
-    }
-  };
-
-  const getUserVideos = async () => {
-    const rawData = await getPhotos();
-    try {
-      const { data } = rawData;
-      const videos = data.filter((item: any) =>
-        item.originalName.split('.')[1] === 'mp4' ? true : false
-      );
-      setVideos(videos.reverse());
-    } catch (error) {
-      throw new Error(error.message);
-    } finally {
-      return rawData;
-    }
-  };
-
-  const getUserPhotos = async () => {
-    const rawData = await getPhotos();
-    try {
-      const { data } = rawData;
-      const photos = data?.filter((item: any) =>
-        item.originalName.split('.')[1] !== 'mp4' ? true : false
-      );
-      setPhotos(photos.reverse());
-    } catch (error) {
-      throw new Error(error.message);
-    } finally {
-      return rawData;
-    }
-  };
-
-  useEffect(() => {
-    getUserAvatar();
-    getUserVideos();
-    getUserPhotos();
-  }, []);
-  const handleDefaultView = useCallback(() => {
-    const data = photos?.filter(
-      (_: any, index: number) => index < NUM_IMG_RENDER
-    );
-    setPhotoList(data);
-  }, [photos?.length, NUM_IMG_RENDER]);
-
-  useEffect(() => {
-    handleDefaultView();
-    setOpen(true);
-  }, []);
   return (
-    <div>
-      {photos} {videos} {userProfile} {photoList} {isOpen} {isLoad}
-    </div>
+    <>
+      <img src={avatarUrl} alt="" />
+      <h4>{email}</h4>
+      <h4>{username}</h4>
+    </>
   );
-};
+}
 
 export default PinterestProfile;

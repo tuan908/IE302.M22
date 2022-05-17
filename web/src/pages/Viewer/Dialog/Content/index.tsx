@@ -18,10 +18,10 @@ import clsx from 'clsx';
 import { isEmpty } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 import Loading from 'src/component/Loading';
-import PinterestDetail from 'src/pages/Image';
+import Detail from 'src/pages/Detail';
 import { hideViewer } from 'src/redux/action/viewer';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import { FileServices } from 'src/service/file.services';
+import fileService from 'src/service/file.services';
 import PinterestVideoViewer from '../../VideoViewer';
 import EmbeddedDialog from '../EmbeddedDialog';
 import useStyles from './DialogMuiStyledComponent';
@@ -51,7 +51,8 @@ const PinterestDialogContent: FC<Props> = ({}: Props) => {
 
   useEffect(() => {
     if (viewerState.fileId) {
-      FileServices.getFileById(viewerState.fileId)
+      fileService
+        .getFileById(viewerState.fileId)
         .then((res) => {
           setFile(res[0]);
         })
@@ -183,7 +184,10 @@ const PinterestDialogContent: FC<Props> = ({}: Props) => {
         </Dialog>
         {loadingComponent}
       </Grid>
-      <PinterestDetail file={file} visible={detailsVisible} />
+      {/* <PinterestDetail file={file} visible={detailsVisible} />
+       */}
+
+      <Detail />
       <Paper
         className={clsx(
           classes.paper,

@@ -2,6 +2,11 @@ package vn.uit.pinterest.server.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import vn.uit.pinterest.server.entity.ResetToken;
 
 public class JwtResponse implements Serializable {
 	/**
@@ -11,20 +16,30 @@ public class JwtResponse implements Serializable {
 	private String token;
 	private String type = "Jwt";
 	private String username;
+	private String userId;
 
 	private List<String> roles;
+
+	private int tokenValidTime;
 
 	public JwtResponse() {
 	}
 
-	public JwtResponse(String token, String type, String username, List<String> roles) {
+	public JwtResponse(String token, String type, String username, String userId, List<String> roles,
+			int tokenValidTime) {
 		this.token = token;
 		this.type = type;
 		this.username = username;
-
+		this.userId = userId;
 		this.roles = roles;
+		this.tokenValidTime = tokenValidTime;
 	}
 
+	public int getTokenValidTime() {
+		return this.tokenValidTime;
+	}
+	
+	
 	public String getToken() {
 		return this.token;
 	}
@@ -47,6 +62,14 @@ public class JwtResponse implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public List<String> getRoles() {
@@ -72,9 +95,38 @@ public class JwtResponse implements Serializable {
 		return this;
 	}
 
+	public JwtResponse userId(String userId) {
+		setUserId(userId);
+		return this;
+	}
+
 	public JwtResponse roles(List<String> roles) {
 		setRoles(roles);
 		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof JwtResponse)) {
+			return false;
+		}
+		JwtResponse jwtResponse = (JwtResponse) o;
+		return Objects.equals(token, jwtResponse.token) && Objects.equals(type, jwtResponse.type)
+				&& Objects.equals(username, jwtResponse.username) && Objects.equals(userId, jwtResponse.userId)
+				&& Objects.equals(roles, jwtResponse.roles);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(token, type, username, userId, roles);
+	}
+
+	@Override
+	public String toString() {
+		return "{" + " token='" + getToken() + "'" + ", type='" + getType() + "'" + ", username='" + getUsername() + "'"
+				+ ", userId='" + getUserId() + "'" + ", roles='" + getRoles() + "'" + "}";
 	}
 
 }

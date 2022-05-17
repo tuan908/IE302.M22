@@ -5,6 +5,7 @@ import messageReducer from './reducer/message';
 import pinReducer from './reducer/pin';
 import userReducer from './reducer/user';
 import viewerReducer from './reducer/viewer';
+import commentReducer from './reducer/comment';
 
 const reducers = {
   viewerReducer,
@@ -12,6 +13,7 @@ const reducers = {
   userReducer,
   messageReducer,
   pinReducer,
+  commentReducer
 };
 
 const mainReducer = combineReducers(reducers);

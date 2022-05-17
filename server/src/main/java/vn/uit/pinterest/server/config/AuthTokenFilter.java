@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import vn.uit.pinterest.server.common.JwtUtils;
-import vn.uit.pinterest.server.service.UserDetailsServiceImplement;
+import vn.uit.pinterest.server.service.implement.UserDetailsServiceImplement;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import { PinWrapper } from './Component';
+import { PinWrapper } from './Components';
 
 interface IPinProps extends PixabayPhoto {}
 

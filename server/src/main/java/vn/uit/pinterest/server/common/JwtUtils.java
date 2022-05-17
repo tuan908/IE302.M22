@@ -14,7 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import vn.uit.pinterest.server.service.UserDetailsImplement;
+import vn.uit.pinterest.server.service.implement.UserDetailsImplement;
 
 /**
  * JwtUtils

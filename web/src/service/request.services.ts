@@ -30,7 +30,6 @@ interface GetRequestProps extends RequestProps {
 
 const postRequest = async ({ data, baseURL }: RequestProps) => {
   const response = await axiosPost(baseURL as string, data);
-  console.log(response);
   try {
     return response;
   } catch (error: any) {
@@ -39,8 +38,8 @@ const postRequest = async ({ data, baseURL }: RequestProps) => {
   return response;
 };
 
-const getRequest = async ({ baseURL, params }: GetRequestProps) => {
-  const response = await axiosGet(baseURL as string, { params });
+const getRequest = async ({ baseURL, data }: GetRequestProps) => {
+  const response = await axiosGet(baseURL as string);
   try {
     return response;
   } catch (error: unknown) {
@@ -71,23 +70,21 @@ const refreshTokenIfExpired = async (payload: any) => {
 
 const requestHandler = async (request: AxiosRequestConfig<any>) => {
   const userInfoFromLocalStorage = getUserInfo();
-  const {
-    accessToken,
-    exp,
-    refreshToken,
-    email: username,
-  } = userInfoFromLocalStorage;
+
+  console.log(userInfoFromLocalStorage);
+  const { expiredTime, refreshToken, token } = userInfoFromLocalStorage;
   const TIME = new Date().getTime() / 1000;
   const TIME_REFRESH_TOKEN = 300; // seconds
 
-  if (accessToken) {
-    const tokenRemainingTime = exp - TIME;
+  if (token) {
+    const EXPIRED_TIME = Number(expiredTime!);
+    const tokenRemainingTime = EXPIRED_TIME - TIME;
     if (tokenRemainingTime < 0) {
       logOut();
       throw new Cancel('Your token is expired');
     }
     if (tokenRemainingTime < TIME_REFRESH_TOKEN) {
-      const payload = { refreshToken, username };
+      const payload = { refreshToken };
       const newToken = await refreshTokenIfExpired(payload);
 
       if (!newToken) {
@@ -103,7 +100,7 @@ const requestHandler = async (request: AxiosRequestConfig<any>) => {
         accessToken,
       };
     }
-    request.headers!['Authorization'] = `Bearer ${accessToken}`;
+    request.headers!['Authorization'] = `${token}`;
   }
   return request;
 };

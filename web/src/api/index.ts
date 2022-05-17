@@ -57,6 +57,7 @@ async function getNewPhotoList() {
         ...rest,
       })
     );
+    console.log(data);
     return data;
   }
   return data;

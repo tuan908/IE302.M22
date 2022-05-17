@@ -16,7 +16,6 @@ import {
   Tooltip,
 } from '@mui/material';
 import { History } from 'history';
-import { map } from 'lodash';
 import {
   Dispatch,
   FC,
@@ -26,10 +25,10 @@ import {
   useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ApiServices from 'src/api';
-import { ScreenTypes, sidePages } from '../../common/page';
-import { getCurrentUser } from '../../redux/action/user';
+import { usePinterestSelector } from 'src/redux/hooks';
+import { sidePages } from '../../common/page';
 import AuthorizationServices from '../../service/auth.service';
 import UserServices from '../../service/user.services';
 import {
@@ -38,7 +37,7 @@ import {
   SearchBarWrapper,
   SearchWrapper,
   Wrapper,
-} from './HeaderStyledComponent';
+} from './HeaderComponents';
 
 interface HeaderProps {
   history?: History;
@@ -59,7 +58,9 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
 
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch<Dispatch<any>>();
-
+  const push = useNavigate();
+  const user = usePinterestSelector((state) => state.userReducer.user);
+  console.log(user);
   const handleSubmitSearchImage: MouseEventHandler<HTMLButtonElement> = async (
     e
   ) => {
@@ -82,13 +83,13 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
       return 1;
     }
   };
+  const userState = usePinterestSelector((state) => state.userReducer.user);
 
   const getUserAvatar = async () => {
-    const userInfo = await getUserProfile();
+    const userInfo = await getUserProfile(userState.userId);
     try {
       const { data } = userInfo!;
       setUserProfile(data);
-      dispatch(getCurrentUser(data));
     } catch (error: any) {
       console.error(error.message);
     } finally {
@@ -154,7 +155,9 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
             <NotificationsIcon style={{ height: 30, width: 30 }} />
           </Tooltip>
         </IconButton>
-        <IconButton onClick={() => history!.push('/profile')}>
+        <IconButton
+          onClick={() => push(`/user/${user.userId}`, { state: user })}
+        >
           {!userProfile ? (
             <FaceIcon />
           ) : (
@@ -191,10 +194,13 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
             <Paper>
               <ClickAwayListener onClickAway={ClickAwayListenerFn}>
                 <MenuList>
-                  {map(sidePages, ({ path, pageName }: ScreenTypes) => {
+                  {sidePages.map((page, index) => {
                     return (
-                      <MenuItem key={path} onClick={() => handleClose(path!)}>
-                        {pageName}
+                      <MenuItem
+                        key={page.path}
+                        onClick={() => handleClose(page.path!)}
+                      >
+                        {page.pageName}
                       </MenuItem>
                     );
                   })}
