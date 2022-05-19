@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.uit.pinterest.server.dto.CommentDto;
 import vn.uit.pinterest.server.entity.Comment;
 import vn.uit.pinterest.server.repository.CommentRepo;
 
@@ -59,9 +60,9 @@ public class CommentController {
 
     @Transactional(rollbackFor = Exception.class)
     @PostMapping(value = "/api/comment/create")
-    public ResponseEntity<?> postNewComment(@RequestBody Comment comment) {
+    public ResponseEntity<?> postNewComment(@RequestBody CommentDto comment) {
         if (comment != null) {
-            Comment newComment = mongoTemplate.save(comment);
+            CommentDto newComment = mongoTemplate.save(comment);
             new ResponseEntity<Comment>(HttpStatus.OK);
             return ResponseEntity.status(200).body(newComment);
         } else {

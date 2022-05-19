@@ -18,12 +18,12 @@ const pixabayApiKey = process.env.REACT_APP_PIXABAY_API_KEY;
 console.log(pixabayApiKey);
 console.log(pixabayApiUrl);
 
-const getPhotoList = async (requestString: string) => {
+export const getPhotoListByKeyword = async (keyword: string) => {
   try {
     const rawData = await get(pixabayApiUrl!, {
       params: {
         key: pixabayApiKey,
-        q: requestString,
+        q: keyword,
         per_page: 200,
       },
     });
@@ -40,7 +40,7 @@ const getPhotoList = async (requestString: string) => {
   }
 };
 
-async function getNewPhotoList() {
+export async function getStartPhotoList() {
   let inputStringList = ['girl', 'landscape', 'dog', 'anime'];
   let data: PixabayPhoto[] = [];
   for (let requestString in inputStringList) {
@@ -62,5 +62,3 @@ async function getNewPhotoList() {
   }
   return data;
 }
-const ApiServices = { getNewPhotoList, getPhotoList };
-export default ApiServices;

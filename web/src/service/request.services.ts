@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import appHistory from '../common/appHistory';
+import appHistory from 'src/common/appHistory';
 import requestUrl from '../common/requestUrl';
 import UserUtils from '../util/user';
 

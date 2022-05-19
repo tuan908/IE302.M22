@@ -18,10 +18,10 @@ import vn.uit.pinterest.server.service.implement.UserDetailsServiceImplement;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
-	UserDetailsServiceImplement services;
+	UserDetailsServiceImplement service;
 
 	@Autowired
-	private AuthEntryPointJwt authEntryPointJwt;
+	private AuthEntryPointJwt auth;
 
 	@Bean
 	public AuthTokenFilter authTokenFilter() {
@@ -40,15 +40,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(services).passwordEncoder(encoder());
+	public void configure(AuthenticationManagerBuilder builder) throws Exception {
+		builder.userDetailsService(service).passwordEncoder(encoder());
 	}
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
+
+		httpSecurity.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(auth).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/api/user/**").permitAll().anyRequest().authenticated();
 	}
-
 }

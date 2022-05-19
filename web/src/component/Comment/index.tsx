@@ -1,3 +1,5 @@
+import FaceIcon from '@mui/icons-material/Face';
+import { Avatar } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { PixabayPhoto } from 'src/api';
@@ -90,6 +92,11 @@ function Comment({ postId }: Props) {
       <AddComment>
         <AvatarWrapper>
           {/* <img src={data!.profilePhotoUrl} alt="" /> */}
+          {data!?.profilePhotoUrl ? (
+            <Avatar style={{ height: 40, width: 40 }} />
+          ) : (
+            <FaceIcon />
+          )}
         </AvatarWrapper>
         <Comments style={{ flex: '1' }}>
           <form onSubmit={(e) => handleSubmit(e)}>

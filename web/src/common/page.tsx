@@ -2,7 +2,6 @@ import DefaultLayout from 'src/component/Layout/Default';
 import HeaderLessLayout from 'src/component/Layout/HeaderLessLayout';
 import Detail from 'src/pages/Detail';
 import Home from 'src/pages/Home';
-import { Signout } from 'src/pages/Logout';
 import Profile from 'src/pages/Profile';
 
 const privatePages = [
@@ -35,8 +34,6 @@ const sidePages = [
   },
   {
     pageName: 'Sign out',
-    path: '/sign-out',
-    element: Signout,
   },
 ];
 export { privatePages, sidePages };

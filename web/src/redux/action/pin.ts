@@ -4,7 +4,7 @@ import { ADD_PINS } from '../constants/pin';
 const getPinDataFromApi = (pins: any) => {
   return {
     type: ADD_PINS,
-    payLoad: pins,
+    payload: pins,
   } as AnyAction;
 };
 export default getPinDataFromApi;

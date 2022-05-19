@@ -15,22 +15,16 @@ import {
   Popper,
   Tooltip,
 } from '@mui/material';
-import { History } from 'history';
-import {
-  Dispatch,
-  FC,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { useDispatch } from 'react-redux';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ApiServices from 'src/api';
-import { usePinterestSelector } from 'src/redux/hooks';
+import {
+  getPhotoListByKeyword,
+  getStartPhotoList,
+  PixabayPhoto,
+} from 'src/api';
+import useDebounce from 'src/hooks/useDebounce';
 import { sidePages } from '../../common/page';
 import AuthorizationServices from '../../service/auth.service';
-import UserServices from '../../service/user.services';
 import {
   IconsWrapper,
   LogoWrapper,
@@ -39,43 +33,49 @@ import {
   Wrapper,
 } from './HeaderComponents';
 
-interface HeaderProps {
-  history?: History;
-}
-
-interface UserProfile {
-  avatarUrl?: string;
-}
-
-const { getUserProfile } = UserServices;
 const { logout } = AuthorizationServices;
-const { getNewPhotoList, getPhotoList } = ApiServices;
 
-const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
-  const [userInput, setUserInput] = useState<string>();
-
+  // const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
+  const [keyword, setKeyword] = useState<string>('');
+  const [photoList, setPhotoList] = useState<PixabayPhoto[]>([]);
   const ref = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch<Dispatch<any>>();
+  // const dispatch = useDispatch<Dispatch<any>>();
   const push = useNavigate();
-  const user = usePinterestSelector((state) => state.userReducer.user);
-  console.log(user);
+  const userId = localStorage.getItem('userId');
+  const DELAY_TIME = 500; //ms
+
+  const debouncedKeyword = useDebounce(keyword, DELAY_TIME);
+  console.log(debouncedKeyword);
+
+  useEffect(() => {
+    if (!keyword.trim()) {
+      return;
+    }
+    getPhotoListByKeyword(debouncedKeyword).then((data) => {
+      console.log(data);
+
+      setPhotoList(data);
+    });
+  }, [debouncedKeyword]);
+
   const handleSubmitSearchImage: MouseEventHandler<HTMLButtonElement> = async (
     e
   ) => {
     e.preventDefault();
-    const requestedPhotoList = await getPhotoList(userInput!);
-    const sortedRequestedPhotoList = requestedPhotoList?.sort(
-      () => 0.5 - Math.random()
-    );
-    setUserInput('');
-    dispatch(sortedRequestedPhotoList);
+    console.log(photoList);
+
+    const sortedList = photoList.sort(() => 0.5 - Math.random());
+    document.getElementById('search__input')!.textContent = '';
+    console.log(sortedList);
+
+    // dispatch(getPinDataFromApi(sortedRequestedPhotoList));
   };
 
   const getNewPhotosFromApi = async () => {
     try {
-      const photos = await getNewPhotoList();
+      const photos = await getStartPhotoList();
       return photos;
     } catch (error: any) {
       console.error(error.message);
@@ -83,26 +83,12 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
       return 1;
     }
   };
-  const userState = usePinterestSelector((state) => state.userReducer.user);
-
-  const getUserAvatar = async () => {
-    const userInfo = await getUserProfile(userState.userId);
-    try {
-      const { data } = userInfo!;
-      setUserProfile(data);
-    } catch (error: any) {
-      console.error(error.message);
-    } finally {
-      return userInfo;
-    }
-  };
 
   useEffect(() => {
     getNewPhotosFromApi();
-    getUserAvatar();
   }, []);
 
-  const ClickAwayListenerFn = () => setIsMenuOpen(!isMenuOpen);
+  const clickAwayHandler = () => setIsMenuOpen(!isMenuOpen);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -110,13 +96,13 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
 
   const handleLogout = () => {
     logout();
-    history!.push('/login');
+    push('/login');
   };
 
   const handleClose = (path: string) => {
     toggleMenu();
-    if (path !== '/signout') {
-      history!.push(path);
+    if (path) {
+      push(path);
     } else handleLogout();
   };
   return (
@@ -138,7 +124,8 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
           <form>
             <input
               type="text"
-              onChange={(e) => setUserInput(e.currentTarget.value)}
+              onChange={(e) => setKeyword(e.currentTarget.value)}
+              id="search__input"
             />
             <button type="submit" onClick={handleSubmitSearchImage} />
           </form>
@@ -155,15 +142,13 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
             <NotificationsIcon style={{ height: 30, width: 30 }} />
           </Tooltip>
         </IconButton>
-        <IconButton
-          onClick={() => push(`/user/${user.userId}`, { state: user })}
-        >
-          {!userProfile ? (
+        <IconButton onClick={() => push(`/user/${userId}`, { state: userId })}>
+          {!userId ? (
             <FaceIcon />
           ) : (
             <Avatar
               style={{ height: 40, width: 40 }}
-              src={userProfile!.avatarUrl}
+              // src={userProfile!.avatarUrl}
             />
           )}
         </IconButton>
@@ -192,15 +177,12 @@ const Header: FC<HeaderProps> = ({ history }: HeaderProps) => {
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={ClickAwayListenerFn}>
+              <ClickAwayListener onClickAway={clickAwayHandler}>
                 <MenuList>
-                  {sidePages.map((page, index) => {
+                  {sidePages.map(({ path, pageName }, index) => {
                     return (
-                      <MenuItem
-                        key={page.path}
-                        onClick={() => handleClose(page.path!)}
-                      >
-                        {page.pageName}
+                      <MenuItem key={index} onClick={() => handleClose(path!)}>
+                        {pageName}
                       </MenuItem>
                     );
                   })}
