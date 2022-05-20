@@ -1,6 +1,7 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -18,8 +19,10 @@ public class Comment implements Serializable {
 
 	@Id
 	@Indexed(unique = true)
-	@Field(name = "postId", targetType = FieldType.STRING)
-	public String postId;
+	public String commentId;
+
+	@Field(name = "imgId", targetType = FieldType.STRING)
+	public String imgId;
 
 	@Field(name = "userId", targetType = FieldType.STRING)
 	public String userId;
@@ -30,8 +33,36 @@ public class Comment implements Serializable {
 	@Field(name = "avatarUrl", targetType = FieldType.STRING)
 	public String avatarUrl;
 
-	@Field(name = "commentContent", targetType = FieldType.STRING)
-	public String commentContent;
+	@Field(name = "content", targetType = FieldType.STRING)
+	public String content;
+
+	public Comment() {
+	}
+
+	public Comment(String commentId, String imgId, String userId, String username, String avatarUrl, String content) {
+		this.commentId = commentId;
+		this.imgId = imgId;
+		this.userId = userId;
+		this.username = username;
+		this.avatarUrl = avatarUrl;
+		this.content = content;
+	}
+
+	public String getCommentId() {
+		return this.commentId;
+	}
+
+	public void setCommentId(String commentId) {
+		this.commentId = commentId;
+	}
+
+	public String getImgId() {
+		return this.imgId;
+	}
+
+	public void setImgId(String imgId) {
+		this.imgId = imgId;
+	}
 
 	public String getUserId() {
 		return this.userId;
@@ -41,20 +72,12 @@ public class Comment implements Serializable {
 		this.userId = userId;
 	}
 
-	public String getPostId() {
-		return this.postId;
-	}
-
-	public void setPostId(String postId) {
-		this.postId = postId;
-	}
-
-	public String getPostAuthorName() {
+	public String getUsername() {
 		return this.username;
 	}
 
-	public void setPostAuthorName(String postAuthorName) {
-		this.username = postAuthorName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getAvatarUrl() {
@@ -65,12 +88,72 @@ public class Comment implements Serializable {
 		this.avatarUrl = avatarUrl;
 	}
 
-	public String getCommentContent() {
-		return this.commentContent;
+	public String getContent() {
+		return this.content;
 	}
 
-	public void setCommentContent(String commentContent) {
-		this.commentContent = commentContent;
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Comment commentId(String commentId) {
+		setCommentId(commentId);
+		return this;
+	}
+
+	public Comment imgId(String imgId) {
+		setImgId(imgId);
+		return this;
+	}
+
+	public Comment userId(String userId) {
+		setUserId(userId);
+		return this;
+	}
+
+	public Comment username(String username) {
+		setUsername(username);
+		return this;
+	}
+
+	public Comment avatarUrl(String avatarUrl) {
+		setAvatarUrl(avatarUrl);
+		return this;
+	}
+
+	public Comment content(String content) {
+		setContent(content);
+		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof Comment)) {
+			return false;
+		}
+		Comment comment = (Comment) o;
+		return Objects.equals(commentId, comment.commentId) && Objects.equals(imgId, comment.imgId)
+				&& Objects.equals(userId, comment.userId) && Objects.equals(username, comment.username)
+				&& Objects.equals(avatarUrl, comment.avatarUrl) && Objects.equals(content, comment.content);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(commentId, imgId, userId, username, avatarUrl, content);
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+				" commentId='" + getCommentId() + "'" +
+				", imgId='" + getImgId() + "'" +
+				", userId='" + getUserId() + "'" +
+				", username='" + getUsername() + "'" +
+				", avatarUrl='" + getAvatarUrl() + "'" +
+				", content='" + getContent() + "'" +
+				"}";
 	}
 
 }

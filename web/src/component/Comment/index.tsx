@@ -2,7 +2,6 @@ import FaceIcon from '@mui/icons-material/Face';
 import { Avatar } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { PixabayPhoto } from 'src/api';
 import loadComments from 'src/redux/action/comment';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
@@ -15,7 +14,6 @@ import {
   Comments,
   Container,
   Status,
-  UserName,
   Wrapper,
 } from './CommentComponents';
 
@@ -23,22 +21,15 @@ interface Props {
   postId: number;
 }
 
-interface UserDataResponse extends PixabayPhoto {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  profilePhotoUrl: string;
-  comments: PinterestComment[];
-}
-
 interface PinterestComment {
-  username: string;
+  userId: string;
   content: string;
-  timestamp: Date;
+  imgId: string;
+  avatarUrl: string;
 }
 
 function Comment({ postId }: Props) {
-  const [data, setData] = useState<UserDataResponse>();
+  const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
   const [allCommentOfPhoto, setAllCommentOfPhoto] = useState<
     PinterestComment[]
@@ -56,23 +47,25 @@ function Comment({ postId }: Props) {
       .catch((err: any) => console.log('ERR: ', err.message));
   }, [state]);
 
+  console.log(data);
+
   const handleSubmit = (
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
   ) => {
-    document.getElementById('comment')!.textContent = '';
     e.preventDefault();
-    setComment('');
-    let formData = new FormData();
-    formData.append('userID', data!._id);
-    formData.append('postID', postId.toString());
-    formData.append('ownerName', data!.firstName + ' ' + data!.lastName);
-    formData.append('linkAvatar', data!.profilePhotoUrl);
-    formData.append('content', comment);
+
+    console.log(comment);
+    const commentInfo: PinterestComment = {
+      content: comment,
+      userId: userCurrent.userId,
+      avatarUrl: userCurrent.avatarUrl,
+      imgId: postId.toString(),
+    };
 
     userService
-      .postComment(formData)
+      .postComment(commentInfo)
       .then(() => {
         dispatch(setMessage('Success!!.', 'success'));
         dispatch(loadComments(!state));
@@ -81,6 +74,7 @@ function Comment({ postId }: Props) {
         console.log('Err: ', err.message);
         dispatch(setMessage('Sorry, Failed.', 'error'));
       });
+    document.getElementById('comment')!.textContent = '';
   };
 
   const resetInput = () => {
@@ -92,11 +86,7 @@ function Comment({ postId }: Props) {
       <AddComment>
         <AvatarWrapper>
           {/* <img src={data!.profilePhotoUrl} alt="" /> */}
-          {data!?.profilePhotoUrl ? (
-            <Avatar style={{ height: 40, width: 40 }} />
-          ) : (
-            <FaceIcon />
-          )}
+          {data ? <Avatar style={{ height: 40, width: 40 }} /> : <FaceIcon />}
         </AvatarWrapper>
         <Comments style={{ flex: '1' }}>
           <form onSubmit={(e) => handleSubmit(e)}>
@@ -120,14 +110,17 @@ function Comment({ postId }: Props) {
       </AddComment>
 
       {allCommentOfPhoto &&
-        allCommentOfPhoto.map((cmt) => {
+        allCommentOfPhoto.map((cmt, index) => {
           return (
-            <Status>
+            <Status key={index}>
               {/* <AvatarWrapper>
                 <img src={cmt.} alt="avatar" />
               </AvatarWrapper> */}
               <Wrapper>
-                <UserName>{cmt.username}</UserName>
+                <Avatar
+                  style={{ marginRight: '.5rem' }}
+                  sx={{ width: '1.5em', height: '1.5em' }}
+                />
                 <Comments>{cmt.content}</Comments>
               </Wrapper>
             </Status>

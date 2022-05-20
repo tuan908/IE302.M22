@@ -16,7 +16,7 @@ const getAllFile = () =>
 
 const getAllCommentById = (fileId: string) =>
   requestService.getRequest({
-    baseURL: `${requestUrl.GET_COMMENT_LIST_BY_POST_ID_URL}/${fileId}`,
+    baseURL: `/api/image/${fileId}/comments/get`,
   });
 
 const updateFileById = (payload: any) =>

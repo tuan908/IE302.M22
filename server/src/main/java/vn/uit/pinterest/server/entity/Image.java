@@ -1,11 +1,12 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
 
 @Document(collection = "ImageCollection")
 public class Image implements Serializable {
@@ -17,36 +18,15 @@ public class Image implements Serializable {
 	@Id
 	public Integer imageId;
 
-	@Field(name = "ownerName", targetType = FieldType.STRING)
-	public String ownerName;
-
-	@Field(name = "imageLink", targetType = FieldType.STRING)
-	public String imageLink;
-
-	@Field(name = "imageOriginalName", targetType = FieldType.STRING)
-	public String imageOriginalName;
-
-	@Field(name = "nameOfAuthor", targetType = FieldType.STRING)
-	public String nameOfAuthor;
-
-	@Field(name = "views", targetType = FieldType.INT32)
-	public Long views;
-
-	@Field(name = "downloads", targetType = FieldType.INT32)
-	public Long downloads;
+	@Field(name = "comments")
+	public List<Comment> comments;
 
 	public Image() {
 	}
 
-	public Image(Integer imageId, String ownerName, String imageLink, String imageOriginalName, String nameOfAuthor,
-			Long views, Long downloads) {
+	public Image(Integer imageId, List<Comment> comments) {
 		this.imageId = imageId;
-		this.ownerName = ownerName;
-		this.imageLink = imageLink;
-		this.imageOriginalName = imageOriginalName;
-		this.nameOfAuthor = nameOfAuthor;
-		this.views = views;
-		this.downloads = downloads;
+		this.comments = comments;
 	}
 
 	public Integer getImageId() {
@@ -57,52 +37,46 @@ public class Image implements Serializable {
 		this.imageId = imageId;
 	}
 
-	public String getOwnerName() {
-		return this.ownerName;
+	public List<Comment> getComments() {
+		return this.comments;
 	}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
-	public String getImageLink() {
-		return this.imageLink;
+	public Image imageId(Integer imageId) {
+		setImageId(imageId);
+		return this;
 	}
 
-	public void setImageLink(String imageLink) {
-		this.imageLink = imageLink;
+	public Image comments(List<Comment> comments) {
+		setComments(comments);
+		return this;
 	}
 
-	public String getImageOriginalName() {
-		return this.imageOriginalName;
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof Image)) {
+			return false;
+		}
+		Image image = (Image) o;
+		return Objects.equals(imageId, image.imageId) && Objects.equals(comments, image.comments);
 	}
 
-	public void setImageOriginalName(String imageOriginalName) {
-		this.imageOriginalName = imageOriginalName;
+	@Override
+	public int hashCode() {
+		return Objects.hash(imageId, comments);
 	}
 
-	public String getNameOfAuthor() {
-		return this.nameOfAuthor;
-	}
-
-	public void setNameOfAuthor(String nameOfAuthor) {
-		this.nameOfAuthor = nameOfAuthor;
-	}
-
-	public Long getViews() {
-		return this.views;
-	}
-
-	public void setViews(Long views) {
-		this.views = views;
-	}
-
-	public Long getDownloads() {
-		return this.downloads;
-	}
-
-	public void setDownloads(Long downloads) {
-		this.downloads = downloads;
+	@Override
+	public String toString() {
+		return "{" +
+				" imageId='" + getImageId() + "'" +
+				", comments='" + getComments() + "'" +
+				"}";
 	}
 
 }

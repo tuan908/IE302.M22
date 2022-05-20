@@ -29,7 +29,7 @@ interface GetRequestProps extends RequestProps {
 }
 
 const postRequest = async ({ data, baseURL }: RequestProps) => {
-  const response = await axiosPost(baseURL as string, data);
+  const response = await axiosPost(baseURL!, data);
   try {
     return response;
   } catch (error: any) {
