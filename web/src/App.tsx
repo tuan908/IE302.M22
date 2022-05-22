@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
 import { privatePages } from './common/page';
 import PinterestNotFound from './pages/404';
 import Login from './pages/Login';
 
-const App = () => {
+function App() {
   const token = localStorage.getItem('token');
 
   return (
@@ -22,6 +21,6 @@ const App = () => {
       <Route path="*" element={<PinterestNotFound />} />
     </Routes>
   );
-};
+}
 
 export default App;

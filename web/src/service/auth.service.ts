@@ -22,12 +22,4 @@ const changeInfo = (userId: string, updatedInfo: any) =>
 const forgot = (payload: any) =>
   postRequest({ baseURL: FORGOT_PASSWORD_URL, data: payload });
 
-const AuthorizationUtils = {
-  forgot,
-  login,
-  register,
-  logout,
-  changeInfo,
-};
-
-export default AuthorizationUtils;
+export { forgot, login, register, logout, changeInfo };

@@ -11,8 +11,6 @@ import globalTheme from './style/globalTheme';
 const appContainer = document.getElementById('root')!;
 const appRootNode = createRoot(appContainer);
 
-console.log(store);
-
 appRootNode.render(
   <Provider store={store}>
     <BrowserRouter>

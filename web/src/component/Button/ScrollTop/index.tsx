@@ -1,6 +1,15 @@
-import { useEffect, useState } from 'react';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { IconButton } from '@mui/material';
+import { useEffect, useState } from 'react';
+
+// Set the top coordinate to 0
+// make scrolling smooth
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -12,15 +21,6 @@ const ScrollToTop = () => {
     } else {
       setIsVisible(false);
     }
-  };
-
-  // Set the top coordinate to 0
-  // make scrolling smooth
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   };
 
   useEffect(() => {

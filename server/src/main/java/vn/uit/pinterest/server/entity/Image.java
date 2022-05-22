@@ -1,6 +1,7 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +20,7 @@ public class Image implements Serializable {
 	public Integer imageId;
 
 	@Field(name = "comments")
-	public List<Comment> comments;
+	public List<Comment> comments = new ArrayList<>();
 
 	public Image() {
 	}

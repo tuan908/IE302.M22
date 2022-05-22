@@ -1,6 +1,6 @@
 import FaceIcon from '@mui/icons-material/Face';
+import Send from '@mui/icons-material/Send';
 import { Avatar } from '@mui/material';
-import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import loadComments from 'src/redux/action/comment';
 import setMessage from 'src/redux/action/message';
@@ -10,7 +10,6 @@ import userService from 'src/service/user.services';
 import {
   AddComment,
   AvatarWrapper,
-  CommentButton,
   Comments,
   Container,
   Status,
@@ -31,32 +30,37 @@ interface PinterestComment {
 function Comment({ postId }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
-  const [allCommentOfPhoto, setAllCommentOfPhoto] = useState<
-    PinterestComment[]
-  >([]);
+  const [comments, setComments] = useState<PinterestComment[]>([]);
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
   //
   const state = usePinterestSelector((state) => state.fileReducer.isLoad);
   const dispatch = usePinterestDispatch();
 
+  async function getAllCommentByImgId(postId: string) {
+    try {
+      const raw = await fileService.getAllCommentById(postId);
+      setComments(raw.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   useEffect(() => {
     setData(userCurrent);
-    fileService
-      .getAllCommentById(postId.toString())
-      .then((res: AxiosResponse<any, any>) => setAllCommentOfPhoto(res.data))
-      .catch((err: any) => console.log('ERR: ', err.message));
+    getAllCommentByImgId(postId.toString());
   }, [state]);
 
   console.log(data);
 
   const handleSubmit = (
     e:
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.MouseEvent<SVGSVGElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
 
     console.log(comment);
+    // console.log(allCommentOfPhoto);
     const commentInfo: PinterestComment = {
       content: comment,
       userId: userCurrent.userId,
@@ -99,33 +103,31 @@ function Comment({ postId }: Props) {
             />
           </form>
         </Comments>
-        <CommentButton
+        <Send
+          style={{ borderRadius: '50%' }}
           onClick={(e) => {
             handleSubmit(e);
             resetInput();
           }}
-        >
-          Comment
-        </CommentButton>
+        />
       </AddComment>
 
-      {allCommentOfPhoto &&
-        allCommentOfPhoto.map((cmt, index) => {
-          return (
-            <Status key={index}>
-              {/* <AvatarWrapper>
-                <img src={cmt.} alt="avatar" />
-              </AvatarWrapper> */}
-              <Wrapper>
-                <Avatar
-                  style={{ marginRight: '.5rem' }}
-                  sx={{ width: '1.5em', height: '1.5em' }}
-                />
-                <Comments>{cmt.content}</Comments>
-              </Wrapper>
-            </Status>
-          );
-        })}
+      {comments!?.map((cmt, index) => {
+        return (
+          <Status key={index}>
+            <AvatarWrapper>
+              {/* <img src={cmt.} alt="avatar" /> */}
+            </AvatarWrapper>
+            <Wrapper>
+              <Avatar
+                style={{ marginRight: '1rem' }}
+                sx={{ width: '2em', height: '2em' }}
+              />
+              <Comments>{cmt.content}</Comments>
+            </Wrapper>
+          </Status>
+        );
+      })}
     </Container>
   );
 }

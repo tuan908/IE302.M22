@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   height: 80px;
@@ -10,7 +10,15 @@ const Wrapper = styled.div`
   position: fixed;
   z-index: 997;
   width: 100%;
+  margin: 0 auto;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 20px 0px;
+`;
+
+const Wrapper = styled.div`
+  width: 80%;
+  margin: auto;
+
+  display: flex;
 `;
 
 const LogoWrapper = styled.div`
@@ -49,36 +57,36 @@ const HomePageButton = styled(Button)`
 
 const SearchWrapper = styled.div`
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SearchBarWrapper = styled.div`
-  background-color: #efefef;
   display: flex;
-  height: 40px;
-  width: 100%;
+  background-color: #efefef;
+  height: 3rem;
+  width: 90%;
   border-radius: 50px;
   border: none;
-  padding-left: 10px;
+  outline: none;
+  position: relative;
 
-  form {
-    display: flex;
-    flex: 1;
-  }
-
-  form > input {
-    background-color: transparent;
+  input {
+    background-color: #efefef;
     border: none;
+    outline: none;
     width: 100%;
     margin-left: 5px;
-    font-size: 16px;
-  }
-
-  form > button {
-    display: none;
+    font-size: 0.75rem;
+    padding-left: 3rem;
+    border-radius: 50px;
   }
 
   input:focus {
     outline: none;
+    border: none;
+    background-color: #efefef;
   }
 `;
 
@@ -90,6 +98,7 @@ export {
   HomePageButton,
   Button,
   LogoWrapper,
-  Wrapper,
+  Container,
   SearchBarWrapper,
+  Wrapper,
 };

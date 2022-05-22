@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const { div } = styled;
 
-const Wrapper = div`
+export const Wrapper = div`
   width: 100%;
   height: 100%;
 
@@ -25,7 +25,7 @@ const CreatePostWrapper = div`
   border-radius: 50%;
 `;
 
-const ScrollTopWrapper = div`
+export const ScrollTopWrapper = div`
   position: -webkit-sticky;
   position: fixed;
   bottom: 2%;

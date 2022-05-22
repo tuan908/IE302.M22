@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
-export const DefaultLayoutContainer = styled.div`
-  margin-top: 8rem;
+export const Container = styled.div`
+  max-width: 90%;
+
+  margin: 6rem auto 0;
 `;

@@ -8,7 +8,7 @@ interface UserInfoProps {
 
 function PinterestProfile() {
   const location = useLocation();
-
+  console.log(location.state);
   const { avatarUrl, email, username } = location.state as UserInfoProps;
 
   return (

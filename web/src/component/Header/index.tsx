@@ -23,9 +23,11 @@ import {
   PixabayPhoto,
 } from 'src/api';
 import useDebounce from 'src/hooks/useDebounce';
+import { usePinterestSelector } from 'src/redux/hooks';
 import { sidePages } from '../../common/page';
-import AuthorizationServices from '../../service/auth.service';
+import { logout } from '../../service/auth.service';
 import {
+  Container,
   IconsWrapper,
   LogoWrapper,
   SearchBarWrapper,
@@ -33,21 +35,17 @@ import {
   Wrapper,
 } from './HeaderComponents';
 
-const { logout } = AuthorizationServices;
-
-const Header = () => {
+function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  // const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
   const [keyword, setKeyword] = useState<string>('');
   const [photoList, setPhotoList] = useState<PixabayPhoto[]>([]);
   const ref = useRef<HTMLDivElement>(null);
-  // const dispatch = useDispatch<Dispatch<any>>();
   const push = useNavigate();
-  const userId = localStorage.getItem('userId');
+  const user = usePinterestSelector((state) => state.userReducer.user);
+  console.log(user);
   const DELAY_TIME = 500; //ms
 
   const debouncedKeyword = useDebounce(keyword, DELAY_TIME);
-  console.log(debouncedKeyword);
 
   useEffect(() => {
     if (!keyword.trim()) {
@@ -64,25 +62,21 @@ const Header = () => {
     e
   ) => {
     e.preventDefault();
-    console.log(photoList);
-
     const sortedList = photoList.sort(() => 0.5 - Math.random());
+    push(`/search?q=${keyword}`, { state: sortedList });
     document.getElementById('search__input')!.textContent = '';
-    console.log(sortedList);
-
-    // dispatch(getPinDataFromApi(sortedRequestedPhotoList));
   };
 
-  const getNewPhotosFromApi = async () => {
+  async function getNewPhotosFromApi() {
+    const photos = await getStartPhotoList();
     try {
-      const photos = await getStartPhotoList();
       return photos;
     } catch (error: any) {
       console.error(error.message);
     } finally {
-      return 1;
+      return photos;
     }
-  };
+  }
 
   useEffect(() => {
     getNewPhotosFromApi();
@@ -105,95 +99,100 @@ const Header = () => {
       push(path);
     } else handleLogout();
   };
-  return (
-    <Wrapper>
-      <LogoWrapper>
-        <Link to="/home">
-          <PinterestIcon
-            className="pinterest-icon"
-            style={{ height: 50, width: 50 }}
-          />
-        </Link>
-      </LogoWrapper>
 
-      <SearchWrapper>
-        <SearchBarWrapper>
-          <IconButton onClick={handleSubmitSearchImage}>
-            <SearchIcon />
-          </IconButton>
-          <form>
+  return (
+    <Container>
+      <Wrapper>
+        <LogoWrapper>
+          <Link to="/home">
+            <PinterestIcon
+              className="pinterest-icon"
+              style={{ height: 50, width: 50 }}
+            />
+          </Link>
+        </LogoWrapper>
+        <SearchWrapper>
+          <SearchBarWrapper>
             <input
               type="text"
               onChange={(e) => setKeyword(e.currentTarget.value)}
-              id="search__input"
             />
-            <button type="submit" onClick={handleSubmitSearchImage} />
-          </form>
-        </SearchBarWrapper>
-      </SearchWrapper>
-      <IconsWrapper>
-        <IconButton>
-          <Tooltip title="Coming soon">
-            <TextsmsIcon style={{ height: 30, width: 30 }} />
-          </Tooltip>
-        </IconButton>
-        <IconButton>
-          <Tooltip title="Coming soon">
-            <NotificationsIcon style={{ height: 30, width: 30 }} />
-          </Tooltip>
-        </IconButton>
-        <IconButton onClick={() => push(`/user/${userId}`, { state: userId })}>
-          {!userId ? (
-            <FaceIcon />
-          ) : (
-            <Avatar
-              style={{ height: 40, width: 40 }}
-              // src={userProfile!.avatarUrl}
-            />
-          )}
-        </IconButton>
-        <IconButton onClick={toggleMenu}>
-          <div ref={ref}>
-            <KeyboardArrowIcon
-              className="header-user-profile"
-              style={{ height: 30, width: 30 }}
-            />
-          </div>
-        </IconButton>
-      </IconsWrapper>
-      <Popper
-        open={isMenuOpen}
-        transition
-        anchorEl={ref!.current}
-        disablePortal
-        className="popper"
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === 'bottom' ? 'center top' : 'center bottom',
-            }}
+            <IconButton onClick={handleSubmitSearchImage}>
+              <SearchIcon />
+            </IconButton>
+          </SearchBarWrapper>
+        </SearchWrapper>
+        <IconsWrapper>
+          <IconsWrapper>
+            <IconButton>
+              <Tooltip title="Coming soon">
+                <TextsmsIcon style={{ height: 30, width: 30 }} />
+              </Tooltip>
+            </IconButton>
+            <IconButton>
+              <Tooltip title="Coming soon">
+                <NotificationsIcon style={{ height: 30, width: 30 }} />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              onClick={() => push(`/user/${user.userId}`, { state: user })}
+            >
+              {!user.userId ? (
+                <FaceIcon />
+              ) : (
+                <Avatar
+                  style={{ height: 40, width: 40 }}
+                  // src={userProfile!.avatarUrl}
+                />
+              )}
+            </IconButton>
+            <IconButton onClick={toggleMenu}>
+              <div ref={ref}>
+                <KeyboardArrowIcon
+                  className="header-user-profile"
+                  style={{ height: 30, width: 30 }}
+                />
+              </div>
+            </IconButton>
+          </IconsWrapper>
+          <Popper
+            open={isMenuOpen}
+            transition
+            anchorEl={ref!.current}
+            disablePortal
+            className="popper"
           >
-            <Paper>
-              <ClickAwayListener onClickAway={clickAwayHandler}>
-                <MenuList>
-                  {sidePages.map(({ path, pageName }, index) => {
-                    return (
-                      <MenuItem key={index} onClick={() => handleClose(path!)}>
-                        {pageName}
-                      </MenuItem>
-                    );
-                  })}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </Wrapper>
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === 'bottom' ? 'center top' : 'center bottom',
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={clickAwayHandler}>
+                    <MenuList>
+                      {sidePages.map(({ path, pageName }, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            onClick={() => handleClose(path!)}
+                          >
+                            {pageName}
+                          </MenuItem>
+                        );
+                      })}
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </IconsWrapper>
+      </Wrapper>
+    </Container>
   );
-};
+}
 
 export default Header;

@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'src/redux/action/user';
 import { usePinterestDispatch } from 'src/redux/hooks';
-import auth from 'src/service/auth.service';
+import { login } from 'src/service/auth.service';
 import './Login.scss';
 
 // interface LoginResponse extends AxiosResponse {
@@ -27,7 +27,7 @@ function Login() {
   const dispatch = usePinterestDispatch();
   const onSubmit: SubmitHandler<LoginFormValues> = async (loginFormValues) => {
     try {
-      const rawData = await auth.login(loginFormValues);
+      const rawData = await login(loginFormValues);
       const { data } = rawData;
       if (data) {
         dispatch(getCurrentUser(data));

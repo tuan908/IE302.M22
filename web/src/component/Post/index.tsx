@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material';
+import { Close, CloseOutlined } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -6,41 +6,49 @@ import setMessage from 'src/redux/action/message';
 import { loadPhotos } from 'src/redux/action/user';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import UserServices from 'src/service/user.services';
+import {
+  closeInputCss,
+  fileInputCss,
+  formCss,
+  hrCss,
+  imgPreviewCss,
+  inputImgPreviewCss,
+  inputTitleCss,
+  showInputCss,
+  showInputTextCss,
+} from './ElementCss';
 import './Post.scss';
 import { ContentContainer, FormWrapper, ImgWrapper } from './PostComponents';
 
-interface IPostProps {
+interface PostProps {
   isPostOpen: boolean;
   closePost: () => void;
 }
 
-interface IPostFormValues {
+interface PostForm {
   file: File;
   text: string;
 }
 
-const Post: FC<IPostProps> = ({ isPostOpen, closePost }) => {
+const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
   const [file, setFile] = useState<File | undefined>();
-  const [imagePreviewUrl, setImg] = useState<string | ArrayBuffer>();
-  const { register, handleSubmit } = useForm<IPostFormValues>();
+  const [imgPreviewUrl, setImg] = useState<string | ArrayBuffer>();
+  const { register, handleSubmit } = useForm<PostForm>();
   const dispatch = usePinterestDispatch();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-
+    const inputImg = e.target.files![0];
     let reader = new FileReader();
-
     reader.onloadend = () => {
-      setFile(e.currentTarget.files![0]);
+      setFile(inputImg);
       setImg(reader!.result!);
     };
-
-    setFile(e.currentTarget.files![0]);
-    reader.readAsDataURL(e.currentTarget.files![0]);
+    setFile(inputImg);
+    reader.readAsDataURL(inputImg);
   };
   const userInfo = usePinterestSelector((state) => state.userReducer.user);
 
-  //Khi user thêm ảnh hoặc xóa ảnh thì sẽ thay đổi biến này dê load lại hình ảnh
   const isLoad = usePinterestSelector((state) => state.userReducer.isLoad);
 
   const onSubmit = (data: any) => {
@@ -66,78 +74,31 @@ const Post: FC<IPostProps> = ({ isPostOpen, closePost }) => {
       });
   };
 
-  let $imagePreview = imagePreviewUrl ? (
-    <div
-      className="imgPreview"
-      style={{
-        border: '1px solid black',
-        borderRadius: '20px',
-        position: 'relative',
-      }}
-    >
+  let $imagePreview = imgPreviewUrl ? (
+    <div className="imgPreview" style={imgPreviewCss}>
+      <CloseOutlined style={closeInputCss} onClick={() => setImg('')} />
       <img
-        src={imagePreviewUrl! as string}
+        src={imgPreviewUrl! as string}
         alt="Preview"
-        style={{
-          borderRadius: '20px',
-          position: 'absolute',
-          left: 0,
-          objectFit: 'cover',
-        }}
-      />
-      <input
-        id="file-input"
-        type="file"
-        accept="video/*, image/*"
-        aria-hidden="true"
-        style={{
-          cursor: 'pointer',
-          width: '100%',
-          height: '100%',
-          opacity: '0',
-          zIndex: '999',
-          position: 'absolute',
-          left: 0,
-        }}
-        {...register('file')}
-        onChange={(e) => handleImageChange(e)}
+        style={inputImgPreviewCss}
       />
     </div>
   ) : (
     ''
   );
 
-  let $showInput = imagePreviewUrl ? (
+  let $showInput = imgPreviewUrl ? (
     ''
   ) : (
-    <div
-      className="input"
-      style={{
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: '1px solid black',
-        borderRadius: '20px',
-      }}
-    >
-      <p style={{ position: 'absolute', textAlign: 'center', width: '100%' }}>
-        Drag and drop or click here to upload{' '}
-      </p>
+    <div className="input" style={showInputCss}>
+      <p style={showInputTextCss}>Drag and drop or click here to upload:</p>
 
       <input
         id="file-input"
         type="file"
         accept="image/bmp,image/gif,image/jpeg,image/png,image/tiff,image/webp"
         aria-hidden="true"
-        style={{
-          cursor: 'pointer',
-          width: '100%',
-          height: '100%',
-          opacity: '0',
-        }}
+        style={fileInputCss}
         {...register('file')}
         onChange={(e) => handleImageChange(e)}
       />
@@ -146,16 +107,7 @@ const Post: FC<IPostProps> = ({ isPostOpen, closePost }) => {
 
   return isPostOpen ? (
     <div className="overlay">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} style={formCss}>
         <div className="wrapper">
           <div className="postImg-form">
             <div className="title" style={{ width: '100%', height: '30px' }}>
@@ -177,35 +129,16 @@ const Post: FC<IPostProps> = ({ isPostOpen, closePost }) => {
                 <input
                   type="text"
                   placeholder="Create a title"
-                  style={{
-                    border: 'none',
-                    height: '40px',
-                    fontSize: '24px',
-                    outline: 'none',
-                    width: '100%',
-                    paddingLeft: '10px',
-                  }}
+                  style={inputTitleCss}
                 />
-                <hr
-                  style={{
-                    opacity: '0.7',
-                    width: ' 100%',
-                    margin: '0 auto',
-                  }}
-                />
+                <hr style={hrCss} />
 
                 <textarea
                   {...register('text')}
                   placeholder="What's in your mind?"
                 />
 
-                <hr
-                  style={{
-                    opacity: '0.7',
-                    width: ' 100%',
-                    margin: '0 auto',
-                  }}
-                />
+                <hr style={hrCss} />
 
                 <input className="submit-button" type="submit" value="post" />
               </FormWrapper>

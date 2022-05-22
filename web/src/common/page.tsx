@@ -3,6 +3,7 @@ import HeaderLessLayout from 'src/component/Layout/HeaderLessLayout';
 import Detail from 'src/pages/Detail';
 import Home from 'src/pages/Home';
 import Profile from 'src/pages/Profile';
+import Search from 'src/pages/Search';
 
 const privatePages = [
   {
@@ -23,6 +24,11 @@ const privatePages = [
   {
     path: '/',
     element: <Home />,
+    layout: DefaultLayout,
+  },
+  {
+    path: '/search',
+    element: <Search />,
     layout: DefaultLayout,
   },
 ];

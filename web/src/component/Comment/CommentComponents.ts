@@ -6,10 +6,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  
   @media ${device.mobileS} {
   }
+  
   @media ${device.mobileM} {
   }
+  
   @media ${device.mobileL} {
     width: 90%;
     height: 100%;
@@ -20,13 +23,17 @@ const Container = styled.div`
     flex-direction: column;
     margin: 0 auto;
   }
+  
   @media ${device.tablet} {
   }
+  
   @media ${device.laptop} {
     width: 60%;
   }
+  
   @media ${device.laptopL} {
     width: 60%;
+    
     @media ${device.desktop} {
       width: 60%;
     }
@@ -80,17 +87,6 @@ const Comments = styled(UserName)`
   }
 `;
 
-const CommentButton = styled.button`
-  padding: 10px;
-  margin-left: 10px;
-  border-radius: 19px;
-  border: none;
-  background-color: #1877f2;
-  color: white;
-  font-weight: 300;
-  cursor: pointer;
-`;
-
 export {
   Container,
   Wrapper,
@@ -99,5 +95,4 @@ export {
   Comments,
   AddComment,
   Status,
-  CommentButton,
 };

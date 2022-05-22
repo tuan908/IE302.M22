@@ -1,19 +1,21 @@
 import { PropsWithChildren, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import Header from 'src/component/Header';
-import { DefaultLayoutContainer } from './DefaultLayoutComponents';
+import { Container } from './DefaultLayoutComponents';
 
-export default function DefaultLayout({
-  children,
-}: PropsWithChildren<{ children?: ReactNode; token: string | undefined }>) {
+type Props = PropsWithChildren<{
+  children?: ReactNode;
+  token: string | undefined;
+}>;
+
+export default function DefaultLayout({ children }: Props) {
   const token = localStorage.getItem('token');
-
   return (
     <>
       {token ? (
         <>
           <Header />
-          <DefaultLayoutContainer>{children}</DefaultLayoutContainer>
+          <Container>{children}</Container>
         </>
       ) : (
         <Navigate to="/login" />

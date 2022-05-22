@@ -2,6 +2,8 @@ package vn.uit.pinterest.server.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -42,22 +44,21 @@ public class CommentController {
 	@Transactional(rollbackFor = Exception.class)
 	@GetMapping("/api/image/{imgId}/comments/get")
 	public ResponseEntity<?> getCommentsByImgId(@PathVariable String imgId) {
-
 		Integer integerImgId = Integer.valueOf(imgId);
 		Query query = new Query(Criteria.where("_id").is(integerImgId));
 		Image img = mongoTemplate.findOne(query, Image.class);
-		if (img != null) {
-			List<Comment> comments = img.getComments();
-			if (comments.isEmpty()) {
-				new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
-				return ResponseEntity.status(404).body("Not found any comment");
-			} else {
-				new ResponseEntity<Comment>(HttpStatus.OK);
-				return ResponseEntity.status(200).body(comments);
-			}
+		Optional<List<Comment>> list = Optional.ofNullable(img.getComments());
+
+		List<Comment> comments = list.get();
+		Boolean isEmpty = comments.isEmpty();
+
+		if (isEmpty) {
+			MessageResponse msg = new MessageResponse("Not found any comment");
+			return ResponseEntity.status(404).body(msg);
+		} else {
+			return ResponseEntity.status(200).body(img.getComments());
 		}
-		new ResponseEntity<Comment>(HttpStatus.OK);
-		return ResponseEntity.status(200).body("Request sucessfully");
+
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -89,7 +90,7 @@ public class CommentController {
 			Image img = mongoTemplate.findOne(query, Image.class);
 
 			if (img != null) {
-				
+
 				List<Comment> comments = img.getComments();
 				comments.add(requestedCmt);
 				img.setComments(comments);
