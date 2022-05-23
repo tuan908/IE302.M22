@@ -7,20 +7,19 @@ import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.services';
 import userService from 'src/service/user.services';
+import CommentList from '../CommentList';
 import {
   AddComment,
   AvatarWrapper,
   Comments,
   Container,
-  Status,
-  Wrapper,
 } from './CommentComponents';
 
 interface Props {
   postId: number;
 }
 
-interface PinterestComment {
+export interface PinterestComment {
   userId: string;
   content: string;
   imgId: string;
@@ -31,10 +30,8 @@ function Comment({ postId }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<PinterestComment[]>([]);
-  const [isShow, setShow] = useState(false);
-  const [content, setContent] = useState<string>('');
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
-  //
+
   const state = usePinterestSelector((state) => state.fileReducer.isLoad);
   const dispatch = usePinterestDispatch();
 
@@ -88,20 +85,10 @@ function Comment({ postId }: Props) {
     document.getElementById('comment')!.textContent = '';
   };
 
-  function handleClick(value: string) {
-    setShow(!isShow);
-    setContent(value);
-  }
-
-  function handleEdit(value: string) {
-    setContent(value);
-  }
-
   return (
     <Container>
       <AddComment>
         <AvatarWrapper>
-          {/* <img src={data!.profilePhotoUrl} alt="" /> */}
           {data ? <Avatar style={{ height: 40, width: 40 }} /> : <FaceIcon />}
         </AvatarWrapper>
         <Comments style={{ flex: '1' }}>
@@ -124,39 +111,7 @@ function Comment({ postId }: Props) {
         />
       </AddComment>
 
-      {comments!?.map((cmt, index) => {
-        return (
-          <Status key={index}>
-            <AvatarWrapper>
-              {/* <img src={cmt.} alt="avatar" /> */}
-            </AvatarWrapper>
-            <Wrapper>
-              <Avatar
-                style={{ marginRight: '1rem' }}
-                sx={{ width: '2em', height: '2em' }}
-              />
-              <input
-                type="text"
-                value={content}
-                onChange={(e) => handleEdit(e.currentTarget.value)}
-                style={{
-                  display: isShow ? '' : 'none',
-                  border: 'none',
-                  outline: 'none',
-                  padding: '5px 10px',
-                }}
-                id="edit__cmt"
-              />
-              <Comments
-                onClick={() => handleClick(cmt.content)}
-                style={{ display: isShow ? 'none' : '' }}
-              >
-                {cmt.content}
-              </Comments>
-            </Wrapper>
-          </Status>
-        );
-      })}
+      <CommentList list={comments} />
     </Container>
   );
 }

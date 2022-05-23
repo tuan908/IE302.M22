@@ -2,25 +2,14 @@ package vn.uit.pinterest.server.dto;
 
 import java.util.Objects;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserDto {
-	@Getter
-	@Setter
+
 	public String avatarUrl;
-	@Getter
-	@Setter
+
 	public String email;
-	@Getter
-	@Setter
+
 	public String username;
-	@Getter
-	@Setter
+
 	public String userId;
 
 	public UserDto() {

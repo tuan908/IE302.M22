@@ -96,19 +96,19 @@ public class CommentController {
 				img.setComments(comments);
 				imgRepo.save(img);
 			} else {
-				Image image = new Image();
-				image.setImageId(integerImgId);
-				List<Comment> comments = image.getComments();
+				Image newImg = new Image();
+				newImg.setImageId(integerImgId);
+				List<Comment> comments = newImg.getComments();
 				comments = new ArrayList<>();
 				comments.add(requestedCmt);
-				image.setComments(comments);
-				imgRepo.save(image);
+				newImg.setComments(comments);
+				imgRepo.save(newImg);
 			}
 			new ResponseEntity<CommentDto>(HttpStatus.OK);
 			return ResponseEntity.status(200).body(comment);
 		} else {
 			new ResponseEntity<Comment>(HttpStatus.BAD_REQUEST);
-			return ResponseEntity.status(400).body("Bad request");
+			return ResponseEntity.status(400).body(new MessageResponse("Bad request"));
 		}
 	}
 
