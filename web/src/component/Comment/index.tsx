@@ -31,6 +31,8 @@ function Comment({ postId }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<PinterestComment[]>([]);
+  const [isShow, setShow] = useState(false);
+  const [content, setContent] = useState<string>('');
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
   //
   const state = usePinterestSelector((state) => state.fileReducer.isLoad);
@@ -85,6 +87,16 @@ function Comment({ postId }: Props) {
     setComment('');
     document.getElementById('comment')!.textContent = '';
   };
+
+  function handleClick(value: string) {
+    setShow(!isShow);
+    setContent(value);
+  }
+
+  function handleEdit(value: string) {
+    setContent(value);
+  }
+
   return (
     <Container>
       <AddComment>
@@ -123,7 +135,24 @@ function Comment({ postId }: Props) {
                 style={{ marginRight: '1rem' }}
                 sx={{ width: '2em', height: '2em' }}
               />
-              <Comments>{cmt.content}</Comments>
+              <input
+                type="text"
+                value={content}
+                onChange={(e) => handleEdit(e.currentTarget.value)}
+                style={{
+                  display: isShow ? '' : 'none',
+                  border: 'none',
+                  outline: 'none',
+                  padding: '5px 10px',
+                }}
+                id="edit__cmt"
+              />
+              <Comments
+                onClick={() => handleClick(cmt.content)}
+                style={{ display: isShow ? 'none' : '' }}
+              >
+                {cmt.content}
+              </Comments>
             </Wrapper>
           </Status>
         );

@@ -1,7 +1,6 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "ImageCollection")
 public class Image implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1915156976183491190L;
 
@@ -20,7 +19,7 @@ public class Image implements Serializable {
 	public Integer imageId;
 
 	@Field(name = "comments")
-	public List<Comment> comments = new ArrayList<>();
+	public List<Comment> comments;
 
 	public Image() {
 	}

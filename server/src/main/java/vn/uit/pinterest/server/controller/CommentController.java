@@ -44,8 +44,8 @@ public class CommentController {
 	@Transactional(rollbackFor = Exception.class)
 	@GetMapping("/api/image/{imgId}/comments/get")
 	public ResponseEntity<?> getCommentsByImgId(@PathVariable String imgId) {
-		Integer integerImgId = Integer.valueOf(imgId);
-		Query query = new Query(Criteria.where("_id").is(integerImgId));
+		Integer intImgId = Integer.valueOf(imgId);
+		Query query = new Query(Criteria.where("_id").is(intImgId));
 		Image img = mongoTemplate.findOne(query, Image.class);
 		Optional<List<Comment>> list = Optional.ofNullable(img.getComments());
 
@@ -90,8 +90,8 @@ public class CommentController {
 			Image img = mongoTemplate.findOne(query, Image.class);
 
 			if (img != null) {
-
-				List<Comment> comments = img.getComments();
+				List<Comment> comments = new ArrayList<>();
+				comments = img.getComments();
 				comments.add(requestedCmt);
 				img.setComments(comments);
 				imgRepo.save(img);
