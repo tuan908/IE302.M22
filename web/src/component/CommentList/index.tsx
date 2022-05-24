@@ -1,5 +1,5 @@
 import { CheckRounded } from '@mui/icons-material';
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 import { useState } from 'react';
 import { PinterestComment } from '../Comment';
 import { AvatarWrapper, Status } from '../Comment/CommentComponents';
@@ -12,25 +12,34 @@ interface Props {
 
 export default function CommentList({ list }: Props) {
   const [isShow, setShow] = useState(false);
-  const [content, setContent] = useState<string>('');
-
+  const [comments, setComments] = useState<PinterestComment[]>(list);
+  const [comment, setComment] = useState<PinterestComment>(
+    {} as PinterestComment
+  );
+  console.log(comments);
   function handleEdit(idx: number) {
-    setShow(!isShow);
+    setComments((prev) => [...prev, comment]);
   }
+
   return (
     <>
-      {list.map((item, index) => (
+      {comments.map((item, index) => (
         <Status key={index}>
           <AvatarWrapper>
             <Avatar style={avatarStyle} sx={avatarSx} />
           </AvatarWrapper>
 
-          <Wrapper>
+          <Wrapper onClick={() => handleEdit(index)}>
             <input
               id="edit__comment"
               type="text"
-              value={content}
-              onChange={(e) => setContent(e.currentTarget?.textContent)}
+              value={comment.content}
+              onChange={(e) =>
+                setComment({
+                  ...item,
+                  [item.content]: e.currentTarget.textContent,
+                })
+              }
               style={inputStyle(isShow)}
             />
             <CheckRounded
@@ -38,13 +47,15 @@ export default function CommentList({ list }: Props) {
                 display: isShow ? '' : 'none',
                 color: isShow ? 'blue' : '',
               }}
+              onClick={() => setShow(!isShow)}
             />
-            <p
-              style={{ display: isShow ? 'none' : '' }}
-              onClick={() => handleEdit(index)}
+            <h4 style={{ display: !isShow ? '' : 'none' }}>{item.content}</h4>
+            <Button
+              onClick={() => setShow(!isShow)}
+              style={{ display: !isShow ? '' : 'none' }}
             >
-              {item.content}
-            </p>
+              Edit
+            </Button>
           </Wrapper>
         </Status>
       ))}
