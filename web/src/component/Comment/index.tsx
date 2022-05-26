@@ -20,6 +20,7 @@ interface Props {
 }
 
 export interface PinterestComment {
+  commentId?: string;
   userId: string;
   content: string;
   imgId: string;
@@ -48,7 +49,7 @@ function Comment({ postId }: Props) {
     setData(userCurrent);
     getAllCommentByImgId(postId.toString());
   }, [state]);
-
+  console.log(comments);
   console.log(data);
 
   const handleSubmit = (
@@ -57,9 +58,6 @@ function Comment({ postId }: Props) {
       | React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-
-    console.log(comment);
-    // console.log(allCommentOfPhoto);
     const commentInfo: PinterestComment = {
       content: comment,
       userId: userCurrent.userId,
@@ -99,6 +97,7 @@ function Comment({ postId }: Props) {
               placeholder="Write your comment"
               style={{ width: '100%', flex: '1' }}
               onChange={(e) => setComment(e.currentTarget.value)}
+              autoFocus
             />
           </form>
         </Comments>

@@ -11,13 +11,18 @@ const avatarSx: Style = {
   height: '2rem',
 };
 
-function inputStyle(isShow: Boolean): Style {
+function isDisplay(isShow: boolean): Style {
   return {
     display: isShow ? '' : 'none',
+  };
+}
+function inputStyle(isShow: boolean): Style {
+  return {
+    ...isDisplay(isShow),
     border: 'none',
     outline: 'none',
     padding: '5px 10px',
   };
 }
 
-export { avatarStyle, avatarSx, inputStyle };
+export { avatarStyle, avatarSx, inputStyle, isDisplay };
