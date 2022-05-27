@@ -1,10 +1,13 @@
-import { Cancel, CheckRounded } from '@mui/icons-material';
-import { Avatar, Button } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Avatar } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { PinterestComment } from '../Comment';
 import { AvatarWrapper, Status } from '../Comment/CommentComponents';
+import EditComment from '../EditComment';
 import { Wrapper } from '../Header/HeaderComponents';
-import { avatarStyle, avatarSx, inputStyle, isDisplay } from './ElementCss';
+import { avatarStyle, avatarSx, ContentWrapper, isDisplay } from './ElementCss';
+
+import IconButton from '@mui/material/IconButton';
+import { Edit } from '@mui/icons-material';
 
 interface Props {
   list: PinterestComment[];
@@ -13,15 +16,15 @@ interface Props {
 export default function CommentList({ list }: Props) {
   const [isShow, setShow] = useState(false);
   const [comments, setComments] = useState<PinterestComment[]>(list ?? []);
-  const [comment, setComment] = useState<PinterestComment>();
 
   useEffect(() => {
     setComments(list);
   }, [list]);
 
-  function handleEdit(value: string, id?: string) {
+  function handleEditComment(value: string, id?: string) {
     const newComments = comments.map((comment) => {
       if (comment.commentId === id) {
+        setShow(true);
         comment.content = value;
       }
       return comment;
@@ -30,50 +33,35 @@ export default function CommentList({ list }: Props) {
     setComments(newComments);
   }
 
-  function setContent(item: PinterestComment) {
-    setComment({
-      ...item,
-    });
+  function enableEdit(cmtIdx: String) {
+    console.log(cmtIdx);
   }
 
   return (
     <>
-      {comments.map((item) => (
-        <Status key={item.commentId}>
+      {comments.map((item, index) => (
+        <Status key={index}>
           <AvatarWrapper>
             <Avatar style={avatarStyle} sx={avatarSx} />
           </AvatarWrapper>
 
           <Wrapper>
-            <input
-              type="text"
-              value={comment!?.content}
-              onChange={(e) => handleEdit(e.target.value, comment!?.commentId)}
-              style={inputStyle(isShow)}
-            />
-            <CheckRounded
-              style={{
-                display: isShow ? '' : 'none',
-                color: isShow ? 'blue' : '',
-              }}
-              onClick={() => {
-                setShow(!isShow);
-              }}
-            />
-            <Cancel
-              onClick={() => setShow(!isShow)}
-              style={isDisplay(isShow)}
-            />
+            <ContentWrapper>
+              <span style={isDisplay(!isShow)}>{item.content}</span>
+              <IconButton
+                children={<Edit />}
+                sx={{ marginLeft: '1rem', ...isDisplay(!isShow) }}
+                onClick={() => enableEdit(index.toString())}
+              />
+            </ContentWrapper>
 
-            <h4 style={isDisplay(!isShow)}>{item.content}</h4>
-            <Button
-              onClick={() => {
-                setShow(!isShow);
-              }}
-              style={isDisplay(!isShow)}
-            >
-              Edit
-            </Button>
+            <EditComment
+              isShow={isShow}
+              item={item}
+              handleEdit={handleEditComment}
+              setShow={setShow}
+              index={index.toString()}
+            />
           </Wrapper>
         </Status>
       ))}

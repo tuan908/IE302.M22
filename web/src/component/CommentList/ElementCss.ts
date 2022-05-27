@@ -1,4 +1,4 @@
-import { CSSProperties } from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
 type Style = CSSProperties | undefined;
 
@@ -19,10 +19,25 @@ function isDisplay(isShow: boolean): Style {
 function inputStyle(isShow: boolean): Style {
   return {
     ...isDisplay(isShow),
-    border: 'none',
     outline: 'none',
     padding: '5px 10px',
+    borderRadius: '5rem',
+    borderWidth: '.05rem',
+    borderColor: '#005bc5',
   };
 }
 
-export { avatarStyle, avatarSx, inputStyle, isDisplay };
+const btnCss = (isShow: boolean): Style => ({
+  display: isShow ? '' : 'none',
+  border: 'none',
+  outline: 'none',
+  backgroundColor: 'transparent',
+  cursor: 'pointer',
+  fontSize: '.75rem',
+  width: 'fit-content',
+  padding: '5px 10px',
+});
+
+const ContentWrapper = styled.div``;
+
+export { avatarStyle, avatarSx, inputStyle, isDisplay, btnCss, ContentWrapper };
