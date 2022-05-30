@@ -1,21 +1,22 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { PinterestComment } from '../Comment';
 import { EditCommentWrapper } from './Component';
-
 interface Props {
   item: PinterestComment;
-  handleEdit: (value: string, commentId: string) => void;
-  setShow: Dispatch<SetStateAction<boolean>>;
   index: number;
+  handleEdit: (id?: string) => void;
 }
 
-export default function EditComment({ item, handleEdit, index }: Props) {
+export default function EditComment({ item, handleEdit }: Props) {
+  const defaultContent = item.content;
+  const [content, setContent] = useState(defaultContent);
+
   return (
-    <EditCommentWrapper style={{ display: 'none' }} className="edt-cmt">
+    <EditCommentWrapper style={{ display: 'none' }}>
       <input
         type="text"
-        value={item.content}
-        onChange={(e) => handleEdit(e.target.value, index.toString())}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       />
       <div
         style={{
@@ -24,7 +25,7 @@ export default function EditComment({ item, handleEdit, index }: Props) {
           justifyContent: 'flex-end',
         }}
       >
-        <button>Edit</button>
+        <button className="execute__edit">Edit</button>
         <button>Cancel</button>
       </div>
     </EditCommentWrapper>

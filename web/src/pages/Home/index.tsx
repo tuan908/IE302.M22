@@ -19,8 +19,7 @@ const PinterestHome: FC<IHomeProps> = () => {
 
   const token = localStorage.getItem('token');
   const isValidToken = async () => {
-    const response = UserServices.checkValidJwtToken(token!);
-    console.log(response);
+    return UserServices.checkValidJwtToken(token!);
   };
 
   isValidToken();

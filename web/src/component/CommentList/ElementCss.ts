@@ -3,12 +3,9 @@ import styled, { CSSProperties } from 'styled-components';
 type Style = CSSProperties | undefined;
 
 const avatarStyle: Style = {
-  marginRight: '1rem',
-};
-
-const avatarSx: Style = {
   width: '2rem',
   height: '2rem',
+  marginRight: '1rem',
 };
 
 function isDisplay(isShow: boolean): Style {
@@ -40,4 +37,4 @@ const btnCss = (isShow: boolean): Style => ({
 
 const ContentWrapper = styled.div``;
 
-export { avatarStyle, avatarSx, inputStyle, isDisplay, btnCss, ContentWrapper };
+export { avatarStyle, inputStyle, isDisplay, btnCss, ContentWrapper };
