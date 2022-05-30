@@ -1,7 +1,7 @@
 import FaceIcon from '@mui/icons-material/Face';
 import Send from '@mui/icons-material/Send';
 import { Avatar } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import loadComments from 'src/redux/action/comment';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
@@ -25,6 +25,7 @@ export interface PinterestComment {
   content: string;
   imgId: string;
   avatarUrl: string;
+  isEdited?: boolean;
 }
 
 function Comment({ postId }: Props) {
@@ -32,7 +33,8 @@ function Comment({ postId }: Props) {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<PinterestComment[]>([]);
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  const commentInputRef = useRef<HTMLInputElement>(null);
   const state = usePinterestSelector((state) => state.fileReducer.isLoad);
   const dispatch = usePinterestDispatch();
 
@@ -49,8 +51,6 @@ function Comment({ postId }: Props) {
     setData(userCurrent);
     getAllCommentByImgId(postId.toString());
   }, [state]);
-  console.log(comments);
-  console.log(data);
 
   const handleSubmit = (
     e:
@@ -75,16 +75,18 @@ function Comment({ postId }: Props) {
         console.log('Err: ', err.message);
         dispatch(setMessage('Sorry, Failed.', 'error'));
       });
-    document.getElementById('comment')!.textContent = '';
+    resetInput();
   };
 
   const resetInput = () => {
     setComment('');
-    document.getElementById('comment')!.textContent = '';
+    if (commentInputRef.current) {
+      commentInputRef.current.value = '';
+    }
   };
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       <AddComment>
         <AvatarWrapper>
           {data ? <Avatar style={{ height: 40, width: 40 }} /> : <FaceIcon />}
@@ -92,7 +94,7 @@ function Comment({ postId }: Props) {
         <Comments style={{ flex: '1' }}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <input
-              id="comment"
+              ref={commentInputRef}
               type="text"
               placeholder="Write your comment"
               style={{ width: '100%', flex: '1' }}
@@ -105,7 +107,6 @@ function Comment({ postId }: Props) {
           style={{ borderRadius: '50%' }}
           onClick={(e) => {
             handleSubmit(e);
-            resetInput();
           }}
         />
       </AddComment>

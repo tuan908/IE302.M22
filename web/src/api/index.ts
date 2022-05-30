@@ -15,9 +15,6 @@ const { get } = axios;
 const pixabayApiUrl = process.env.REACT_APP_PIXABAY_API_URL;
 const pixabayApiKey = process.env.REACT_APP_PIXABAY_API_KEY;
 
-console.log(pixabayApiKey);
-console.log(pixabayApiUrl);
-
 export const getPhotoListByKeyword = async (keyword: string) => {
   try {
     const rawData = await get(pixabayApiUrl!, {
@@ -57,7 +54,6 @@ export async function getStartPhotoList() {
         ...rest,
       })
     );
-    console.log(data);
     return data;
   }
   return data;

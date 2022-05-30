@@ -42,7 +42,6 @@ function Header() {
   const ref = useRef<HTMLDivElement>(null);
   const push = useNavigate();
   const user = usePinterestSelector((state) => state.userReducer.user);
-  console.log(user);
   const DELAY_TIME = 500; //ms
 
   const debouncedKeyword = useDebounce(keyword, DELAY_TIME);
@@ -52,8 +51,6 @@ function Header() {
       return;
     }
     getPhotoListByKeyword(debouncedKeyword).then((data) => {
-      console.log(data);
-
       setPhotoList(data);
     });
   }, [debouncedKeyword]);

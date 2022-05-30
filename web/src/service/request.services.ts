@@ -71,7 +71,6 @@ const refreshTokenIfExpired = async (payload: any) => {
 const requestHandler = async (request: AxiosRequestConfig<any>) => {
   const userInfoFromLocalStorage = getUserInfo();
 
-  console.log(userInfoFromLocalStorage);
   const { expiredTime, refreshToken, token } = userInfoFromLocalStorage;
   const TIME = new Date().getTime() / 1000;
   const TIME_REFRESH_TOKEN = 300; // seconds

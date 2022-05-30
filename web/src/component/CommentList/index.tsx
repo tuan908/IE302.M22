@@ -1,13 +1,12 @@
+import { Edit } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { useEffect, useState } from 'react';
 import { PinterestComment } from '../Comment';
 import { AvatarWrapper, Status } from '../Comment/CommentComponents';
 import EditComment from '../EditComment';
 import { Wrapper } from '../Header/HeaderComponents';
 import { avatarStyle, avatarSx, ContentWrapper, isDisplay } from './ElementCss';
-
-import IconButton from '@mui/material/IconButton';
-import { Edit } from '@mui/icons-material';
 
 interface Props {
   list: PinterestComment[];
@@ -16,27 +15,16 @@ interface Props {
 export default function CommentList({ list }: Props) {
   const [isShow, setShow] = useState(false);
   const [comments, setComments] = useState<PinterestComment[]>(list ?? []);
-
   useEffect(() => {
     setComments(list);
   }, [list]);
 
   function handleEditComment(value: string, id?: string) {
-    const newComments = comments.map((comment) => {
-      if (comment.commentId === id) {
-        setShow(true);
-        comment.content = value;
-      }
-      return comment;
-    });
-
+    const newComments = [...comments];
+    newComments[id!].content = value;
+    newComments[id!].isEdited = true;
     setComments(newComments);
   }
-
-  function enableEdit(cmtIdx: String) {
-    console.log(cmtIdx);
-  }
-
   return (
     <>
       {comments.map((item, index) => (
@@ -51,16 +39,14 @@ export default function CommentList({ list }: Props) {
               <IconButton
                 children={<Edit />}
                 sx={{ marginLeft: '1rem', ...isDisplay(!isShow) }}
-                onClick={() => enableEdit(index.toString())}
               />
             </ContentWrapper>
 
             <EditComment
-              isShow={isShow}
               item={item}
               handleEdit={handleEditComment}
               setShow={setShow}
-              index={index.toString()}
+              index={index}
             />
           </Wrapper>
         </Status>

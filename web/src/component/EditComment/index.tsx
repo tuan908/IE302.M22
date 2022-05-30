@@ -1,37 +1,21 @@
 import { Dispatch, SetStateAction } from 'react';
 import { PinterestComment } from '../Comment';
-import { btnCss, inputStyle } from '../CommentList/ElementCss';
 import { EditCommentWrapper } from './Component';
 
 interface Props {
-  isShow: boolean;
   item: PinterestComment;
   handleEdit: (value: string, commentId: string) => void;
   setShow: Dispatch<SetStateAction<boolean>>;
-  index: string;
+  index: number;
 }
 
-type Ref = React.RefObject<HTMLDivElement>;
-
-export default function EditComment({
-  isShow,
-  item,
-  handleEdit,
-  setShow,
-  index,
-}: Props) {
-  const setContent = (item: PinterestComment) => item.content;
-
-  let editCommentRef: Ref;
-
-  console.log(editCommentRef!?.current?.click());
+export default function EditComment({ item, handleEdit, index }: Props) {
   return (
-    <EditCommentWrapper ref={editCommentRef!}>
+    <EditCommentWrapper style={{ display: 'none' }} className="edt-cmt">
       <input
         type="text"
-        value={setContent(item)}
-        onChange={(e) => handleEdit(e.target.value, item!?.commentId!)}
-        style={inputStyle(isShow)}
+        value={item.content}
+        onChange={(e) => handleEdit(e.target.value, index.toString())}
       />
       <div
         style={{
@@ -40,17 +24,8 @@ export default function EditComment({
           justifyContent: 'flex-end',
         }}
       >
-        <button onClick={() => setShow(isShow)} style={btnCss(isShow)}>
-          Edit
-        </button>
-        <button
-          onClick={() => {
-            setShow(!isShow);
-          }}
-          style={btnCss(isShow)}
-        >
-          Cancel
-        </button>
+        <button>Edit</button>
+        <button>Cancel</button>
       </div>
     </EditCommentWrapper>
   );
