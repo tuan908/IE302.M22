@@ -1,3 +1,3 @@
-export function Signout() {
+export function LogOut() {
   return <>Sign out</>;
 }

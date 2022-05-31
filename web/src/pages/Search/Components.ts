@@ -14,5 +14,3 @@ export const SearchWrapper = styled(Wrapper)`
   column-gap: 0.5rem;
   margin: auto;
 `;
-// export const Wrapper = div`
-// `;

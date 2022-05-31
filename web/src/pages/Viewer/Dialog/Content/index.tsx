@@ -16,17 +16,15 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loading from 'src/component/Loading';
 import Detail from 'src/pages/Detail';
 import { hideViewer } from 'src/redux/action/viewer';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import fileService from 'src/service/file.services';
+import fileService from 'src/service/file.service';
 import PinterestVideoViewer from '../../VideoViewer';
 import EmbeddedDialog from '../EmbeddedDialog';
 import useStyles from './DialogMuiStyledComponent';
-
-interface Props {}
 
 export interface PinterestFile {
   _id?: string;
@@ -38,7 +36,7 @@ export interface PinterestFile {
   size?: string;
 }
 
-const PinterestDialogContent: FC<Props> = ({}: Props) => {
+function PinterestDialogContent() {
   const dispatch = usePinterestDispatch();
   const viewerState = usePinterestSelector((state) => state.viewerReducer);
   const { classes } = useStyles();
@@ -47,7 +45,7 @@ const PinterestDialogContent: FC<Props> = ({}: Props) => {
   const [embedDialogOpened, setEmbedDialogOpened] = useState(false);
   const [isLoading] = useState(false);
   const [file, setFile] = useState<PinterestFile | undefined>();
-  const [_, setApiError] = useState();
+  const [, setApiError] = useState();
 
   useEffect(() => {
     if (viewerState.fileId) {
@@ -203,6 +201,6 @@ const PinterestDialogContent: FC<Props> = ({}: Props) => {
       </Paper>
     </>
   );
-};
+}
 
 export default PinterestDialogContent;

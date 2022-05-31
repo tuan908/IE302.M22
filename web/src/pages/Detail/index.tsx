@@ -10,7 +10,7 @@ import { PixabayPhoto } from 'src/api';
 import GoBack from 'src/component/Button/GoBack';
 import ScrollToTop from 'src/component/Button/ScrollTop';
 import Comment from 'src/component/Comment';
-import fileService from 'src/service/file.services';
+import fileService from 'src/service/file.service';
 import {
   DetailWrapper,
   ImageContainer,

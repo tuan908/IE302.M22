@@ -61,11 +61,9 @@ const handleRememberMeExpired = () => {
   return result;
 };
 
-const UserUtils = {
+export {
   getUserInfo,
   checkValidRememberMe,
   handleRememberMeExpired,
   saveUserInfoIntoStorage,
 };
-
-export default UserUtils;

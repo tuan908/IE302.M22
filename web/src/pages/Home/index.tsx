@@ -4,14 +4,14 @@ import { FC, useState } from 'react';
 import ScrollToTop from 'src/component/Button/ScrollTop';
 import PinterestContent from 'src/component/Content';
 import PinterestPost from 'src/component/Post';
-import UserServices from 'src/service/user.services';
+import { checkValidJwtToken } from 'src/service/user.service';
 import Components from './Components';
 
-interface IHomeProps {
+interface Props {
   redirectPath?: string;
 }
 
-const PinterestHome: FC<IHomeProps> = () => {
+const PinterestHome: FC<Props> = () => {
   const { Wrapper, CreatePostWrapper, ScrollTopWrapper } = Components;
 
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const PinterestHome: FC<IHomeProps> = () => {
 
   const token = localStorage.getItem('token');
   const isValidToken = async () => {
-    return UserServices.checkValidJwtToken(token!);
+    return checkValidJwtToken(token!);
   };
 
   isValidToken();

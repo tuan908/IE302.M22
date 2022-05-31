@@ -3,8 +3,6 @@ import { makeStyles } from 'tss-react/mui';
 const useStyles = makeStyles()(() => ({
   root: {
     background: 'linear-gradient(to bottom right, #fff2f2 32%, #ff2424 100%)',
-    //opacity: '0.9',
-    //color: theme.palette.common.black,
     color: 'black',
     height: '100%',
     position: 'absolute',

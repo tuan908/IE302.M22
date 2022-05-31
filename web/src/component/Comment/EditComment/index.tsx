@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { PinterestComment } from '../Comment';
+import { PinterestComment } from '..';
 import { EditCommentWrapper } from './Component';
+
 interface Props {
   item: PinterestComment;
   index: number;
@@ -12,7 +13,7 @@ export default function EditComment({ item, handleEdit }: Props) {
   const [content, setContent] = useState(defaultContent);
 
   return (
-    <EditCommentWrapper style={{ display: 'none' }}>
+    <EditCommentWrapper style={{ display: item.isEditing ? '' : 'none' }}>
       <input
         type="text"
         value={content}

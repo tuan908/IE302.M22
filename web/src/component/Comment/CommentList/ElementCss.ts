@@ -8,21 +8,18 @@ const avatarStyle: Style = {
   marginRight: '1rem',
 };
 
-function isDisplay(isShow: boolean): Style {
-  return {
-    display: isShow ? '' : 'none',
-  };
-}
-function inputStyle(isShow: boolean): Style {
-  return {
-    ...isDisplay(isShow),
-    outline: 'none',
-    padding: '5px 10px',
-    borderRadius: '5rem',
-    borderWidth: '.05rem',
-    borderColor: '#005bc5',
-  };
-}
+const isDisplay = (isShow: boolean): Style => ({
+  display: isShow ? '' : 'none',
+});
+
+const inputStyle = (isShow: boolean): Style => ({
+  ...isDisplay(isShow),
+  outline: 'none',
+  padding: '5px 10px',
+  borderRadius: '5rem',
+  borderWidth: '.05rem',
+  borderColor: '#005bc5',
+});
 
 const btnCss = (isShow: boolean): Style => ({
   display: isShow ? '' : 'none',

@@ -18,12 +18,12 @@ import {
   ImageInfo,
 } from './Components';
 
-interface IProps {
+interface Props {
   file?: PinterestFile;
   visible?: boolean;
 }
 
-const PinterestDetail: FC<IProps> = () => {
+const PinterestDetail: FC<Props> = () => {
   const { downloads, likes, tags, user, views, webformatURL } = useLocation()
     .state as PixabayPhoto;
   const navigate = useNavigate();

@@ -1,7 +1,6 @@
 import requestUrl from '../common/requestUrl';
-import RequestServices from './request.services';
+import { postRequest } from './request.service';
 
-const { postRequest } = RequestServices;
 const { AUTH_URL, REGISTER_URL, FORGOT_PASSWORD_URL, API_ENDPOINT } =
   requestUrl;
 

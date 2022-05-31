@@ -5,15 +5,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import loadComments from 'src/redux/action/comment';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import fileService from 'src/service/file.services';
-import userService from 'src/service/user.services';
-import CommentList from '../CommentList';
-import {
-  AddComment,
-  AvatarWrapper,
-  Comments,
-  Container,
-} from './CommentComponents';
+import fileService from 'src/service/file.service';
+import { postComment } from 'src/service/user.service';
+import CommentList from './CommentList';
+import { AddComment, AvatarWrapper, Comments, Container } from './Component';
 
 interface Props {
   postId: number;
@@ -25,7 +20,7 @@ export interface PinterestComment {
   content: string;
   imgId: string;
   avatarUrl: string;
-  isEdited?: boolean;
+  isEditing?: boolean;
 }
 
 function Comment({ postId }: Props) {
@@ -65,8 +60,7 @@ function Comment({ postId }: Props) {
       imgId: postId.toString(),
     };
 
-    userService
-      .postComment(commentInfo)
+    postComment(commentInfo)
       .then(() => {
         dispatch(setMessage('Success!!.', 'success'));
         dispatch(loadComments(!state));
@@ -105,9 +99,7 @@ function Comment({ postId }: Props) {
         </Comments>
         <Send
           style={{ borderRadius: '50%' }}
-          onClick={(e) => {
-            handleSubmit(e);
-          }}
+          onClick={(e) => handleSubmit(e)}
         />
       </AddComment>
 

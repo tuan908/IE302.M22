@@ -9,13 +9,6 @@ import { usePinterestDispatch } from 'src/redux/hooks';
 import { login } from 'src/service/auth.service';
 import './Login.scss';
 
-// interface LoginResponse extends AxiosResponse {
-//   token?: string;
-// }
-
-// interface LoginFormState extends FormState<any> {
-//   email?: string;
-// }
 type LoginFormValues = {
   username: string;
   password: string;

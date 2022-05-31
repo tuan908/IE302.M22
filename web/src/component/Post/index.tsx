@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import setMessage from 'src/redux/action/message';
 import { loadPhotos } from 'src/redux/action/user';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import UserServices from 'src/service/user.services';
+import { postWithTicket } from 'src/service/user.service';
 import {
   closeInputCss,
   fileInputCss,
@@ -63,7 +63,7 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
     formData.append('status', status);
     formData.append('linkFile', file!);
 
-    UserServices.postWithTicket(formData)
+    postWithTicket(formData)
       .then(() => {
         dispatch(setMessage('Uploaded!!.', 'success'));
         closePost();

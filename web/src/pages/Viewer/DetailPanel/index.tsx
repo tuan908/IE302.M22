@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import moment from 'moment';
 import { FC } from 'react';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import fileService from 'src/service/file.services';
+import fileService from 'src/service/file.service';
 import { getMess } from 'src/util/message';
-import useStyles from './DetailPanelMuiStyledComponent';
+import useStyles from './Components';
 
 interface Props {
   visible?: boolean;
@@ -57,7 +57,6 @@ const PinterestDetailPanel: FC<Props> = ({ visible, file }: Props) => {
       .updateFileById(payLoad)
       .then(() => dispatch(getMess('Uploaded', 'success')))
       .catch((err: any) => {
-        // dispatch(getMess("Oops, Something wrong", "error"));
         console.log('Err: ', err);
       });
   };
