@@ -2,7 +2,6 @@ import FaceIcon from '@mui/icons-material/Face';
 import Send from '@mui/icons-material/Send';
 import { Avatar } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import loadComments from 'src/redux/action/comment';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
@@ -26,17 +25,16 @@ export interface PinterestComment {
 function Comment({ postId }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState<PinterestComment[]>([]);
+  const [list, setList] = useState<PinterestComment[]>([]);
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
   const containerRef = useRef<HTMLDivElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
-  const state = usePinterestSelector((state) => state.fileReducer.isLoad);
   const dispatch = usePinterestDispatch();
 
   async function getAllCommentByImgId(postId: string) {
     try {
       const raw = await fileService.getAllCommentById(postId);
-      setComments(raw.data);
+      setList(raw.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -45,7 +43,14 @@ function Comment({ postId }: Props) {
   useEffect(() => {
     setData(userCurrent);
     getAllCommentByImgId(postId.toString());
-  }, [state]);
+  }, []);
+
+  const resetInput = () => {
+    setComment('');
+    if (commentInputRef.current) {
+      commentInputRef.current.value = '';
+    }
+  };
 
   const handleSubmit = (
     e:
@@ -62,8 +67,7 @@ function Comment({ postId }: Props) {
 
     postComment(commentInfo)
       .then(() => {
-        dispatch(setMessage('Success!!.', 'success'));
-        dispatch(loadComments(!state));
+        dispatch(setMessage('Success!!!', 'success'));
       })
       .catch((err: any) => {
         console.log('Err: ', err.message);
@@ -72,38 +76,27 @@ function Comment({ postId }: Props) {
     resetInput();
   };
 
-  const resetInput = () => {
-    setComment('');
-    if (commentInputRef.current) {
-      commentInputRef.current.value = '';
-    }
-  };
-
   return (
     <Container ref={containerRef}>
       <AddComment>
         <AvatarWrapper>
-          {data ? <Avatar style={{ height: 40, width: 40 }} /> : <FaceIcon />}
+          {data ? <Avatar style={{ height: 30, width: 30 }} /> : <FaceIcon />}
         </AvatarWrapper>
         <Comments style={{ flex: '1' }}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <input
               ref={commentInputRef}
               type="text"
-              placeholder="Write your comment"
-              style={{ width: '100%', flex: '1' }}
+              placeholder="Write your comment here..."
+              style={{ width: '100%', flex: '1', fontSize: '1rem' }}
               onChange={(e) => setComment(e.currentTarget.value)}
-              autoFocus
             />
           </form>
         </Comments>
-        <Send
-          style={{ borderRadius: '50%' }}
-          onClick={(e) => handleSubmit(e)}
-        />
+        <Send onClick={(e) => handleSubmit(e)} />
       </AddComment>
 
-      <CommentList list={comments} />
+      <CommentList list={list} />
     </Container>
   );
 }

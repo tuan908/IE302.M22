@@ -55,11 +55,12 @@ const reducer = (state: any, action: any) => {
 };
 
 export default function CommentList({ list }: Props) {
-  const initState = [...list];
+  const initState = list.length > 0 ? list.map((item) => item) : [];
   const [state, dispatch] = useReducer(reducer, { list: initState });
-  function handleEdit(id: string) {
-    dispatch({ type: ACTIONS.TOGGLE_ITEM, id });
-    dispatch({ type: ACTIONS.UPDATE_ITEM, id });
+
+  function handleEdit(commentIndex: string) {
+    dispatch({ type: ACTIONS.TOGGLE_ITEM, commentIndex });
+    dispatch({ type: ACTIONS.UPDATE_ITEM, commentIndex });
   }
 
   return (
