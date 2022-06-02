@@ -4,7 +4,6 @@ import { Avatar } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import fileService from 'src/service/file.service';
 import { postComment } from 'src/service/user.service';
 import CommentList from './CommentList';
 import { AddComment, AvatarWrapper, Comments, Container } from './Component';
@@ -25,24 +24,13 @@ export interface PinterestComment {
 function Comment({ postId }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
-  const [list, setList] = useState<PinterestComment[]>([]);
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
   const containerRef = useRef<HTMLDivElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
   const dispatch = usePinterestDispatch();
 
-  async function getAllCommentByImgId(postId: string) {
-    try {
-      const raw = await fileService.getAllCommentById(postId);
-      setList(raw.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
   useEffect(() => {
     setData(userCurrent);
-    getAllCommentByImgId(postId.toString());
   }, []);
 
   const resetInput = () => {
@@ -96,7 +84,7 @@ function Comment({ postId }: Props) {
         <Send onClick={(e) => handleSubmit(e)} />
       </AddComment>
 
-      <CommentList list={list} />
+      <CommentList postId={postId} />
     </Container>
   );
 }
