@@ -1,10 +1,12 @@
 import { AnyAction } from 'redux';
-import { LOAD_COMMENT } from 'src/redux/constants/comment';
+import { HOLD_COMMENT, LOAD_COMMENT } from 'src/redux/constants/comment';
 
-const defaultState = {};
+const initState = {
+  comment: '',
+};
 
 export default function CommentReducer(
-  state = defaultState,
+  state = initState,
   { type, payload }: AnyAction
 ) {
   switch (type) {
@@ -13,6 +15,12 @@ export default function CommentReducer(
         ...state,
         comments: payload,
       };
+    case HOLD_COMMENT: {
+      return {
+        ...state,
+        comment: payload,
+      };
+    }
     default:
       return state;
   }

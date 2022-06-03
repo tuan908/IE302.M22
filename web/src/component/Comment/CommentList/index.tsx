@@ -1,112 +1,38 @@
 import { Edit } from '@mui/icons-material';
-import { Avatar } from '@mui/material';
-import { Fragment, useReducer, useEffect, useCallback } from 'react';
-import { PinterestComment } from '..';
-import { AvatarWrapper, Status, Wrapper } from '../Component';
-import { avatarStyle, ContentWrapper } from './ElementCss';
+import { Avatar, Button } from '@mui/material';
+import { Fragment, useEffect, useReducer } from 'react';
+import { holdComment } from 'src/redux/action/comment';
+import { usePinterestDispatch } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
+import { PinterestComment } from '..';
+import { Wrapper } from '../../Header/HeaderComponents';
+import { AvatarWrapper, Status } from '../Component';
+import { ACTIONS } from './constants';
+import { avatarStyle, ContentWrapper } from './ElementCss';
+import { reducer } from './reducer';
 
-interface Props {
-  postId: string;
-}
-
-export enum ACTIONS {
-  UPDATE_ITEM = 'UPDATE_ITEM',
-  HIDE_ITEM = 'HIDE_ITEM',
-  CANCEL_EDIT = 'CANCEL_EDIT',
-  GET_ITEM = 'GET_ITEM',
-  SET_ITEM = 'SET_ITEM',
-}
-
-const initState = {
-  tempItem: '',
+const initState: { list: PinterestComment[] } = {
   list: [],
 };
 
-const reducer = (state: any, action: any) => {
-  console.log(action);
-  switch (action.type) {
-    case ACTIONS.UPDATE_ITEM: {
-      const newList = state.list.map((item: PinterestComment) => {
-        console.log(action);
-        const isEqual = item.commentId === action.payload;
-
-        if (isEqual) {
-          const updatedItem: PinterestComment = {
-            ...item,
-            content: state.tempItem,
-            isEditing: false,
-          };
-          return updatedItem;
-        }
-        return item;
-      });
-      return { ...state, list: newList };
-    }
-
-    case ACTIONS.HIDE_ITEM: {
-      const newList = state.list.map((item: PinterestComment) => {
-        if (item.commentId === action.commentId) {
-          return {
-            ...item,
-            isEditing: true,
-          };
-        }
-        return item;
-      });
-      return { ...state, list: newList };
-    }
-
-    case ACTIONS.CANCEL_EDIT: {
-      const newList = state.list.map((item: PinterestComment) => {
-        console.log(action);
-        const isEqual = item.commentId === action.commentId;
-        if (isEqual) {
-          const newItem = {
-            ...item,
-            isEditing: false,
-          };
-          return newItem;
-        } else {
-          return item;
-        }
-      });
-      return { ...state, list: newList };
-    }
-
-    case ACTIONS.GET_ITEM: {
-      return {
-        ...state,
-        list: action.list,
-      };
-    }
-
-    case ACTIONS.SET_ITEM: {
-      return {
-        ...state,
-        data: action.payload,
-      };
-    }
-
-    default:
-      return state;
-  }
-};
+interface Props {
+  postId: number;
+}
 
 export default function CommentList({ postId }: Props) {
   const [state, dispatch] = useReducer(reducer, initState);
-  const { tempItem, list } = state;
-  const handleCancel = useCallback((commentId: string) => {
-    dispatch({
-      type: ACTIONS.CANCEL_EDIT,
-      commentId,
-    });
-  }, []);
+  // const {comment} = usePinterestSelector((state) => state.commentReducer);
+
+  const pinterestDispatch = usePinterestDispatch();
 
   async function getAllCommentByImgId(postId: string) {
     try {
       const raw = await fileService.getAllCommentById(postId);
-      dispatch({ type: ACTIONS.GET_ITEM, list: raw.data });
+      const fetchDataAction = {
+        type: ACTIONS.FETCH_LIST,
+        payload: raw.data,
+      };
+      dispatch(fetchDataAction);
     } catch (error) {
       console.log(error.message);
     }
@@ -115,22 +41,37 @@ export default function CommentList({ postId }: Props) {
     getAllCommentByImgId(postId.toString());
   }, []);
 
-  function handleStartEdit(commentIndex: string) {
-    dispatch({ type: ACTIONS.HIDE_ITEM, commentId: commentIndex });
+  function onStartEdit(id: string) {
+    dispatch({
+      payload: { id },
+      type: ACTIONS.START_EDIT,
+    });
   }
 
-  function handleEdit(data: string, commentId: string) {
+  function onEdit(id: string, inputValue: string) {
     dispatch({
-      type: ACTIONS.SET_ITEM,
+      type: ACTIONS.EDIT,
       payload: {
-        data,
-        commentId,
+        commentId: id,
+        data: inputValue,
       },
     });
   }
 
-  function handleSubmit(commentId: string) {
-    dispatch({ type: ACTIONS.UPDATE_ITEM, payload: commentId });
+  function onCancelEdit({ commentId, content }: PinterestComment) {
+    dispatch({
+      type: ACTIONS.CANCEL_EDIT,
+      payload: {
+        commentId: commentId,
+      },
+    });
+
+    const holdCommentAction = holdComment(content);
+    pinterestDispatch(holdCommentAction);
+  }
+
+  function onDoneEdit(id: string) {
+    dispatch({ type: ACTIONS.EDIT, payload: { id } });
   }
 
   return (
@@ -144,17 +85,14 @@ export default function CommentList({ postId }: Props) {
           <Wrapper>
             <ContentWrapper style={{ display: item.isEditing ? 'none' : '' }}>
               <span>{item.content}</span>
-              <Edit onClick={() => handleStartEdit(item.commentId!)} />
+              <Edit onClick={() => onStartEdit(item.commentId!)} />
             </ContentWrapper>
 
             <div style={{ display: item.isEditing ? '' : 'none' }}>
-              <form action="">
-                <input
-                  type="text"
-                  value={tempItem}
-                  onChange={(e) => handleEdit(e.target.value, item.commentId!)}
-                />
-              </form>
+              <input
+                type="text"
+                onChange={(e) => onEdit(item.commentId!, e.target.value)}
+              />
               <div
                 style={{
                   display: 'flex',
@@ -162,15 +100,10 @@ export default function CommentList({ postId }: Props) {
                   justifyContent: 'flex-end',
                 }}
               >
-                <button
-                  className="execute__edit"
-                  onClick={() => handleSubmit(item.commentId!)}
-                >
+                <Button onClick={() => onDoneEdit(item.commentId!)}>
                   Edit
-                </button>
-                <button onClick={() => handleCancel(item.commentId!)}>
-                  Cancel
-                </button>
+                </Button>
+                <Button onClick={() => onCancelEdit(item)}>Cancel</Button>
               </div>
             </div>
           </Wrapper>
