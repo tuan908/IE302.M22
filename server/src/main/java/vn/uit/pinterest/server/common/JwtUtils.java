@@ -24,7 +24,7 @@ public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	private String jwtSecret;
-	private int refreshTokenTime;
+
 	private int jwtExpirationMs;
 
 	@Value("${tuanna.app.jwtSecret}")
@@ -39,7 +39,6 @@ public class JwtUtils {
 
 	@Value("${tuanna.app.refreshTokenTimeInMs}")
 	public void setRefreshTokenTime(int ms) {
-		this.refreshTokenTime = ms;
 	}
 
 	public String generateToken(Authentication authentication) {

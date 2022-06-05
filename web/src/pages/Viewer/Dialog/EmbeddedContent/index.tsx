@@ -1,16 +1,16 @@
 import {
-  Grid,
-  ButtonBase,
-  Paper,
-  Typography,
-  TextField,
   Button,
+  ButtonBase,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
 } from '@mui/material';
 import clsx from 'clsx';
 import { FC, useMemo, useState } from 'react';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch } from 'src/redux/hooks';
-import useStyles from './EmbeddedContentMuiStyledComponent';
+import useStyles from './Component';
 
 interface Props {
   item?: { _id: string };

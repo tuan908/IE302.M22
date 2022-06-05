@@ -6,6 +6,7 @@ import setMessage from 'src/redux/action/message';
 import { loadPhotos } from 'src/redux/action/user';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import { postWithTicket } from 'src/service/user.service';
+import { ContentContainer, FormWrapper, ImgWrapper } from './Component';
 import {
   closeInputCss,
   fileInputCss,
@@ -18,7 +19,6 @@ import {
   showInputTextCss,
 } from './ElementCss';
 import './Post.scss';
-import { ContentContainer, FormWrapper, ImgWrapper } from './PostComponents';
 
 interface PostProps {
   isPostOpen: boolean;

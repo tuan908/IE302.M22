@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { NotFoundWrapper } from './Components';
+import { NotFoundWrapper } from './Component';
 
 const PinterestNotFound = () => {
   return (

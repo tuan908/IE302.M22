@@ -5,7 +5,7 @@ import ScrollToTop from 'src/component/Button/ScrollTop';
 import PinterestContent from 'src/component/Content';
 import PinterestPost from 'src/component/Post';
 import { checkValidJwtToken } from 'src/service/user.service';
-import Components from './Components';
+import Components from './Component';
 
 interface Props {
   redirectPath?: string;

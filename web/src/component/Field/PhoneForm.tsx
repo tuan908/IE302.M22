@@ -9,12 +9,12 @@ import PhoneInputWithCountrySelect, {
   isValidPhoneNumber,
 } from 'react-phone-number-input';
 
-interface IProps extends FormControlProps {
+interface Props extends FormControlProps {
   label: string;
   helperText: string;
 }
 
-const PhoneForm = ({ disabled, label }: IProps) => {
+const PhoneForm = ({ disabled, label }: Props) => {
   const { handleSubmit, control } = useForm();
 
   const onSubmit = (data: any) => {

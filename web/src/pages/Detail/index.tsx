@@ -16,7 +16,7 @@ import {
   ImageContainer,
   ImageDetail,
   ImageInformation,
-} from './DetailComponents';
+} from './Component';
 
 interface ImageInfoProps extends PixabayPhoto {}
 

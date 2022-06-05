@@ -1,7 +1,7 @@
 import { PropsWithChildren, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import Header from 'src/component/Header';
-import { Container } from './DefaultLayoutComponents';
+import { Container } from './Component';
 
 type Props = PropsWithChildren<{
   children?: ReactNode;

@@ -3,7 +3,7 @@ import KeyboardArrowIcon from '@mui/icons-material/KeyboardArrowDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import SearchIcon from '@mui/icons-material/Search';
-import TextsmsIcon from '@mui/icons-material/Textsms';
+import TextSMSIcon from '@mui/icons-material/Textsms';
 import {
   Avatar,
   ClickAwayListener,
@@ -33,7 +33,7 @@ import {
   SearchBarWrapper,
   SearchWrapper,
   Wrapper,
-} from './HeaderComponents';
+} from './Component';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -108,6 +108,7 @@ function Header() {
             />
           </Link>
         </LogoWrapper>
+
         <SearchWrapper>
           <SearchBarWrapper>
             <input
@@ -119,18 +120,21 @@ function Header() {
             </IconButton>
           </SearchBarWrapper>
         </SearchWrapper>
+
         <IconsWrapper>
           <IconsWrapper>
             <IconButton>
               <Tooltip title="Coming soon">
-                <TextsmsIcon style={{ height: 30, width: 30 }} />
+                <TextSMSIcon style={{ height: 30, width: 30 }} />
               </Tooltip>
             </IconButton>
+
             <IconButton>
               <Tooltip title="Coming soon">
                 <NotificationsIcon style={{ height: 30, width: 30 }} />
               </Tooltip>
             </IconButton>
+
             <IconButton
               onClick={() => push(`/user/${user.userId}`, { state: user })}
             >
@@ -143,6 +147,7 @@ function Header() {
                 />
               )}
             </IconButton>
+
             <IconButton onClick={toggleMenu}>
               <div ref={ref}>
                 <KeyboardArrowIcon
@@ -152,6 +157,7 @@ function Header() {
               </div>
             </IconButton>
           </IconsWrapper>
+
           <Popper
             open={isMenuOpen}
             transition

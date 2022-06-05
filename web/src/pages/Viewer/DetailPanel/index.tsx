@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
 import { getMess } from 'src/util/message';
-import useStyles from './Components';
+import useStyles from './Component';
 
 interface Props {
   visible?: boolean;

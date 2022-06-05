@@ -1,12 +1,14 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 @Document(collection = "ImageCollection")
 public class Image implements Serializable {
@@ -16,24 +18,30 @@ public class Image implements Serializable {
 	private static final long serialVersionUID = 1915156976183491190L;
 
 	@Id
-	public Integer imageId;
+	public String imageId;
 
 	@Field(name = "comments")
 	public List<Comment> comments;
 
+	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
+	public Instant createdTime;
+
 	public Image() {
 	}
 
-	public Image(Integer imageId, List<Comment> comments) {
+	public Image(String imageId, List<Comment> comments) {
 		this.imageId = imageId;
 		this.comments = comments;
 	}
 
-	public Integer getImageId() {
+	public Image(String imgId) {
+	}
+
+	public String getImageId() {
 		return this.imageId;
 	}
 
-	public void setImageId(Integer imageId) {
+	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
 
@@ -45,7 +53,7 @@ public class Image implements Serializable {
 		this.comments = comments;
 	}
 
-	public Image imageId(Integer imageId) {
+	public Image imageId(String imageId) {
 		setImageId(imageId);
 		return this;
 	}

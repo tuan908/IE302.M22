@@ -1,15 +1,12 @@
 import { Alert, Snackbar } from '@mui/material';
 import { FC } from 'react';
 
-interface SnackbarProps {
+interface Props {
   type: 'error' | 'info' | 'success' | 'warning';
   message?: string;
 }
 
-const PinterestSnackbar: FC<SnackbarProps> = ({
-  message,
-  type,
-}: SnackbarProps) => {
+const PinterestSnackbar: FC<Props> = ({ message, type }: Props) => {
   return (
     <Snackbar
       anchorOrigin={{

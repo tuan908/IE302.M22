@@ -3,6 +3,7 @@ import { HOLD_COMMENT, LOAD_COMMENT } from 'src/redux/constants/comment';
 
 const initState = {
   comment: '',
+  comments: [],
 };
 
 export default function CommentReducer(

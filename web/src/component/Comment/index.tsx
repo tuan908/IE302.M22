@@ -12,7 +12,7 @@ interface Props {
   postId: number;
 }
 
-export interface PinterestComment {
+interface PinterestComment {
   commentId?: string;
   userId: string;
   content: string;
@@ -70,6 +70,7 @@ function Comment({ postId }: Props) {
         <AvatarWrapper>
           {data ? <Avatar style={{ height: 30, width: 30 }} /> : <FaceIcon />}
         </AvatarWrapper>
+
         <Comments style={{ flex: '1' }}>
           <form onSubmit={(e) => handleSubmit(e)}>
             <input
@@ -81,6 +82,7 @@ function Comment({ postId }: Props) {
             />
           </form>
         </Comments>
+
         <Send onClick={(e) => handleSubmit(e)} />
       </AddComment>
 
@@ -90,3 +92,4 @@ function Comment({ postId }: Props) {
 }
 
 export default Comment;
+export { PinterestComment };

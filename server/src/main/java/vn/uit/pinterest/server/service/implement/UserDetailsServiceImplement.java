@@ -20,12 +20,12 @@ public class UserDetailsServiceImplement implements UserDetailsService {
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		Query query = new Query(Criteria.where("userName").is(userName));
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Query query = new Query(Criteria.where("userName").is(username));
 		User user = mongoTemplate.findOne(query, User.class);
 				
 		if (user == null) {
-			String message = "Can't find username" + userName;
+			String message = "Can't find username" + username;
 			throw new UsernameNotFoundException(message);
 		}
 		return UserDetailsImplement.build(user);

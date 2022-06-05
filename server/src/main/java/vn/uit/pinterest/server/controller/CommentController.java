@@ -1,5 +1,6 @@
 package vn.uit.pinterest.server.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,37 +27,39 @@ import vn.uit.pinterest.server.dto.CommentDto;
 import vn.uit.pinterest.server.dto.MessageResponse;
 import vn.uit.pinterest.server.entity.Comment;
 import vn.uit.pinterest.server.entity.Image;
-import vn.uit.pinterest.server.repository.CommentRepo;
-import vn.uit.pinterest.server.repository.ImgRepo;
+import vn.uit.pinterest.server.repository.CommentRepository;
+import vn.uit.pinterest.server.repository.ImageRepository;
 
 @RestController
 public class CommentController {
 
 	@Autowired
-	CommentRepo repo;
+	CommentRepository commentRepository;
 
 	@Autowired
 	MongoTemplate mongoTemplate;
 
 	@Autowired
-	ImgRepo imgRepo;
+	ImageRepository imageRepository;
 
 	@Transactional(rollbackFor = Exception.class)
 	@GetMapping("/api/image/{imgId}/comments/get")
 	public ResponseEntity<?> getCommentsByImgId(@PathVariable String imgId) {
-		Integer intImgId = Integer.valueOf(imgId);
-		Query query = new Query(Criteria.where("_id").is(intImgId));
-		Image img = mongoTemplate.findOne(query, Image.class);
-		Optional<List<Comment>> list = Optional.ofNullable(img.getComments());
+		Optional<Image> image = imageRepository.findByImageId(imgId);
 
-		List<Comment> comments = list.get();
-		Boolean isEmpty = comments.isEmpty();
+		if (!image.isPresent()) {
+			Image newImage = new Image(imgId);
 
-		if (isEmpty) {
-			MessageResponse msg = new MessageResponse("Not found any comment");
-			return ResponseEntity.status(404).body(msg);
+			imageRepository.save(newImage);
+			new ResponseEntity<MessageResponse>(HttpStatus.OK);
+			List<Comment> comments = new ArrayList<>();
+
+			return ResponseEntity.ok().body(comments);
 		} else {
-			return ResponseEntity.status(200).body(img.getComments());
+			List<Comment> comments = commentRepository.findAllByImageId(imgId);
+			new ResponseEntity<MessageResponse>(HttpStatus.OK);
+
+			return ResponseEntity.ok().body(comments);
 		}
 
 	}
@@ -64,15 +67,17 @@ public class CommentController {
 	@Transactional(rollbackFor = Exception.class)
 	@RequestMapping("/api/comment/get/{id}")
 	public ResponseEntity<?> getCommentById(@PathVariable String id) {
-		Comment comment = mongoTemplate.findById(id, Comment.class);
-		if (comment != null) {
-			new ResponseEntity<Comment>(HttpStatus.OK);
-			return ResponseEntity.status(200).body(comment);
+		Comment comment = commentRepository.findOneById(id);
+		CommentDto response = new CommentDto();
 
-		} else {
-			new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
-			return ResponseEntity.status(404).body("Not found any comment");
-		}
+		response.setCommentId(comment.getCommentId());
+		response.setAvatarUrl(null);
+		response.setCommentTime(comment.getTime());
+		response.setContent(comment.getContent());
+		response.setImgId(comment.getImgId());
+
+		new ResponseEntity<Comment>(HttpStatus.OK);
+		return ResponseEntity.status(200).body(response);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -83,26 +88,27 @@ public class CommentController {
 			requestedCmt.setAvatarUrl(comment.getAvatarUrl());
 			requestedCmt.setContent(comment.getContent());
 			requestedCmt.setImgId(comment.getImgId());
-			repo.save(requestedCmt);
-			Integer imgId = Integer.valueOf(comment.getImgId());
-			Integer integerImgId = Integer.valueOf(imgId);
-			Query query = new Query(Criteria.where("_id").is(integerImgId));
-			Image img = mongoTemplate.findOne(query, Image.class);
+			requestedCmt.setTime(Instant.now());
+			commentRepository.save(requestedCmt);
+			String id = comment.getImgId();
 
-			if (img != null) {
+			Optional<Image> img = imageRepository.findByImageId(id);
+
+			if (img.isPresent()) {
+				Image image = img.get();
 				List<Comment> comments = new ArrayList<>();
-				comments = img.getComments();
+				comments = image.getComments();
 				comments.add(requestedCmt);
-				img.setComments(comments);
-				imgRepo.save(img);
+				image.setComments(comments);
+				imageRepository.save(image);
 			} else {
 				Image newImg = new Image();
-				newImg.setImageId(integerImgId);
+				newImg.setImageId(id);
 				List<Comment> comments = newImg.getComments();
 				comments = new ArrayList<>();
 				comments.add(requestedCmt);
 				newImg.setComments(comments);
-				imgRepo.save(newImg);
+				imageRepository.save(newImg);
 			}
 			new ResponseEntity<CommentDto>(HttpStatus.OK);
 			return ResponseEntity.status(200).body(comment);

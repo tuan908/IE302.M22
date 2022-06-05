@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, Fragment, ReactNode } from 'react';
 
 interface State {
   isError?: boolean;
@@ -14,20 +14,20 @@ class PinterestErrorBoundary extends Component<Props, State> {
     this.state = { isError: false };
   }
 
-  componentDidCatch(_: Error, __: ErrorInfo) {
-    console.error(`Uncaught error in component: ${_}, ${__}`);
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error(`Uncaught error in component: ${error}, ${errorInfo}`);
   }
 
   refreshPage() {
     window.location.reload();
   }
 
-  render(): ReactNode {
+  render() {
     const { isError } = this.state;
     if (isError) {
-      <h1>Sorry, there was an error</h1>;
+      return <h1>Sorry, there was an error</h1>;
     }
-    return this.props.children;
+    return <Fragment>{this.props.children}</Fragment>;
   }
 }
 

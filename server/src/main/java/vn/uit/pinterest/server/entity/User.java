@@ -1,6 +1,7 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
@@ -34,6 +35,9 @@ public class User implements Serializable {
 
 	@Field(name = "role", targetType = FieldType.STRING)
 	public Set<Role> roles;
+
+	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
+	public Instant createdTime;
 
 	public User(String username, String encryptedPassword) {
 		this.userName = username;

@@ -1,16 +1,19 @@
 package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 public class ResetToken implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5131456378781009812L;
 
@@ -24,6 +27,9 @@ public class ResetToken implements Serializable {
 	private User user;
 
 	private Date expiredDate;
+
+	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
+	public Instant createdTime;
 
 	public ResetToken() {
 	}

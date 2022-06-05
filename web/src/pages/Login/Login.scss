@@ -9,7 +9,9 @@
       margin: auto;
 
       .login__form {
+        display: flex;
         width: 390px;
+        flex-direction: column;
         padding: 40px 40px 10px 40px;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
         .error-text {
@@ -29,6 +31,7 @@
     font-size: 14px;
     color: #007bad;
     text-decoration: none;
+    margin-top: 0.75rem;
 
     p {
       display: inline-block;
@@ -39,7 +42,7 @@
   .register-link {
     font-size: 14px;
     display: flex;
-    margin-top: 10px;
+    margin-top: 1rem;
     text-align: center;
 
     a {

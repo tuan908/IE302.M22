@@ -47,17 +47,21 @@ function Login() {
               alignItems="center"
               component={Container}
             >
-              {/* <img src={logo} className="logo" alt=""></img> */}
-              <Typography variant="h5" gutterBottom>
-                Welcome Back!
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                ""
+              <Typography variant="h4" gutterBottom>
+                Login
               </Typography>
             </Grid>
-            <TextField helperText={''} label={''} {...register('username')} />
+            <TextField
+              {...register('username')}
+              sx={{ marginBottom: 1.25 }}
+              placeholder="Email or username"
+            />
 
-            <TextField helperText={''} label={''} {...register('password')} />
+            <TextField
+              {...register('password')}
+              type="password"
+              placeholder="Password"
+            />
             <Link className="forgot-password-link" to="/forgot-password">
               <p>Forgot password?</p>
             </Link>

@@ -1,16 +1,11 @@
 import Button, { ButtonProps } from '@mui/material/Button';
 
-interface IButtonMaterialProps extends ButtonProps {
+interface AppButtonProps extends ButtonProps {
   text?: string;
 }
 
-function ButtonMaterial({
-  text,
-  variant,
-  classes,
-  ...otherProps
-}: IButtonMaterialProps) {
+function AppButton({ text, ...otherProps }: AppButtonProps) {
   return <Button {...otherProps}>{text}</Button>;
 }
 
-export default ButtonMaterial;
+export default AppButton;

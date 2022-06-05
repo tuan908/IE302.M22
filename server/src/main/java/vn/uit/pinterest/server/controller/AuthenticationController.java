@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.uit.pinterest.server.common.IRole;
 import vn.uit.pinterest.server.common.JwtUtils;
+import vn.uit.pinterest.server.common.UserRole;
 import vn.uit.pinterest.server.dto.AuthResponse;
 import vn.uit.pinterest.server.dto.JwtResponse;
 import vn.uit.pinterest.server.dto.LoginRequest;
@@ -36,8 +36,8 @@ import vn.uit.pinterest.server.dto.RegisterRequest;
 import vn.uit.pinterest.server.entity.ResetToken;
 import vn.uit.pinterest.server.entity.Role;
 import vn.uit.pinterest.server.entity.User;
-import vn.uit.pinterest.server.repository.RoleRepo;
 import vn.uit.pinterest.server.repository.UserRepository;
+import vn.uit.pinterest.server.repository.UserRoleRepository;
 import vn.uit.pinterest.server.service.implement.UserDetailsImplement;
 import vn.uit.pinterest.server.service.implement.UserDetailsServiceImplement;
 import vn.uit.pinterest.server.service.implement.UserServiceImplement;
@@ -45,7 +45,7 @@ import vn.uit.pinterest.server.service.implement.UserServiceImplement;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
-public class AuthController {
+public class AuthenticationController {
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -53,7 +53,7 @@ public class AuthController {
 	UserRepository userRepository;
 
 	@Autowired
-	RoleRepo repo;
+	UserRoleRepository repo;
 
 	@Autowired
 	JwtUtils jwtUtils;
@@ -111,12 +111,12 @@ public class AuthController {
 			Set<Role> roles = new HashSet<Role>();
 
 			if (roleStr == null) {
-				Role userRole = repo.findByRoleName(IRole.ROLE_USER)
+				Role userRole = repo.findByRoleName(UserRole.ROLE_USER)
 						.orElseThrow(() -> new RuntimeException("Error: Role didn't found"));
 				roles.add(userRole);
 			} else {
 				roleStr.forEach(role -> {
-					Role adminRole = repo.findByRoleName(IRole.ROLE_ADMIN)
+					Role adminRole = repo.findByRoleName(UserRole.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role din't found"));
 					roles.add(adminRole);
 				});

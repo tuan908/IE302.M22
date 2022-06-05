@@ -79,6 +79,7 @@ const UserName = styled.h1`
 const Comments = styled(UserName)`
   font-size: 18px;
   font-weight: 300;
+
   input[type='text'] {
     padding: 10px;
     border-radius: 19px;

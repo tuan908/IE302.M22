@@ -1,15 +1,11 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import { PinWrapper } from './Components';
+import { PinWrapper } from './Component';
 
-interface IPinProps extends PixabayPhoto {}
+interface Props extends PixabayPhoto {}
 
-const Pin: FC<IPinProps> = ({
-  id,
-  webformatURL,
-  ...otherImageProps
-}: IPinProps) => {
+const Pin: FC<Props> = ({ id, webformatURL, ...otherImageProps }: Props) => {
   const navigate = useNavigate();
 
   const pinState = {

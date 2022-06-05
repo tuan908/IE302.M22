@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-interface IProps {
+interface Props {
   isAllowed: Boolean;
   children?: any;
   redirectPath?: string;
 }
 
-const ProtectedRoute: FC<IProps> = ({
+const ProtectedRoute: FC<Props> = ({
   isAllowed,
   children,
   redirectPath = '/login',

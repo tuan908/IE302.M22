@@ -16,7 +16,7 @@ import {
   ImageContainer,
   ImageDetail,
   ImageInfo,
-} from './Components';
+} from './Component';
 
 interface Props {
   file?: PinterestFile;

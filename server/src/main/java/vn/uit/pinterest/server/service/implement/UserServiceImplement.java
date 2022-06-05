@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 
 import vn.uit.pinterest.server.entity.ResetToken;
 import vn.uit.pinterest.server.entity.User;
-import vn.uit.pinterest.server.repository.ResetTokenRepo;
+import vn.uit.pinterest.server.repository.ResetTokenRepository;
 
 @Service
 public class UserServiceImplement {
 
 	@Autowired
-	ResetTokenRepo tokenRepo;
+	ResetTokenRepository tokenRepo;
 
 	public void createForgotPasswordToken(User user, String token) {
 		ResetToken resetToken = new ResetToken(user, token);

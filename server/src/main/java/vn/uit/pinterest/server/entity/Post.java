@@ -1,5 +1,7 @@
 package vn.uit.pinterest.server.entity;
 
+import java.time.Instant;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,6 +28,9 @@ public class Post {
 
     @Field(name = "image", targetType = FieldType.STRING)
     public Image image;
+
+    @Field(name = "created_time", targetType = FieldType.DATE_TIME)
+    public Instant createdTime;
 
     public Post() {
     }

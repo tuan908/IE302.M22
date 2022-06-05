@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { allowPositive } from 'src/util/form';
 import PhoneForm from './PhoneForm';
 
-interface IProps {
+interface Props {
   disabled?: boolean;
   required?: boolean;
   helperText: string;
@@ -46,7 +46,7 @@ export default function PinterestField({
   inputType,
   layout,
   ...rest
-}: IProps): ReactElement {
+}: Props): ReactElement {
   const { control } = useForm();
 
   if (inputType === 'phone') {

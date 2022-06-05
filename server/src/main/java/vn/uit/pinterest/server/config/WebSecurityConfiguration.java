@@ -22,11 +22,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	UserDetailsServiceImplement service;
 
 	@Autowired
-	private AuthEntryPointJwt auth;
+	private AuthenticationEntryPointJwt auth;
 
 	@Bean
-	public AuthTokenFilter authTokenFilter() {
-		return new AuthTokenFilter();
+	public AuthenticationTokenFilter authTokenFilter() {
+		return new AuthenticationTokenFilter();
 	}
 
 	@Bean
@@ -51,7 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		httpSecurity.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(auth).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/api/user/**").permitAll().anyRequest().authenticated();
-		
+
 		httpSecurity.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 }

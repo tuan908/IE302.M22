@@ -5,20 +5,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.bson.types.ObjectId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import vn.uit.pinterest.server.entity.User;
 
 public class UserDetailsImplement implements UserDetails {
 
 	private static final long serialVersionUID = 7442197009359142060L;
+
 	private String userId;
+
 	private String username;
+
 	@JsonIgnore
 	private String encryptedPassword;
 
