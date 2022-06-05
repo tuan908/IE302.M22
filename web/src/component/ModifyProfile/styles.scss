@@ -1,0 +1,20 @@
+.modifyProfile {
+    ul {
+        list-style-type: none;
+        padding: 0;
+        li {
+            cursor: pointer;
+            padding: 5px 5px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: beige;
+            }
+        }
+
+        .modifyProfile_nav_items {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+}

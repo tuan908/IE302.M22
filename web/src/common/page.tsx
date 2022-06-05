@@ -4,6 +4,7 @@ import Detail from 'src/pages/Detail';
 import Home from 'src/pages/Home';
 import Profile from 'src/pages/Profile';
 import Search from 'src/pages/Search';
+import ModifyProfile from 'src/component/ModifyProfile';
 
 const privatePages = [
   {
@@ -29,6 +30,11 @@ const privatePages = [
   {
     path: '/search',
     element: <Search />,
+    layout: DefaultLayout,
+  },
+  {
+    path: '/modify-profile',
+    element: <ModifyProfile/>,
     layout: DefaultLayout,
   },
 ];

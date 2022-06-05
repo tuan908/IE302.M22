@@ -2,7 +2,7 @@ import { Edit } from '@mui/icons-material';
 import { Avatar, Button } from '@mui/material';
 import { Fragment, useEffect, useReducer } from 'react';
 import { holdComment } from 'src/redux/action/comment';
-import { usePinterestDispatch } from 'src/redux/hooks';
+import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
 import { PinterestComment } from '..';
 import { Wrapper } from '../../Header/HeaderComponents';
@@ -21,7 +21,9 @@ interface Props {
 
 export default function CommentList({ postId }: Props) {
   const [state, dispatch] = useReducer(reducer, initState);
-  // const {comment} = usePinterestSelector((state) => state.commentReducer);
+  const {list} = state;
+  const {comment} = usePinterestSelector((state) => state.commentReducer);
+  console.log(comment);
 
   const pinterestDispatch = usePinterestDispatch();
 
