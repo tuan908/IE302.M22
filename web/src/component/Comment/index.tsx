@@ -4,6 +4,10 @@ import { Avatar } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
+<<<<<<< HEAD
+
+=======
+>>>>>>> a9986c5889d12e7bf6089a5c5293dc4b3f42c75f
 import { postComment } from 'src/service/user.service';
 import CommentList from './CommentList';
 import { AddComment, AvatarWrapper, Comments, Container } from './Component';
@@ -86,7 +90,11 @@ function Comment({ postId }: Props) {
         <Send onClick={(e) => handleSubmit(e)} />
       </AddComment>
 
+<<<<<<< HEAD
+      <CommentList postId={postId.toString()} />
+=======
       <CommentList postId={postId} />
+>>>>>>> a9986c5889d12e7bf6089a5c5293dc4b3f42c75f
     </Container>
   );
 }

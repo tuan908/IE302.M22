@@ -6,7 +6,7 @@ import { holdComment } from 'src/redux/action/comment';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
 import { PinterestComment } from '..';
-import { AvatarWrapper } from '../Component';
+import { AvatarWrapper, Status } from '../Component';
 import { ACTIONS } from './componentConstant';
 import reducer from './componentReducer';
 import { avatarStyle } from './ElementCss';
@@ -21,6 +21,7 @@ interface Props {
 
 export default function CommentList({ postId }: Props) {
   const [state, componentDispatch] = useReducer(reducer, initState);
+  const { list } = state;
   const comment = usePinterestSelector((state) => state.commentReducer.comment);
   const appDispatch = usePinterestDispatch();
 
@@ -36,7 +37,6 @@ export default function CommentList({ postId }: Props) {
       console.log(error.message);
     }
   }
-
   useEffect(() => {
     getAllCommentByImgId(postId.toString());
   }, []);
@@ -77,19 +77,8 @@ export default function CommentList({ postId }: Props) {
 
   return (
     <Fragment>
-      {state.list.map((item: PinterestComment, index: number) => (
-        <Grid
-          key={index}
-          sx={{
-            width: '100%',
-
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'flex-start',
-
-            marginTop: 1.25,
-          }}
-        >
+      {list.map((item: PinterestComment, index: number) => (
+        <Status key={index}>
           <AvatarWrapper>
             <Avatar style={avatarStyle} />
           </AvatarWrapper>
