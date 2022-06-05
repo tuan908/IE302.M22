@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import appHistory from 'src/common/appHistory';
-import requestUrl from '../common/requestUrl';
+import appHistory from 'src/util/appHistory';
+import requestUrl from '../util/requestUrl';
 import { getUserInfo, saveUserInfoIntoStorage } from '../util/user';
 
 const { create, Cancel } = axios;

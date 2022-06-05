@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export interface PixabayPhoto {
+interface PixabayPhoto {
   downloads: number;
   id: number;
   likes: number;
@@ -15,7 +15,7 @@ const { get } = axios;
 const pixabayApiUrl = process.env.REACT_APP_PIXABAY_API_URL;
 const pixabayApiKey = process.env.REACT_APP_PIXABAY_API_KEY;
 
-export const getPhotoListByKeyword = async (keyword: string) => {
+const getPhotoListByKeyword = async (keyword: string) => {
   try {
     const rawData = await get(pixabayApiUrl!, {
       params: {
@@ -37,7 +37,7 @@ export const getPhotoListByKeyword = async (keyword: string) => {
   }
 };
 
-export async function getStartPhotoList() {
+async function getStartPhotoList() {
   let inputStringList = ['girl', 'landscape', 'dog', 'anime'];
   let data: PixabayPhoto[] = [];
   for (let requestString in inputStringList) {
@@ -58,3 +58,5 @@ export async function getStartPhotoList() {
   }
   return data;
 }
+
+export { PixabayPhoto, getPhotoListByKeyword, getStartPhotoList };

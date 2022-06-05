@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import { privatePages } from './common/page';
 import PinterestNotFound from './pages/404';
 import Login from './pages/Login';
+import { privatePages } from './util/page';
 
 function App() {
   const token = localStorage.getItem('token');

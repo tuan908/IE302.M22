@@ -1,4 +1,4 @@
-import requestUrl from '../common/requestUrl';
+import requestUrl from '../util/requestUrl';
 import { postRequest } from './request.service';
 
 const { AUTH_URL, REGISTER_URL, FORGOT_PASSWORD_URL, API_ENDPOINT } =

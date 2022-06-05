@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { combineReducers } from 'redux';
-import { pixabayApi } from '../hooks/useGetImageByKeyword';
+import { pixabayApi } from '../hook/useGetImageByKeyword';
 import commentReducer from './reducer/comment';
 import fileReducer from './reducer/file';
 import messageReducer from './reducer/message';

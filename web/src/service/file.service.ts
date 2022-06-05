@@ -1,4 +1,4 @@
-import requestUrl from 'src/common/requestUrl';
+import requestUrl from 'src/util/requestUrl';
 import { getRequest, putRequest } from './request.service';
 
 const getFileById = (fileId: string) =>

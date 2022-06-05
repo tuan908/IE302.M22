@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import store from './redux/store';
-import globalTheme from './style/globalTheme';
+import globalTheme from './util/style/globalTheme';
 
 const appContainer = document.getElementById('root')!;
 const appRootNode = createRoot(appContainer);

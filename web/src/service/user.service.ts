@@ -1,4 +1,4 @@
-import requestUrl from '../common/requestUrl';
+import requestUrl from '../util/requestUrl';
 import { getRequest, postRequest } from './request.service';
 
 const {
