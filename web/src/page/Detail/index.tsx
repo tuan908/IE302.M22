@@ -7,10 +7,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import GoBack from 'src/component/Button/GoBack';
-import ScrollToTop from 'src/component/Button/ScrollTop';
-import Comment from 'src/component/Comment';
 import fileService from 'src/service/file.service';
+import GoBack from 'src/ui/Button/GoBack';
+import ScrollToTop from 'src/ui/Button/ScrollTop';
+import Comment from 'src/ui/Comment';
 import {
   DetailWrapper,
   ImageContainer,
@@ -119,7 +119,7 @@ const Detail = () => {
           </ImageInformation>
         </ImageContainer>
 
-        <Comment postId={imageInfo.id} />
+        <Comment postId={imageInfo.id} imageUrl={imageInfo.webformatURL} />
         <ScrollToTop />
       </DetailWrapper>
     </div>

@@ -1,15 +1,17 @@
 import {
   ArrowBack,
   Favorite,
+  FavoriteBorder,
   GetApp,
   LocalOffer,
   Visibility,
 } from '@mui/icons-material';
-import { FC } from 'react';
+import { Typography } from '@mui/material';
+import { FC, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import GoBack from '../../component/Button/GoBack';
-import ScrollToTop from '../../component/Button/ScrollTop';
+import GoBack from '../../ui/Button/GoBack';
+import ScrollToTop from '../../ui/Button/ScrollTop';
 import { PinterestFile } from '../Viewer/Dialog/Content';
 import {
   DetailWrapper,
@@ -28,8 +30,8 @@ const PinterestDetail: FC<Props> = () => {
     .state as PixabayPhoto;
   const navigate = useNavigate();
 
-  // const [isLiked, setIsLiked] = useState<boolean>(false);
-  // let [like, setLike] = useState<number>(parseInt(likes!));
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  let [like, setLike] = useState<number>(likes);
 
   return (
     <DetailWrapper>
@@ -37,42 +39,28 @@ const PinterestDetail: FC<Props> = () => {
         <ArrowBack />
       </GoBack>
       <ImageContainer>
-        {/* {isVideo !== 'true' ? (
-          <ImageDetail>
-            <img src={webformatURL} alt="" />
-          </ImageDetail>
-        ) : (
-          <ImageDetail>
-            <video src={webformatURL} controls>
-              <source
-                src="https://drive.google.com/uc?id=1dE_dbgxeP_EMJOqLYu5Mq3NxGrQu1z2X"
-                type="video/mp4"
-              />
-            </video>
-          </ImageDetail>
-        )} */}
         <ImageDetail>
           <img src={webformatURL} alt="" />
         </ImageDetail>
 
         <ImageInfo>
           <h1>Upload by: {user}</h1>
-          <h4>
+          <Typography>
             <Visibility style={{ fill: '#111', marginRight: '10px' }} />
             {views}
-          </h4>
+          </Typography>
 
-          <h4>
+          <Typography>
             <GetApp style={{ fill: '#111', marginRight: '10px' }} />
             {downloads}
-          </h4>
-          <h4>
+          </Typography>
+          <Typography>
             <Favorite style={{ fill: '#e60023', marginRight: '10px' }} />
             {likes}
-          </h4>
+          </Typography>
 
-          {/* {!isLiked ? (
-            <h4>
+          {!isLiked ? (
+            <Typography>
               <FavoriteBorder
                 onClick={() => {
                   setIsLiked(!isLiked);
@@ -81,9 +69,9 @@ const PinterestDetail: FC<Props> = () => {
                 style={{ marginRight: '10px' }}
               />
               {like}
-            </h4>
+            </Typography>
           ) : (
-            <h4>
+            <>
               <Favorite
                 onClick={() => {
                   setIsLiked(!isLiked);
@@ -91,14 +79,14 @@ const PinterestDetail: FC<Props> = () => {
                 }}
                 style={{ fill: '#BE1E2D', marginRight: '10px' }}
               />
-              <HeaderLevel4PStyle>{like.toString()}</HeaderLevel4PStyle>
-            </h4>
-          )} */}
+              {like.toString}
+            </>
+          )}
 
-          <h4>
+          <Typography>
             <LocalOffer style={{ fill: '#e3780c', marginRight: '10px' }} />
             {tags}
-          </h4>
+          </Typography>
         </ImageInfo>
       </ImageContainer>
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import ScrollToTop, { scrollToTop } from 'src/component/Button/ScrollTop';
-import Pin from 'src/component/Pin';
+import ScrollToTop, { scrollToTop } from 'src/ui/Button/ScrollTop';
+import Pin from 'src/ui/Pin';
 import { ScrollTopWrapper } from '../Home/Component';
 import { SearchWrapper } from './Component';
 

@@ -10,6 +10,6 @@ import vn.uit.pinterest.server.entity.Role;
 
 @Repository
 public interface UserRoleRepository extends MongoRepository<Role, String> {
-    @Query("{'roleName': ?0}")
+    @Query("{'role_name': ?0}")
     Optional<Role> findByRoleName(String roleName);
 }

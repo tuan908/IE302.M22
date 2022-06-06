@@ -19,7 +19,7 @@ const postUserInfo = (userData: any) =>
 
 const getPhotos = () => getRequest({ baseURL: GET_PHOTO_LIST_URL });
 
-const postWithTicket = (userData: any) =>
+const createUserPost = (userData: any) =>
   postRequest({
     baseURL: POST_HAVE_TICKET,
     data: userData,
@@ -41,7 +41,7 @@ export {
   getUserProfile,
   postUserInfo,
   getPhotos,
-  postWithTicket,
+  createUserPost,
   postComment,
   checkValidJwtToken,
 };

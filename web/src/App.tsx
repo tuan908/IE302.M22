@@ -1,11 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-import PinterestNotFound from './pages/404';
-import Login from './pages/Login';
+import PinterestNotFound from './page/404';
+import Login from './page/Login';
 import { privatePages } from './util/page';
 
 function App() {
-  const token = localStorage.getItem('token');
-
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -13,7 +11,7 @@ function App() {
       {privatePages.map((page, index) => (
         <Route
           path={page.path}
-          element={<page.layout token={token!}>{page.element}</page.layout>}
+          element={<page.layout>{page.element}</page.layout>}
           key={index}
         />
       ))}

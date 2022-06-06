@@ -28,11 +28,11 @@ public class UserController {
 	@Transactional(rollbackFor = Exception.class)
 	@GetMapping(value = "{userId}/get")
 	public ResponseEntity<?> getUserInfo(@PathVariable(name = "userId") String userId) {
-		User userInfoExist = mongoOperations.findById(userId, User.class);
+		User userInfoExisted = mongoOperations.findById(userId, User.class);
 
-		if (userInfoExist != null) {
-			UserDto userInfo = new UserDto(userInfoExist.getAvatarUrl(), userInfoExist.getEmail(),
-					userInfoExist.getUserName(), userInfoExist.getUserId().toString());
+		if (userInfoExisted != null) {
+			UserDto userInfo = new UserDto(userInfoExisted.getAvatarUrl(), userInfoExisted.getEmail(),
+					userInfoExisted.getUserName(), userInfoExisted.getUserId().toString(), userInfoExisted.getPosts());
 			new ResponseEntity<User>(HttpStatus.OK);
 			return ResponseEntity.ok(userInfo);
 		} else {

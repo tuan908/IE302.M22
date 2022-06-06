@@ -1,7 +1,6 @@
 package vn.uit.pinterest.server.dto;
 
 import java.time.Instant;
-import java.util.Objects;
 
 public class CommentDto {
 
@@ -17,21 +16,26 @@ public class CommentDto {
 
 	private String avatarUrl;
 
-	public CommentDto() {
-	}
+	private String imageUrl;
 
 	public CommentDto(String commentId, String imgId, String content, Instant commentTime, String username,
-			String avatarUrl) {
+			String avatarUrl, String imageUrl) {
+		super();
 		this.commentId = commentId;
 		this.imgId = imgId;
 		this.content = content;
 		this.commentTime = commentTime;
 		this.username = username;
 		this.avatarUrl = avatarUrl;
+		this.imageUrl = imageUrl;
+	}
+
+	public CommentDto() {
+		super();
 	}
 
 	public String getCommentId() {
-		return this.commentId;
+		return commentId;
 	}
 
 	public void setCommentId(String commentId) {
@@ -39,7 +43,7 @@ public class CommentDto {
 	}
 
 	public String getImgId() {
-		return this.imgId;
+		return imgId;
 	}
 
 	public void setImgId(String imgId) {
@@ -47,7 +51,7 @@ public class CommentDto {
 	}
 
 	public String getContent() {
-		return this.content;
+		return content;
 	}
 
 	public void setContent(String content) {
@@ -55,7 +59,7 @@ public class CommentDto {
 	}
 
 	public Instant getCommentTime() {
-		return this.commentTime;
+		return commentTime;
 	}
 
 	public void setCommentTime(Instant commentTime) {
@@ -63,7 +67,7 @@ public class CommentDto {
 	}
 
 	public String getUsername() {
-		return this.username;
+		return username;
 	}
 
 	public void setUsername(String username) {
@@ -71,71 +75,19 @@ public class CommentDto {
 	}
 
 	public String getAvatarUrl() {
-		return this.avatarUrl;
+		return avatarUrl;
 	}
 
 	public void setAvatarUrl(String avatarUrl) {
 		this.avatarUrl = avatarUrl;
 	}
 
-	public CommentDto commentId(String commentId) {
-		setCommentId(commentId);
-		return this;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public CommentDto imgId(String imgId) {
-		setImgId(imgId);
-		return this;
-	}
-
-	public CommentDto content(String content) {
-		setContent(content);
-		return this;
-	}
-
-	public CommentDto commentTime(Instant commentTime) {
-		setCommentTime(commentTime);
-		return this;
-	}
-
-	public CommentDto username(String username) {
-		setUsername(username);
-		return this;
-	}
-
-	public CommentDto avatarUrl(String avatarUrl) {
-		setAvatarUrl(avatarUrl);
-		return this;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (!(o instanceof CommentDto)) {
-			return false;
-		}
-		CommentDto commentDto = (CommentDto) o;
-		return Objects.equals(commentId, commentDto.commentId) && Objects.equals(imgId, commentDto.imgId)
-				&& Objects.equals(content, commentDto.content) && Objects.equals(commentTime, commentDto.commentTime)
-				&& Objects.equals(username, commentDto.username) && Objects.equals(avatarUrl, commentDto.avatarUrl);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(commentId, imgId, content, commentTime, username, avatarUrl);
-	}
-
-	@Override
-	public String toString() {
-		return "{" +
-				" commentId='" + getCommentId() + "'" +
-				", imgId='" + getImgId() + "'" +
-				", content='" + getContent() + "'" +
-				", commentTime='" + getCommentTime() + "'" +
-				", username='" + getUsername() + "'" +
-				", avatarUrl='" + getAvatarUrl() + "'" +
-				"}";
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }

@@ -1,6 +1,7 @@
 package vn.uit.pinterest.server.dto;
 
-import java.util.Objects;
+import java.util.List;
+import vn.uit.pinterest.server.entity.Post;
 
 public class UserDto {
 
@@ -12,18 +13,24 @@ public class UserDto {
 
 	public String userId;
 
+	public List<Post> list;
+
 	public UserDto() {
 	}
 
-	public UserDto(String avatarUrl, String email, String username, String userId) {
+	public UserDto(String avatarUrl, String email, String username, String userId, List<Post> list) {
+		super();
 		this.avatarUrl = avatarUrl;
 		this.email = email;
 		this.username = username;
 		this.userId = userId;
+		this.list = list;
 	}
 
+
+
 	public String getAvatarUrl() {
-		return this.avatarUrl;
+		return avatarUrl;
 	}
 
 	public void setAvatarUrl(String avatarUrl) {
@@ -31,7 +38,7 @@ public class UserDto {
 	}
 
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
@@ -39,7 +46,7 @@ public class UserDto {
 	}
 
 	public String getUsername() {
-		return this.username;
+		return username;
 	}
 
 	public void setUsername(String username) {
@@ -47,58 +54,19 @@ public class UserDto {
 	}
 
 	public String getUserId() {
-		return this.userId;
+		return userId;
 	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public UserDto avatarUrl(String avatarUrl) {
-		setAvatarUrl(avatarUrl);
-		return this;
+	public List<Post> getList() {
+		return list;
 	}
 
-	public UserDto email(String email) {
-		setEmail(email);
-		return this;
-	}
-
-	public UserDto username(String username) {
-		setUsername(username);
-		return this;
-	}
-
-	public UserDto userId(String userId) {
-		setUserId(userId);
-		return this;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (!(o instanceof UserDto)) {
-			return false;
-		}
-		UserDto userDto = (UserDto) o;
-		return Objects.equals(avatarUrl, userDto.avatarUrl) && Objects.equals(email, userDto.email)
-				&& Objects.equals(username, userDto.username) && Objects.equals(userId, userDto.userId);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(avatarUrl, email, username, userId);
-	}
-
-	@Override
-	public String toString() {
-		return "{" +
-				" avatarUrl='" + getAvatarUrl() + "'" +
-				", email='" + getEmail() + "'" +
-				", username='" + getUsername() + "'" +
-				", userId='" + getUserId() + "'" +
-				"}";
+	public void setList(List<Post> list) {
+		this.list = list;
 	}
 
 }

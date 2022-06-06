@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.uit.pinterest.server.common.JwtUtils;
 import vn.uit.pinterest.server.common.UserRole;
-import vn.uit.pinterest.server.dto.AuthResponse;
+import vn.uit.pinterest.server.dto.AuthenticationResponse;
 import vn.uit.pinterest.server.dto.JwtResponse;
 import vn.uit.pinterest.server.dto.LoginRequest;
 import vn.uit.pinterest.server.dto.MessageResponse;
@@ -165,7 +165,7 @@ public class AuthenticationController {
 						userDetails, null, userDetails.getAuthorities());
 				String refreshToken = jwtUtils.generateToken(authenticationToken);
 				new ResponseEntity<>(HttpStatus.OK);
-				return ResponseEntity.ok().body(new AuthResponse(refreshToken));
+				return ResponseEntity.ok().body(new AuthenticationResponse(refreshToken));
 			}
 		}
 		return null;

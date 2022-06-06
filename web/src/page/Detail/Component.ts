@@ -17,11 +17,13 @@ const ImageDetail = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   img {
     width: 300px;
     height: 300px;
     object-fit: contain;
   }
+
   video {
     width: 300px;
     height: 300px;
@@ -33,6 +35,7 @@ const ImageInformation = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
+
   h4 {
     width: 100%;
     display: flex;
@@ -55,4 +58,3 @@ const ImageContainer = styled.div`
 `;
 
 export { DetailWrapper, ImageContainer, ImageDetail, ImageInformation };
-

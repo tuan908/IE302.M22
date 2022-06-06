@@ -1,19 +1,17 @@
 import { Add } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { FC, useState } from 'react';
-import ScrollToTop from 'src/component/Button/ScrollTop';
-import PinterestContent from 'src/component/Content';
-import PinterestPost from 'src/component/Post';
 import { checkValidJwtToken } from 'src/service/user.service';
-import Components from './Component';
+import ScrollToTop from 'src/ui/Button/ScrollTop';
+import PinterestContent from 'src/ui/Content';
+import PinterestPost from 'src/ui/Post';
+import { CreatePostWrapper, ScrollTopWrapper, Wrapper } from './Component';
 
 interface Props {
   redirectPath?: string;
 }
 
 const PinterestHome: FC<Props> = () => {
-  const { Wrapper, CreatePostWrapper, ScrollTopWrapper } = Components;
-
   const [isOpen, setOpen] = useState<boolean>(false);
   const handleClose = () => setOpen(!isOpen);
 

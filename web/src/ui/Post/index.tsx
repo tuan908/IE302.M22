@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import setMessage from 'src/redux/action/message';
 import { loadPhotos } from 'src/redux/action/user';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import { postWithTicket } from 'src/service/user.service';
+import { createUserPost } from 'src/service/user.service';
 import { ContentContainer, FormWrapper, ImgWrapper } from './Component';
 import {
   closeInputCss,
@@ -28,6 +28,16 @@ interface PostProps {
 interface PostForm {
   file: File;
   text: string;
+  title: string;
+}
+
+export interface PostDetail {
+  username: string;
+  image: File;
+  postReactCount: number;
+  postStatus: string;
+  title: string;
+  content: string;
 }
 
 const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
@@ -52,18 +62,18 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
   const isLoad = usePinterestSelector((state) => state.userReducer.isLoad);
 
   const onSubmit = (data: any) => {
-    const { status } = data;
+    const { status, text, title } = data;
 
-    let formData = new FormData();
-    formData.append('userID', userInfo._id);
-    formData.append(
-      'photoOfUser',
-      userInfo.firstName + ' ' + userInfo.lastName
-    );
-    formData.append('status', status);
-    formData.append('linkFile', file!);
+    const postDetail: PostDetail = {
+      image: file!,
+      postReactCount: 0,
+      postStatus: status,
+      username: userInfo.username,
+      title,
+      content: text,
+    };
 
-    postWithTicket(formData)
+    createUserPost(postDetail)
       .then(() => {
         dispatch(setMessage('Uploaded!!.', 'success'));
         closePost();
@@ -130,6 +140,7 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
                   type="text"
                   placeholder="Create a title"
                   style={inputTitleCss}
+                  {...register('title')}
                 />
                 <hr style={hrCss} />
 

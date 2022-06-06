@@ -17,11 +17,11 @@ import {
 import clsx from 'clsx';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
-import Loading from 'src/component/Loading';
-import Detail from 'src/pages/Detail';
+import Detail from 'src/page/Detail';
 import { hideViewer } from 'src/redux/action/viewer';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
+import Loading from 'src/ui/Loading';
 import PinterestVideoViewer from '../../VideoViewer';
 import EmbeddedDialog from '../EmbeddedDialog';
 import useStyles from './Component';

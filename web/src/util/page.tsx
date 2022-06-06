@@ -1,9 +1,9 @@
-import DefaultLayout from 'src/component/Layout/Default';
-import HeaderLessLayout from 'src/component/Layout/HeaderLessLayout';
-import Detail from 'src/pages/Detail';
-import Home from 'src/pages/Home';
-import Profile from 'src/pages/Profile';
-import Search from 'src/pages/Search';
+import Detail from 'src/page/Detail';
+import Home from 'src/page/Home';
+import Profile from 'src/page/Profile';
+import Search from 'src/page/Search';
+import DefaultLayout from 'src/ui/Layout/Default';
+import HeaderLessLayout from 'src/ui/Layout/HeaderLessLayout';
 
 const privatePages = [
   {

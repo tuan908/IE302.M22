@@ -10,7 +10,7 @@ import vn.uit.pinterest.server.entity.User;
 public interface UserRepository extends MongoRepository<User, Long> {
     public Boolean existsByUserName(String username);
 
-    @Query("{'userName': ?0}")
+    @Query("{'user_name': ?0}")
     public User findByUsername(String username);
     
     @Query("{'_id:': ?0")

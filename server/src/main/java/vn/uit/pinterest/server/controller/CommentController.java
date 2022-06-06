@@ -72,7 +72,7 @@ public class CommentController {
 
 		response.setCommentId(comment.getCommentId());
 		response.setAvatarUrl(null);
-		response.setCommentTime(comment.getTime());
+		response.setCommentTime(comment.getCreatedTime());
 		response.setContent(comment.getContent());
 		response.setImgId(comment.getImgId());
 
@@ -84,12 +84,14 @@ public class CommentController {
 	@PostMapping(value = "/api/comment/create")
 	public ResponseEntity<?> postNewComment(@RequestBody CommentDto comment) {
 		if (StringUtils.hasLength(comment.getContent())) {
-			Comment requestedCmt = new Comment();
-			requestedCmt.setAvatarUrl(comment.getAvatarUrl());
-			requestedCmt.setContent(comment.getContent());
-			requestedCmt.setImgId(comment.getImgId());
-			requestedCmt.setTime(Instant.now());
-			commentRepository.save(requestedCmt);
+			Comment requestedComment = new Comment();
+			requestedComment.setAvatarUrl(comment.getAvatarUrl());
+			requestedComment.setContent(comment.getContent());
+			requestedComment.setImgId(comment.getImgId());
+			requestedComment.setCreatedTime(Instant.now());
+			requestedComment.setImageUrl(comment.getImageUrl());
+			
+			commentRepository.save(requestedComment);
 			String id = comment.getImgId();
 
 			Optional<Image> img = imageRepository.findByImageId(id);
@@ -98,7 +100,7 @@ public class CommentController {
 				Image image = img.get();
 				List<Comment> comments = new ArrayList<>();
 				comments = image.getComments();
-				comments.add(requestedCmt);
+				comments.add(requestedComment);
 				image.setComments(comments);
 				imageRepository.save(image);
 			} else {
@@ -106,7 +108,7 @@ public class CommentController {
 				newImg.setImageId(id);
 				List<Comment> comments = newImg.getComments();
 				comments = new ArrayList<>();
-				comments.add(requestedCmt);
+				comments.add(requestedComment);
 				newImg.setComments(comments);
 				imageRepository.save(newImg);
 			}
@@ -122,7 +124,7 @@ public class CommentController {
 	@PutMapping(value = "/api/comment/update/{commentId}")
 	public ResponseEntity<?> updateExistedComment(@PathVariable String commentId, @RequestBody Comment comment) {
 		if (commentId != null) {
-			Query updateQuery = new Query(Criteria.where("commentId").is(commentId));
+			Query updateQuery = new Query(Criteria.where("comment_id").is(commentId));
 			Update update = new Update();
 			update.set("avatarUrl", comment.avatarUrl);
 			update.set("commentContent", comment.content);

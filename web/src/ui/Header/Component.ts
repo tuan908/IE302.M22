@@ -78,9 +78,9 @@ const SearchBarWrapper = styled.div`
     outline: none;
     width: 100%;
     margin-left: 5px;
-    font-size: 0.75rem;
-    padding-left: 3rem;
-    border-radius: 50px;
+    font-size: 1rem;
+    padding-left: 1.5rem;
+    border-radius: 5rem;
   }
 
   input:focus {

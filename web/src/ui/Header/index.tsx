@@ -42,6 +42,7 @@ function Header() {
   const ref = useRef<HTMLDivElement>(null);
   const push = useNavigate();
   const user = usePinterestSelector((state) => state.userReducer.user);
+  console.log(user);
   const DELAY_TIME = 500; //ms
 
   const debouncedKeyword = useDebounce(keyword, DELAY_TIME);
@@ -61,7 +62,6 @@ function Header() {
     e.preventDefault();
     const sortedList = photoList.sort(() => 0.5 - Math.random());
     push(`/search?q=${keyword}`, { state: sortedList });
-    document.getElementById('search__input')!.textContent = '';
   };
 
   async function getNewPhotosFromApi() {
@@ -102,10 +102,12 @@ function Header() {
       <Wrapper>
         <LogoWrapper>
           <Link to="/home">
-            <PinterestIcon
-              className="pinterest-icon"
-              style={{ height: 50, width: 50 }}
-            />
+            <Tooltip title="Home">
+              <PinterestIcon
+                className="pinterest-icon"
+                style={{ height: 50, width: 50 }}
+              />
+            </Tooltip>
           </Link>
         </LogoWrapper>
 
@@ -113,6 +115,7 @@ function Header() {
           <SearchBarWrapper>
             <input
               type="text"
+              value={keyword}
               onChange={(e) => setKeyword(e.currentTarget.value)}
             />
             <IconButton onClick={handleSubmitSearchImage}>
@@ -124,13 +127,13 @@ function Header() {
         <IconsWrapper>
           <IconsWrapper>
             <IconButton>
-              <Tooltip title="Coming soon">
+              <Tooltip title="Message">
                 <TextSMSIcon style={{ height: 30, width: 30 }} />
               </Tooltip>
             </IconButton>
 
             <IconButton>
-              <Tooltip title="Coming soon">
+              <Tooltip title="Notification">
                 <NotificationsIcon style={{ height: 30, width: 30 }} />
               </Tooltip>
             </IconButton>
@@ -138,14 +141,13 @@ function Header() {
             <IconButton
               onClick={() => push(`/user/${user.userId}`, { state: user })}
             >
-              {!user.userId ? (
-                <FaceIcon />
-              ) : (
-                <Avatar
-                  style={{ height: 40, width: 40 }}
-                  // src={userProfile!.avatarUrl}
-                />
-              )}
+              <Tooltip title="User">
+                {user.userId ? (
+                  <Avatar style={{ height: 40, width: 40 }} />
+                ) : (
+                  <FaceIcon />
+                )}
+              </Tooltip>
             </IconButton>
 
             <IconButton onClick={toggleMenu}>

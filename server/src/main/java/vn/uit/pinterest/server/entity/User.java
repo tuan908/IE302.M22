@@ -2,7 +2,7 @@ package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
 import org.bson.types.ObjectId;
@@ -11,79 +11,87 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
-@Document(collection = "UserCollection")
+@Document(collection = "user_collection")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Field(name = "user_id", targetType = FieldType.OBJECT_ID)
 	public ObjectId userId;
 
-	@Field(name = "postId", targetType = FieldType.STRING)
-	public ObjectId postId;
-
-	@Field(name = "avatarUrl", targetType = FieldType.STRING)
+	@Field(name = "avatar_url", targetType = FieldType.STRING)
 	public String avatarUrl;
+
+	@Field(name = "post_list")
+	private List<Post> posts;
 
 	@Field(name = "email", targetType = FieldType.STRING)
 	public String email;
 
-	@Field(name = "userName", targetType = FieldType.STRING)
+	@Field(name = "user_name", targetType = FieldType.STRING)
 	public String userName;
 
-	@Field(name = "encryptedPassword", targetType = FieldType.STRING)
+	@Field(name = "password", targetType = FieldType.STRING)
 	public String encryptedPassword;
 
-	@Field(name = "role", targetType = FieldType.STRING)
+	@Field(name = "user_role", targetType = FieldType.STRING)
 	public Set<Role> roles;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
 	public Instant createdTime;
 
-	public User(String username, String encryptedPassword) {
-		this.userName = username;
-		this.encryptedPassword = encryptedPassword;
-	}
+	@Field(name = "updated_time", targetType = FieldType.DATE_TIME)
+	private Instant updatedTime;
 
 	public User() {
+		super();
 	}
 
-	public User(ObjectId userId, ObjectId postId, String avatarUrl, String email, String userName,
-			String encryptedPassword, Set<Role> roles) {
+	public User(ObjectId userId, String avatarUrl, List<Post> posts, String email, String userName,
+			String encryptedPassword, Set<Role> roles, Instant createdTime, Instant updatedTime) {
+		super();
 		this.userId = userId;
-		this.postId = postId;
 		this.avatarUrl = avatarUrl;
+		this.posts = posts;
 		this.email = email;
 		this.userName = userName;
 		this.encryptedPassword = encryptedPassword;
 		this.roles = roles;
+		this.createdTime = createdTime;
+		this.updatedTime = updatedTime;
+	}
+
+	public User(String username, String password) {
+		this.userName = username;
+		this.encryptedPassword = password;
 	}
 
 	public ObjectId getUserId() {
-		return this.userId;
+		return userId;
 	}
 
 	public void setUserId(ObjectId userId) {
 		this.userId = userId;
 	}
 
-	public ObjectId getPostId() {
-		return this.postId;
-	}
-
-	public void setPostId(ObjectId postId) {
-		this.postId = postId;
-	}
-
 	public String getAvatarUrl() {
-		return this.avatarUrl;
+		return avatarUrl;
 	}
 
 	public void setAvatarUrl(String avatarUrl) {
 		this.avatarUrl = avatarUrl;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
 	public String getEmail() {
-		return this.email;
+		return email;
 	}
 
 	public void setEmail(String email) {
@@ -91,7 +99,7 @@ public class User implements Serializable {
 	}
 
 	public String getUserName() {
-		return this.userName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
@@ -99,7 +107,7 @@ public class User implements Serializable {
 	}
 
 	public String getEncryptedPassword() {
-		return this.encryptedPassword;
+		return encryptedPassword;
 	}
 
 	public void setEncryptedPassword(String encryptedPassword) {
@@ -107,78 +115,27 @@ public class User implements Serializable {
 	}
 
 	public Set<Role> getRoles() {
-		return this.roles;
+		return roles;
 	}
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
-	public User userId(ObjectId userId) {
-		setUserId(userId);
-		return this;
+	public Instant getCreatedTime() {
+		return createdTime;
 	}
 
-	public User postId(ObjectId postId) {
-		setPostId(postId);
-		return this;
+	public void setCreatedTime(Instant createdTime) {
+		this.createdTime = createdTime;
 	}
 
-	public User avatarUrl(String avatarUrl) {
-		setAvatarUrl(avatarUrl);
-		return this;
+	public Instant getUpdatedTime() {
+		return updatedTime;
 	}
 
-	public User email(String email) {
-		setEmail(email);
-		return this;
-	}
-
-	public User userName(String userName) {
-		setUserName(userName);
-		return this;
-	}
-
-	public User encryptedPassword(String encryptedPassword) {
-		setEncryptedPassword(encryptedPassword);
-		return this;
-	}
-
-	public User roles(Set<Role> roles) {
-		setRoles(roles);
-		return this;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (!(o instanceof User)) {
-			return false;
-		}
-		User user = (User) o;
-		return Objects.equals(userId, user.userId) && Objects.equals(postId, user.postId)
-				&& Objects.equals(avatarUrl, user.avatarUrl) && Objects.equals(email, user.email)
-				&& Objects.equals(userName, user.userName) && Objects.equals(encryptedPassword, user.encryptedPassword)
-				&& Objects.equals(roles, user.roles);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(userId, postId, avatarUrl, email, userName, encryptedPassword, roles);
-	}
-
-	@Override
-	public String toString() {
-		return "{" +
-				" userId='" + getUserId() + "'" +
-				", postId='" + getPostId() + "'" +
-				", avatarUrl='" + getAvatarUrl() + "'" +
-				", email='" + getEmail() + "'" +
-				", userName='" + getUserName() + "'" +
-				", encryptedPassword='" + getEncryptedPassword() + "'" +
-				", roles='" + getRoles() + "'" +
-				"}";
+	public void setUpdatedTime(Instant updatedTime) {
+		this.updatedTime = updatedTime;
 	}
 
 }

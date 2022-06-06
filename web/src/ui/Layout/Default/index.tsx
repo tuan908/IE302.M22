@@ -1,11 +1,10 @@
 import { PropsWithChildren, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import Header from 'src/component/Header';
+import Header from 'src/ui/Header';
 import { Container } from './Component';
 
 type Props = PropsWithChildren<{
   children?: ReactNode;
-  token: string | undefined;
 }>;
 
 export default function DefaultLayout({ children }: Props) {

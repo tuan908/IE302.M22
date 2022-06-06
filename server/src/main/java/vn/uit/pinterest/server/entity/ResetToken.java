@@ -7,9 +7,12 @@ import java.util.Objects;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
+
+@Document(collection = "refresh_token_collection")
 public class ResetToken implements Serializable {
 
 	/**
@@ -20,12 +23,16 @@ public class ResetToken implements Serializable {
 	private final int TOKEN_EXPIRED_TIME = 60 * 24 * 3600;
 
 	@Id
+	@Field(name = "token_id")
 	private ObjectId tokenId;
 
+	@Field(name = "token", targetType = FieldType.STRING)
 	private String token;
 
+	@Field(name = "user")
 	private User user;
 
+	@Field(name = "expired_time", targetType = FieldType.DATE_TIME)
 	private Date expiredDate;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)

@@ -3,14 +3,12 @@ package vn.uit.pinterest.server.entity;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
-@Document(collection = "ImageCollection")
+@Document(collection = "image_collection")
 public class Image implements Serializable {
 	/**
 	 *
@@ -18,27 +16,36 @@ public class Image implements Serializable {
 	private static final long serialVersionUID = 1915156976183491190L;
 
 	@Id
+	@Field(name = "image_id")
 	public String imageId;
 
-	@Field(name = "comments")
+	@Field(name = "comment_list")
 	public List<Comment> comments;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
 	public Instant createdTime;
 
+	@Field(name = "updated_time", targetType = FieldType.DATE_TIME)
+	private Instant updatedTime;
+
 	public Image() {
+		super();
 	}
 
-	public Image(String imageId, List<Comment> comments) {
+	public Image(String imageId, List<Comment> comments, Instant createdTime, Instant updatedTime) {
+		super();
 		this.imageId = imageId;
 		this.comments = comments;
+		this.createdTime = createdTime;
+		this.updatedTime = updatedTime;
 	}
 
 	public Image(String imgId) {
+		this.imageId = imgId;
 	}
 
 	public String getImageId() {
-		return this.imageId;
+		return imageId;
 	}
 
 	public void setImageId(String imageId) {
@@ -46,45 +53,27 @@ public class Image implements Serializable {
 	}
 
 	public List<Comment> getComments() {
-		return this.comments;
+		return comments;
 	}
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
-	public Image imageId(String imageId) {
-		setImageId(imageId);
-		return this;
+	public Instant getCreatedTime() {
+		return createdTime;
 	}
 
-	public Image comments(List<Comment> comments) {
-		setComments(comments);
-		return this;
+	public void setCreatedTime(Instant createdTime) {
+		this.createdTime = createdTime;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == this)
-			return true;
-		if (!(o instanceof Image)) {
-			return false;
-		}
-		Image image = (Image) o;
-		return Objects.equals(imageId, image.imageId) && Objects.equals(comments, image.comments);
+	public Instant getUpdatedTime() {
+		return updatedTime;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(imageId, comments);
-	}
-
-	@Override
-	public String toString() {
-		return "{" +
-				" imageId='" + getImageId() + "'" +
-				", comments='" + getComments() + "'" +
-				"}";
+	public void setUpdatedTime(Instant updatedTime) {
+		this.updatedTime = updatedTime;
 	}
 
 }

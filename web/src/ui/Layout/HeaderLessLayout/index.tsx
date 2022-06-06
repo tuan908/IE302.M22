@@ -4,13 +4,10 @@ import { HeaderLessContainer } from './Component';
 
 type Props = PropsWithChildren<{
   children?: ReactNode;
-  token: string | undefined;
 }>;
 
-export default function HeaderLessLayout({
-  children,
-  token,
-}: Props): JSX.Element {
+export default function HeaderLessLayout({ children }: Props): JSX.Element {
+  const token = localStorage.getItem('token');
   return (
     <>
       {token ? (

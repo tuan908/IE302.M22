@@ -1,17 +1,17 @@
 import { Edit } from '@mui/icons-material';
 import { Avatar, Button, Grid, TextField } from '@mui/material';
 import { Fragment, useEffect, useReducer } from 'react';
-import { Wrapper } from 'src/component/Header/Component';
 import { holdComment } from 'src/redux/action/comment';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import fileService from 'src/service/file.service';
+import { Wrapper } from 'src/ui/Header/Component';
 import { PinterestComment } from '..';
 import { AvatarWrapper, Status } from '../Component';
 import { ACTIONS } from './componentConstant';
 import reducer from './componentReducer';
 import { avatarStyle } from './ElementCss';
 
-const initState: { list: PinterestComment[] } = {
+const initState = {
   list: [],
 };
 

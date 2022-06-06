@@ -10,6 +10,7 @@ import { AddComment, AvatarWrapper, Comments, Container } from './Component';
 
 interface Props {
   postId: number;
+  imageUrl: string;
 }
 
 interface PinterestComment {
@@ -19,12 +20,15 @@ interface PinterestComment {
   imgId: string;
   avatarUrl: string;
   isEditing?: boolean;
+  imageUrl: string;
+  username: string;
 }
 
-function Comment({ postId }: Props) {
+function Comment({ postId, imageUrl }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
+  console.log(userCurrent);
   const containerRef = useRef<HTMLDivElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
   const dispatch = usePinterestDispatch();
@@ -51,6 +55,8 @@ function Comment({ postId }: Props) {
       userId: userCurrent.userId,
       avatarUrl: userCurrent.avatarUrl,
       imgId: postId.toString(),
+      imageUrl,
+      username: userCurrent.username,
     };
 
     postComment(commentInfo)
