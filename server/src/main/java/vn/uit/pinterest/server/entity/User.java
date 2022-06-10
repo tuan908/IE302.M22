@@ -11,8 +11,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
+import vn.uit.pinterest.server.common.Permissible;
+import vn.uit.pinterest.server.common.PermissionEnum;
+
 @Document(collection = "user_collection")
-public class User implements Serializable {
+public class User implements Serializable, Permissible {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -43,12 +46,15 @@ public class User implements Serializable {
 	@Field(name = "updated_time", targetType = FieldType.DATE_TIME)
 	private Instant updatedTime;
 
+	private List<PermissionEnum> permissions;
+
 	public User() {
 		super();
 	}
 
 	public User(ObjectId userId, String avatarUrl, List<Post> posts, String email, String userName,
-			String encryptedPassword, Set<Role> roles, Instant createdTime, Instant updatedTime) {
+			String encryptedPassword, Set<Role> roles, Instant createdTime, Instant updatedTime,
+			List<PermissionEnum> permissions) {
 		super();
 		this.userId = userId;
 		this.avatarUrl = avatarUrl;
@@ -59,6 +65,7 @@ public class User implements Serializable {
 		this.roles = roles;
 		this.createdTime = createdTime;
 		this.updatedTime = updatedTime;
+		this.permissions = permissions;
 	}
 
 	public User(String username, String password) {
@@ -136,6 +143,32 @@ public class User implements Serializable {
 
 	public void setUpdatedTime(Instant updatedTime) {
 		this.updatedTime = updatedTime;
+	}
+
+	@Override
+	public List<PermissionEnum> getPermissions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPermissions(List<PermissionEnum> permissions) {
+		this.permissions = permissions;
+	}
+
+	@Override
+	public void addPermission(PermissionEnum permission) {
+		this.permissions.add(permission);
+	}
+
+	@Override
+	public void addPermissions(List<PermissionEnum> permissions) {
+		this.permissions.addAll(permissions);
+	}
+
+	@Override
+	public boolean hasPermission(PermissionEnum permission) {
+		return this.permissions.contains(permission);
 	}
 
 }
