@@ -33,7 +33,7 @@ interface PostForm {
 
 export interface PostDetail {
   username: string;
-  image: File;
+  base64ImageString: string;
   postReactCount: number;
   postStatus: string;
   title: string;
@@ -41,7 +41,6 @@ export interface PostDetail {
 }
 
 const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
-  const [file, setFile] = useState<File | undefined>();
   const [imgPreviewUrl, setImg] = useState<string | ArrayBuffer>();
   const { register, handleSubmit } = useForm<PostForm>();
   const dispatch = usePinterestDispatch();
@@ -51,10 +50,9 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
     const inputImg = e.target.files![0];
     let reader = new FileReader();
     reader.onloadend = () => {
-      setFile(inputImg);
-      setImg(reader!.result!);
+      const base64Img = reader!.result!;
+      setImg(base64Img);
     };
-    setFile(inputImg);
     reader.readAsDataURL(inputImg);
   };
   const userInfo = usePinterestSelector((state) => state.userReducer.user);
@@ -64,8 +62,10 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
   const onSubmit = (data: any) => {
     const { status, text, title } = data;
 
+    const imgDataString = imgPreviewUrl!.toString();
+
     const postDetail: PostDetail = {
-      image: file!,
+      base64ImageString: imgDataString,
       postReactCount: 0,
       postStatus: status,
       username: userInfo.username,
@@ -73,16 +73,19 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
       content: text,
     };
 
-    createUserPost(postDetail)
-      .then(() => {
-        dispatch(setMessage('Uploaded!!.', 'success'));
-        closePost();
-        dispatch(loadPhotos(!isLoad));
-      })
-      .catch((err: any) => {
-        console.log('Err: ', err.message);
-      });
+    uploadNewPost(postDetail);
   };
+
+  async function uploadNewPost(postDetail: PostDetail) {
+    try {
+      await createUserPost(postDetail);
+      dispatch(setMessage('Uploaded!!.', 'success'));
+      closePost();
+      dispatch(loadPhotos(!isLoad));
+    } catch (error: any) {
+      console.log(`Error: ${error.message}`);
+    }
+  }
 
   let $imagePreview = imgPreviewUrl ? (
     <div className="imgPreview" style={imgPreviewCss}>
@@ -151,7 +154,7 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
 
                 <hr style={hrCss} />
 
-                <input className="submit-button" type="submit" value="post" />
+                <input className="submit-button" type="submit" value="Post" />
               </FormWrapper>
             </ContentContainer>
           </div>

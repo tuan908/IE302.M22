@@ -4,6 +4,7 @@ import { HOLD_COMMENT, LOAD_COMMENT } from 'src/redux/constants/comment';
 const initState = {
   comment: '',
   comments: [],
+  isLoading: true,
 };
 
 export default function CommentReducer(

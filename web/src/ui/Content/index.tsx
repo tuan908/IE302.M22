@@ -6,6 +6,7 @@ const PinterestContent = () => {
   const [items, setItems] = useState<PixabayPhoto[]>([]);
   const getData = async () => {
     const data = await getStartPhotoList();
+    console.log(data);
     try {
       setItems(data!);
     } catch (error: any) {

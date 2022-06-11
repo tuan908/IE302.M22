@@ -2,8 +2,10 @@ import FaceIcon from '@mui/icons-material/Face';
 import Send from '@mui/icons-material/Send';
 import { Avatar } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
+import loadComments from 'src/redux/action/comment';
 import setMessage from 'src/redux/action/message';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
+import fileService from 'src/service/file.service';
 import { postComment } from 'src/service/user.service';
 import CommentList from './CommentList';
 import { AddComment, AvatarWrapper, Comments, Container } from './Component';
@@ -28,7 +30,9 @@ function Comment({ postId, imageUrl }: Props) {
   const [data, setData] = useState<PinterestComment>();
   const [comment, setComment] = useState('');
   const userCurrent = usePinterestSelector((state) => state.userReducer.user);
-  console.log(userCurrent);
+  const comments = usePinterestSelector(
+    (state) => state.commentReducer.comments
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const commentInputRef = useRef<HTMLInputElement>(null);
   const dispatch = usePinterestDispatch();
@@ -60,9 +64,19 @@ function Comment({ postId, imageUrl }: Props) {
     };
 
     postComment(commentInfo)
-      .then(() => {
+      .then(async () => {
         dispatch(setMessage('Success!!!', 'success'));
+        dispatch(loadComments({ isLoading: true }));
+        const raw = await fileService.getAllCommentById(postId.toString());
+
+        dispatch(
+          loadComments({
+            data: raw.data,
+            isLoading: false,
+          })
+        );
       })
+
       .catch((err: any) => {
         console.log('Err: ', err.message);
         dispatch(setMessage('Sorry, Failed.', 'error'));
@@ -92,7 +106,7 @@ function Comment({ postId, imageUrl }: Props) {
         <Send onClick={(e) => handleSubmit(e)} />
       </AddComment>
 
-      <CommentList postId={postId} />
+      <CommentList comments={comments} />
     </Container>
   );
 }

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import PinterestNotFound from './page/404';
 import Login from './page/Login';
 import { privatePages } from './util/page';
@@ -7,6 +7,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
 
       {privatePages.map((page, index) => (
         <Route

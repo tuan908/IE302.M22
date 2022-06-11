@@ -1,48 +1,24 @@
 import { Edit } from '@mui/icons-material';
 import { Avatar, Button, Grid, TextField } from '@mui/material';
-import { Fragment, useEffect, useReducer } from 'react';
+import { Fragment } from 'react';
 import { holdComment } from 'src/redux/action/comment';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
-import fileService from 'src/service/file.service';
 import { Wrapper } from 'src/ui/Header/Component';
 import { PinterestComment } from '..';
 import { AvatarWrapper, Status } from '../Component';
 import { ACTIONS } from './componentConstant';
-import reducer from './componentReducer';
 import { avatarStyle } from './ElementCss';
 
-const initState = {
-  list: [],
-};
-
 interface Props {
-  postId: number;
+  comments: [];
 }
 
-export default function CommentList({ postId }: Props) {
-  const [state, componentDispatch] = useReducer(reducer, initState);
-  const { list } = state;
+export default function CommentList({ comments }: Props) {
   const comment = usePinterestSelector((state) => state.commentReducer.comment);
   const appDispatch = usePinterestDispatch();
 
-  async function getAllCommentByImgId(postId: string) {
-    try {
-      const raw = await fileService.getAllCommentById(postId);
-      const fetchDataAction = {
-        type: ACTIONS.FETCH_LIST,
-        payload: raw.data,
-      };
-      componentDispatch(fetchDataAction);
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-  useEffect(() => {
-    getAllCommentByImgId(postId.toString());
-  }, []);
-
   function onStartEdit({ commentId, content }: PinterestComment) {
-    componentDispatch({
+    appDispatch({
       payload: { id: commentId },
       type: ACTIONS.START_EDIT,
     });
@@ -55,7 +31,7 @@ export default function CommentList({ postId }: Props) {
   }
 
   function onCancelEdit({ commentId }: PinterestComment) {
-    componentDispatch({
+    appDispatch({
       type: ACTIONS.CANCEL_EDIT,
       payload: {
         commentId: commentId,
@@ -64,7 +40,7 @@ export default function CommentList({ postId }: Props) {
   }
 
   function onDoneEdit(id: string) {
-    componentDispatch({
+    appDispatch({
       type: ACTIONS.EDIT,
       payload: {
         commentId: id,
@@ -77,7 +53,7 @@ export default function CommentList({ postId }: Props) {
 
   return (
     <Fragment>
-      {list.map((item: PinterestComment, index: number) => (
+      {comments.map((item: PinterestComment, index: number) => (
         <Status key={index}>
           <AvatarWrapper>
             <Avatar style={avatarStyle} />

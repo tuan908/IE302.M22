@@ -23,7 +23,7 @@ import {
   PixabayPhoto,
 } from 'src/api';
 import useDebounce from 'src/hook/useDebounce';
-import { usePinterestSelector } from 'src/redux/hooks';
+import { PinterestUserInfo } from 'src/util/user';
 import { logout } from '../../service/auth.service';
 import { sidePages } from '../../util/page';
 import {
@@ -41,8 +41,12 @@ function Header() {
   const [photoList, setPhotoList] = useState<PixabayPhoto[]>([]);
   const ref = useRef<HTMLDivElement>(null);
   const push = useNavigate();
-  const user = usePinterestSelector((state) => state.userReducer.user);
-  console.log(user);
+  let userInfo = JSON.parse(
+    localStorage.getItem('user_info')!?.toString()
+  ) as PinterestUserInfo;
+
+  const userIdFromLocalStorage = userInfo.userId;
+  const token = userInfo.token;
   const DELAY_TIME = 500; //ms
 
   const debouncedKeyword = useDebounce(keyword, DELAY_TIME);
@@ -139,10 +143,14 @@ function Header() {
             </IconButton>
 
             <IconButton
-              onClick={() => push(`/user/${user.userId}`, { state: user })}
+              onClick={() =>
+                push(`/user/${userIdFromLocalStorage}`, {
+                  state: userIdFromLocalStorage,
+                })
+              }
             >
               <Tooltip title="User">
-                {user.userId ? (
+                {token ? (
                   <Avatar style={{ height: 40, width: 40 }} />
                 ) : (
                   <FaceIcon />

@@ -22,11 +22,6 @@ const privatePages = [
     layout: DefaultLayout,
   },
   {
-    path: '/',
-    element: <Home />,
-    layout: DefaultLayout,
-  },
-  {
     path: '/search',
     element: <Search />,
     layout: DefaultLayout,

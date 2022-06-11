@@ -1,34 +1,14 @@
 import moment from 'moment';
 
-interface UserInfo {
-  role?: string;
-  token?: string;
-  refreshToken?: string;
+export interface PinterestUserInfo {
+  userId: string;
+  token: string;
+  refreshToken: string;
   expiredTime?: string;
 }
 
-const getJwtTokenFromStorage = (): UserInfo => {
-  const token = localStorage.getItem('token');
-
-  if (!token) {
-    return {};
-  } else {
-    return {
-      token,
-    };
-  }
-};
-
-const saveUserInfoIntoStorage = (userInfo: UserInfo) =>
-  localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
-const getUserInfo = () => {
-  const userInfoFromStorage = getJwtTokenFromStorage();
-  const { ...info } = userInfoFromStorage;
-  return {
-    ...info,
-  };
-};
+const saveUserInfoIntoStorage = (userInfo: PinterestUserInfo) =>
+  localStorage.setItem('user_info', JSON.stringify(userInfo));
 
 const checkValidRememberMe = (checked: boolean) => {
   const date = moment();
@@ -62,7 +42,6 @@ const handleRememberMeExpired = () => {
 };
 
 export {
-  getUserInfo,
   checkValidRememberMe,
   handleRememberMeExpired,
   saveUserInfoIntoStorage,

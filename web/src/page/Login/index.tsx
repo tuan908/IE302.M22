@@ -1,11 +1,13 @@
 import { TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentUser } from 'src/redux/action/user';
 import { usePinterestDispatch } from 'src/redux/hooks';
 import { login } from 'src/service/auth.service';
+import { saveUserInfoIntoStorage } from 'src/util/user';
 import './Login.scss';
 
 type LoginFormValues = {
@@ -21,16 +23,33 @@ function Login() {
     try {
       const rawData = await login(loginFormValues);
       const { data } = rawData;
+      console.log(data);
+
       if (data) {
         dispatch(getCurrentUser(data));
-        localStorage.setItem('token', `Bearer ${data.token}`);
-        localStorage.setItem('userId', `${data.userId}`);
-        navigate('/home');
+        saveUserInfoIntoStorage({
+          refreshToken: data.refreshToken,
+          token: `Bearer ${data.token}`,
+          userId: data.userId,
+          expiredTime: data.expiredTime,
+        });
+
+        navigate('/home', { replace: true });
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem('user_info');
+    if (userInfo && userInfo !== 'undefined') {
+      navigate('/home', {
+        replace: true,
+      });
+    }
+  }, []);
+
   return (
     <Grid container className="login">
       <Grid container className="login-content">
