@@ -7,12 +7,11 @@ import {
   Visibility,
 } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
 import GoBack from '../../ui/Button/GoBack';
 import ScrollToTop from '../../ui/Button/ScrollTop';
-import { PinterestFile } from '../Viewer/Dialog/Content';
 import {
   DetailWrapper,
   ImageContainer,
@@ -20,12 +19,7 @@ import {
   ImageInfo,
 } from './Component';
 
-interface Props {
-  file?: PinterestFile;
-  visible?: boolean;
-}
-
-const PinterestDetail: FC<Props> = () => {
+const PinterestDetail = () => {
   const { downloads, likes, tags, user, views, webformatURL } = useLocation()
     .state as PixabayPhoto;
   const navigate = useNavigate();

@@ -22,7 +22,6 @@ public class RefreshToken implements Serializable {
 	private final int TOKEN_EXPIRED_TIME = 60 * 24 * 3600;
 
 	@Id
-	@Field(name = "token_id")
 	private ObjectId tokenId;
 
 	@Field(name = "token", targetType = FieldType.STRING)

@@ -1,12 +1,21 @@
 import { Edit } from '@mui/icons-material';
-import { Avatar, Button, Grid, TextField } from '@mui/material';
-import { Fragment } from 'react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Fragment, useReducer } from 'react';
 import { holdComment } from 'src/redux/action/comment';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
+import FileServices from 'src/service/file.service';
 import { Wrapper } from 'src/ui/Header/Component';
 import { PinterestComment } from '..';
 import { AvatarWrapper, Status } from '../Component';
 import { ACTIONS } from './componentConstant';
+import reducer from './componentReducer';
 import { avatarStyle } from './ElementCss';
 
 interface Props {
@@ -16,9 +25,12 @@ interface Props {
 export default function CommentList({ comments }: Props) {
   const comment = usePinterestSelector((state) => state.commentReducer.comment);
   const appDispatch = usePinterestDispatch();
+  const [state, dispatch] = useReducer(reducer, {
+    list: comments ?? [],
+  });
 
   function onStartEdit({ commentId, content }: PinterestComment) {
-    appDispatch({
+    dispatch({
       payload: { id: commentId },
       type: ACTIONS.START_EDIT,
     });
@@ -31,7 +43,7 @@ export default function CommentList({ comments }: Props) {
   }
 
   function onCancelEdit({ commentId }: PinterestComment) {
-    appDispatch({
+    dispatch({
       type: ACTIONS.CANCEL_EDIT,
       payload: {
         commentId: commentId,
@@ -39,8 +51,13 @@ export default function CommentList({ comments }: Props) {
     });
   }
 
-  function onDoneEdit(id: string) {
-    appDispatch({
+  async function onDoneEdit(id: string) {
+    await FileServices.updateCommentById({
+      commentId: id,
+      contentToUpdate: comment,
+    });
+
+    dispatch({
       type: ACTIONS.EDIT,
       payload: {
         commentId: id,
@@ -53,7 +70,7 @@ export default function CommentList({ comments }: Props) {
 
   return (
     <Fragment>
-      {comments.map((item: PinterestComment, index: number) => (
+      {state.list.map((item: PinterestComment, index: number) => (
         <Status key={index}>
           <AvatarWrapper>
             <Avatar style={avatarStyle} />
@@ -66,15 +83,12 @@ export default function CommentList({ comments }: Props) {
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center',
-
-                '&:hover': {
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                },
               }}
             >
-              <span>{item.content}</span>
+              <Box sx={{ display: '-webkit-flex', flexDirection: 'column' }}>
+                <Typography>{item.username}</Typography>
+                <span>{item.content}</span>
+              </Box>
               <Edit onClick={() => onStartEdit(item)} className="edit__btn" />
             </Grid>
 

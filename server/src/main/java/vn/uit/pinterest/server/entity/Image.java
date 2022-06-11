@@ -16,7 +16,6 @@ public class Image implements Serializable {
 	private static final long serialVersionUID = 1915156976183491190L;
 
 	@Id
-	@Field(name = "image_id")
 	public String imageId;
 
 	@Field(name = "comment_list")

@@ -19,7 +19,6 @@ public class Comment implements Serializable {
 
 	@Id
 	@Indexed(unique = true)
-	@Field(name = "comment_id")
 	public String commentId;
 
 	@Field(name = "img_id", targetType = FieldType.STRING)

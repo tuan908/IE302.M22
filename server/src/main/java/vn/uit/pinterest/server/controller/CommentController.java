@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.uit.pinterest.server.dto.CommentDto;
 import vn.uit.pinterest.server.dto.MessageResponse;
+import vn.uit.pinterest.server.dto.UpdateCommentDto;
 import vn.uit.pinterest.server.entity.Comment;
 import vn.uit.pinterest.server.entity.Image;
 import vn.uit.pinterest.server.repository.CommentRepository;
@@ -49,15 +50,12 @@ public class CommentController {
 
 		if (!image.isPresent()) {
 			Image newImage = new Image(imgId);
-
-			imageRepository.save(newImage);
-			new ResponseEntity<MessageResponse>(HttpStatus.OK);
 			List<Comment> comments = new ArrayList<>();
+			imageRepository.save(newImage);
 
 			return ResponseEntity.ok().body(comments);
 		} else {
 			List<Comment> comments = commentRepository.findAllByImageId(imgId);
-			new ResponseEntity<MessageResponse>(HttpStatus.OK);
 
 			return ResponseEntity.ok().body(comments);
 		}
@@ -90,7 +88,8 @@ public class CommentController {
 			requestedComment.setImgId(comment.getImgId());
 			requestedComment.setCreatedTime(Instant.now());
 			requestedComment.setImageUrl(comment.getImageUrl());
-			
+			requestedComment.setUsername(comment.getUsername());
+
 			commentRepository.save(requestedComment);
 			String id = comment.getImgId();
 
@@ -99,7 +98,6 @@ public class CommentController {
 			if (img.isPresent()) {
 				Image image = img.get();
 				List<Comment> comments = new ArrayList<>();
-				comments = image.getComments();
 				comments.add(requestedComment);
 				image.setComments(comments);
 				imageRepository.save(image);
@@ -121,16 +119,16 @@ public class CommentController {
 
 	@Transactional(rollbackFor = Exception.class)
 	@PutMapping(value = "/api/comment/update/{commentId}")
-	public ResponseEntity<?> updateExistedComment(@PathVariable String commentId, @RequestBody Comment comment) {
+	public ResponseEntity<?> updateExistedComment(@PathVariable String commentId, @RequestBody UpdateCommentDto updateCommentDto) {
 		if (commentId != null) {
-			Query updateQuery = new Query(Criteria.where("comment_id").is(commentId));
+			Query updateQuery = new Query(Criteria.where("_id").is(commentId));
 			Update update = new Update();
-			update.set("avatarUrl", comment.avatarUrl);
-			update.set("commentContent", comment.content);
-
+			update.set("content", updateCommentDto.getContentToUpdate());
+			update.set("updated_time", Instant.now());
 			mongoTemplate.updateFirst(updateQuery, update, Comment.class);
-			new ResponseEntity<>(HttpStatus.OK);
-			return ResponseEntity.status(200).body(comment);
+			Comment updatedComment = mongoTemplate.findOne(updateQuery, Comment.class);
+			
+			return ResponseEntity.status(200).body(updatedComment);
 		} else {
 			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			return ResponseEntity.status(400).body("Bad request");

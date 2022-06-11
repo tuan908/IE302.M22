@@ -16,7 +16,6 @@ interface GetRequestProps extends RequestProps {
 
 const postRequest = async ({ data, baseURL }: RequestProps) => {
   const response = await axiosPost(baseURL!, data);
-  console.log(response);
   try {
     return response;
   } catch (error: any) {
@@ -26,7 +25,6 @@ const postRequest = async ({ data, baseURL }: RequestProps) => {
 };
 
 const getRequest = async ({ baseURL }: GetRequestProps) => {
-  console.log(axiosGet(baseURL as string));
   const response = await axiosGet(baseURL as string);
   try {
     return response;

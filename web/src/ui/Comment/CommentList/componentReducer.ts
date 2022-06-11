@@ -31,20 +31,17 @@ export default function reducer(state: CommentState, action: CommentAction) {
     }
 
     case ACTIONS.EDIT: {
-      const newList = state.list.map((item: PinterestComment) => {
-        const isUpdatedItem = item.commentId === action.payload.commentId;
-        if (isUpdatedItem) {
-          const updatedItem: PinterestComment = {
-            ...item,
-            content: action.payload.content,
-            isEditing: false,
-          };
-          console.log(updatedItem);
-          return updatedItem;
-        }
-        return item;
-      });
-      return { ...state, list: newList };
+      const index = state.list.findIndex(
+        (item) => item.commentId === action.payload.commentId
+      );
+      const newList = [...state.list];
+      newList[index].content = action.payload.content;
+      newList[index].isEditing = false;
+
+      return {
+        ...state,
+        list: newList,
+      };
     }
 
     case ACTIONS.CANCEL_EDIT: {

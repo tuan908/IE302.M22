@@ -23,6 +23,7 @@ interface PinterestComment {
   isEditing?: boolean;
   imageUrl: string;
   username: string;
+  isNeedReload?: boolean;
 }
 
 function Comment({ postId, imageUrl }: Props) {
@@ -45,6 +46,15 @@ function Comment({ postId, imageUrl }: Props) {
       commentInputRef.current.value = '';
     }
   };
+
+  async function loadCommentList() {
+    const raw = await fileService.getAllCommentById(postId.toString());
+    startTransition(() => setComments(raw.data));
+  }
+
+  useEffect(() => {
+    loadCommentList();
+  }, []);
 
   const handleSubmit = (
     e:

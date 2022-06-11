@@ -13,7 +13,6 @@ const GET_USER_FILE_BY_FILE_ID_URL = '/api/file/getFileById';
 const DELETE_FILE_BY_FILE_ID_URL = '/api/file/deleteFileById';
 const GET_LINK_DOWNLOAD_FILE_URL = '/api/file/download';
 const GET_FILE_LIST_URL = '/api/file/getAllFile';
-const UPDATE_FILE_BY_FILE_ID_URL = '/api/file/updateFileById';
 
 const requestUrl = {
   AUTH_URL,
@@ -27,7 +26,6 @@ const requestUrl = {
   GET_LINK_DOWNLOAD_FILE_URL,
   GET_FILE_LIST_URL,
   POST_USER_COMMENT_URL,
-  UPDATE_FILE_BY_FILE_ID_URL,
   API_ENDPOINT,
   REFRESH_TOKEN_URL,
 };

@@ -18,9 +18,9 @@ const getAllCommentById = (fileId: string) =>
     baseURL: `/api/image/${fileId}/comments/get`,
   });
 
-const updateFileById = (payload: any) =>
+const updateCommentById = (payload: any) =>
   putRequest({
-    baseURL: `${requestUrl.UPDATE_FILE_BY_FILE_ID_URL}/${payload.postID}`,
+    baseURL: `/api/comment/update/${payload.commentId}`,
     data: payload,
   });
 
@@ -29,7 +29,7 @@ const FileServices = {
   deleteFileById,
   getAllFile,
   getAllCommentById,
-  updateFileById,
+  updateCommentById,
 };
 
 export default FileServices;

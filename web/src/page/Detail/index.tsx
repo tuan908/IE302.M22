@@ -4,10 +4,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import fileService from 'src/service/file.service';
 import GoBack from 'src/ui/Button/GoBack';
 import ScrollToTop from 'src/ui/Button/ScrollTop';
 import Comment from 'src/ui/Comment';
@@ -26,31 +25,6 @@ const Detail = () => {
   const navigate = useNavigate();
   let [countLike, setCountLike] = useState(imageInfo.likes);
 
-  useEffect(() => {
-    const payload = {
-      postID: imageInfo.id,
-      views: imageInfo.views + 1,
-      count: countLike,
-    };
-
-    fileService
-      .updateFileById(payload)
-      .then((res) => console.log(res))
-      .catch((err) => console.log('ERR: ', err.message));
-  }, [countLike]);
-
-  useEffect(() => {
-    const payload = {
-      postID: imageInfo.id,
-      views: imageInfo.views + 1,
-    };
-
-    fileService
-      .updateFileById(payload)
-      .then((res) => console.log(res))
-      .catch((err) => console.log('ERR: ', err.message));
-  }, []);
-
   return (
     <div style={{ height: '100%' }}>
       <DetailWrapper>
@@ -58,22 +32,9 @@ const Detail = () => {
           <ArrowBackIcon />
         </GoBack>
         <ImageContainer>
-          {
-            /* {imageInfo.isVideo !== 'true' ? (*/
-            <ImageDetail>
-              <img src={imageInfo.webformatURL} alt="" />
-            </ImageDetail>
-            /*) : ( */
-          }
-          {/* <ImageDetail>
-            <video src={imageInfo.webformatURL} controls>
-              <source
-                src="https://drive.google.com/uc?id=1dE_dbgxeP_EMJOqLYu5Mq3NxGrQu1z2X"
-                type="video/mp4"
-              />
-            </video>
-          </ImageDetail> */}
-          {/* )} */}
+          <ImageDetail>
+            <img src={imageInfo.webformatURL} alt="" />
+          </ImageDetail>
 
           <ImageInformation>
             <h1>Upload by: {imageInfo.user}</h1>
@@ -125,5 +86,4 @@ const Detail = () => {
     </div>
   );
 };
-
 export default Detail;

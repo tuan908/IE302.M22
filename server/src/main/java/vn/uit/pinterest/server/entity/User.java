@@ -16,7 +16,6 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Field(name = "user_id", targetType = FieldType.OBJECT_ID)
 	public ObjectId userId;
 
 	@Field(name = "avatar_url", targetType = FieldType.STRING)

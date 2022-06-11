@@ -15,7 +15,6 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = -2839127778756069896L;
 
 	@Id
-	@Field(name = "rold_id")
 	public ObjectId roleId;
 
 	@Field(name = "role_name", targetType = FieldType.STRING)
