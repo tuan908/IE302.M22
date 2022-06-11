@@ -7,6 +7,7 @@ import App from './App';
 import './index.css';
 import store from './redux/store';
 import globalTheme from './util/style/globalTheme';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const appContainer = document.getElementById('root')!;
 const appRootNode = createRoot(appContainer);
