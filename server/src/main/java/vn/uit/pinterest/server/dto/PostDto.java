@@ -2,9 +2,8 @@ package vn.uit.pinterest.server.dto;
 
 import java.time.Instant;
 
-import vn.uit.pinterest.server.entity.Image;
-
 public class PostDto {
+	
 	public String postId;
 
 	public String username;
@@ -15,10 +14,10 @@ public class PostDto {
 
 	public Long postReactCount;
 
-	public Image image;
-	
+	public String base64ImageString;
+
 	private String title;
-	
+
 	private String content;
 
 	public Instant createdTime;
@@ -29,15 +28,15 @@ public class PostDto {
 		super();
 	}
 
-	public PostDto(String postId, String user, String postStatus, String postUrl, Long postReactCount, Image image,
-			String title, String content, Instant createdTime, Instant updatedTime) {
+	public PostDto(String postId, String user, String postStatus, String postUrl, Long postReactCount,
+			String base64ImageString, String title, String content, Instant createdTime, Instant updatedTime) {
 		super();
 		this.postId = postId;
 		this.username = user;
 		this.postStatus = postStatus;
 		this.postUrl = postUrl;
 		this.postReactCount = postReactCount;
-		this.image = image;
+		this.base64ImageString = base64ImageString;
 		this.title = title;
 		this.content = content;
 		this.createdTime = createdTime;
@@ -84,12 +83,12 @@ public class PostDto {
 		this.postReactCount = postReactCount;
 	}
 
-	public Image getImage() {
-		return image;
+	public String getImage() {
+		return base64ImageString;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public void setImage(String image) {
+		this.base64ImageString = image;
 	}
 
 	public String getTitle() {
@@ -123,5 +122,5 @@ public class PostDto {
 	public void setUpdatedTime(Instant updatedTime) {
 		this.updatedTime = updatedTime;
 	}
-	
+
 }

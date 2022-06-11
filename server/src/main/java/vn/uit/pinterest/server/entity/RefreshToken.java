@@ -2,7 +2,6 @@ package vn.uit.pinterest.server.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
 import java.util.Objects;
 
 import org.bson.types.ObjectId;
@@ -13,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 
 
 @Document(collection = "refresh_token_collection")
-public class ResetToken implements Serializable {
+public class RefreshToken implements Serializable {
 
 	/**
 	 *
@@ -32,23 +31,22 @@ public class ResetToken implements Serializable {
 	@Field(name = "user")
 	private User user;
 
-	@Field(name = "expired_time", targetType = FieldType.DATE_TIME)
-	private Date expiredDate;
+	private Instant expiredDate;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
 	public Instant createdTime;
 
-	public ResetToken() {
+	public RefreshToken() {
 	}
 
-	public ResetToken(ObjectId tokenId, String token, User user, Date expiredDate) {
+	public RefreshToken(ObjectId tokenId, String token, User user, Instant expiredDate) {
 		this.tokenId = tokenId;
 		this.token = token;
 		this.user = user;
 		this.expiredDate = expiredDate;
 	}
 
-	public ResetToken(User user, String token) {
+	public RefreshToken(User user, String token) {
 		this.token = token;
 		this.user = user;
 	}
@@ -77,30 +75,30 @@ public class ResetToken implements Serializable {
 		this.user = user;
 	}
 
-	public Date getExpiredDate() {
+	public Instant getExpiredDate() {
 		return this.expiredDate;
 	}
 
-	public void setExpiredDate(Date expiredDate) {
-		this.expiredDate = expiredDate;
+	public void setExpiredDate(Instant instant) {
+		this.expiredDate = instant;
 	}
 
-	public ResetToken tokenId(ObjectId tokenId) {
+	public RefreshToken tokenId(ObjectId tokenId) {
 		setTokenId(tokenId);
 		return this;
 	}
 
-	public ResetToken token(String token) {
+	public RefreshToken token(String token) {
 		setToken(token);
 		return this;
 	}
 
-	public ResetToken user(User user) {
+	public RefreshToken user(User user) {
 		setUser(user);
 		return this;
 	}
 
-	public ResetToken expiredDate(Date expiredDate) {
+	public RefreshToken expiredDate(Instant expiredDate) {
 		setExpiredDate(expiredDate);
 		return this;
 	}
@@ -109,10 +107,10 @@ public class ResetToken implements Serializable {
 	public boolean equals(Object o) {
 		if (o == this)
 			return true;
-		if (!(o instanceof ResetToken)) {
+		if (!(o instanceof RefreshToken)) {
 			return false;
 		}
-		ResetToken resetToken = (ResetToken) o;
+		RefreshToken resetToken = (RefreshToken) o;
 		return Objects.equals(tokenId, resetToken.tokenId) && Objects.equals(token, resetToken.token)
 				&& Objects.equals(user, resetToken.user) && Objects.equals(expiredDate, resetToken.expiredDate);
 	}

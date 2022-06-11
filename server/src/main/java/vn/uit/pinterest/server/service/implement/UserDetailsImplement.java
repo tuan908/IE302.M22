@@ -98,5 +98,9 @@ public class UserDetailsImplement implements UserDetails {
 		return Objects.equals(userId, userDetailsImplement.userId);
 
 	}
+	
+	public String getUserId() {
+		return this.userId;
+	}
 
 }

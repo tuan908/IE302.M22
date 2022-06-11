@@ -4,18 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import vn.uit.pinterest.server.entity.ResetToken;
+import vn.uit.pinterest.server.entity.RefreshToken;
 import vn.uit.pinterest.server.entity.User;
-import vn.uit.pinterest.server.repository.ResetTokenRepository;
+import vn.uit.pinterest.server.repository.RefreshTokenRepository;
 
 @Service
 public class UserServiceImplement {
 
 	@Autowired
-	ResetTokenRepository tokenRepo;
+	RefreshTokenRepository tokenRepo;
 
 	public void createForgotPasswordToken(User user, String token) {
-		ResetToken resetToken = new ResetToken(user, token);
+		RefreshToken resetToken = new RefreshToken(user, token);
 		tokenRepo.save(resetToken);
 	}
 

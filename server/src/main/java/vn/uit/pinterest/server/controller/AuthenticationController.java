@@ -33,11 +33,12 @@ import vn.uit.pinterest.server.dto.JwtResponse;
 import vn.uit.pinterest.server.dto.LoginRequest;
 import vn.uit.pinterest.server.dto.MessageResponse;
 import vn.uit.pinterest.server.dto.RegisterRequest;
-import vn.uit.pinterest.server.entity.ResetToken;
+import vn.uit.pinterest.server.entity.RefreshToken;
 import vn.uit.pinterest.server.entity.Role;
 import vn.uit.pinterest.server.entity.User;
 import vn.uit.pinterest.server.repository.UserRepository;
 import vn.uit.pinterest.server.repository.UserRoleRepository;
+import vn.uit.pinterest.server.service.RefreshTokenService;
 import vn.uit.pinterest.server.service.implement.UserDetailsImplement;
 import vn.uit.pinterest.server.service.implement.UserDetailsServiceImplement;
 import vn.uit.pinterest.server.service.implement.UserServiceImplement;
@@ -67,6 +68,9 @@ public class AuthenticationController {
 	@Autowired
 	UserServiceImplement userService;
 
+	@Autowired
+	RefreshTokenService refreshTokenService;
+
 	// @Autowired
 	// JavaMailSender mailSender;
 
@@ -85,15 +89,14 @@ public class AuthenticationController {
 		List<String> roles = userDetailsImplement.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		ResetToken resetToken = new ResetToken();
-		final String TOKEN_TYPE = "Jwt Token";
-		final int TOKEN_EXPIRED_TIME = resetToken.getTokenExpiredTime();
-		ObjectId userId = userRepository.findByUsername(username).userId;
-		JwtResponse responseBody = new JwtResponse(token, TOKEN_TYPE, userDetailsImplement.getUsername(),
-				userId.toString(),
-				roles, TOKEN_EXPIRED_TIME);
+		String usernameToCreateRefreshToken = userDetailsImplement.getUsername();
 
-		new ResponseEntity<JwtResponse>(HttpStatus.OK);
+		RefreshToken refreshToken = refreshTokenService.create(usernameToCreateRefreshToken);
+		final int TOKEN_EXPIRED_TIME = refreshToken.getTokenExpiredTime();
+		ObjectId userId = userRepository.findByUsername(username).userId;
+		JwtResponse responseBody = new JwtResponse(token, refreshToken.getToken(), userId.toString(), username, roles,
+				TOKEN_EXPIRED_TIME);
+
 		return ResponseEntity.ok().body(responseBody);
 	}
 

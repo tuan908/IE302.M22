@@ -25,6 +25,7 @@ import vn.uit.pinterest.server.repository.UserRepository;
 
 @RestController
 public class PostController {
+	
 	@Autowired
 	public MongoTemplate mongoTemplate;
 
@@ -99,7 +100,7 @@ public class PostController {
 
 				return ResponseEntity.status(200).body(response);
 			}
-			
+
 			return ResponseEntity.status(400).body(badRequestMsg);
 		} else {
 			return ResponseEntity.status(400).body(badRequestMsg);

@@ -25,7 +25,7 @@ public class Post {
 	public Long postReactCount;
 
 	@Field(name = "image", targetType = FieldType.STRING)
-	public Image image;
+	public String base64ImageString;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
 	public Instant createdTime;
@@ -43,7 +43,7 @@ public class Post {
 		super();
 	}
 
-	public Post(String postId, String user, String postStatus, String postUrl, Long postReactCount, Image image,
+	public Post(String postId, String user, String postStatus, String postUrl, Long postReactCount, String image,
 			Instant createdTime, Instant updatedTime, String postTitle, String content) {
 		super();
 		this.postId = postId;
@@ -51,7 +51,7 @@ public class Post {
 		this.postStatus = postStatus;
 		this.postUrl = postUrl;
 		this.postReactCount = postReactCount;
-		this.image = image;
+		this.base64ImageString = image;
 		this.createdTime = createdTime;
 		this.updatedTime = updatedTime;
 		this.postTitle = postTitle;
@@ -98,12 +98,12 @@ public class Post {
 		this.postReactCount = postReactCount;
 	}
 
-	public Image getImage() {
-		return image;
+	public String getImage() {
+		return base64ImageString;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public void setImage(String image) {
+		this.base64ImageString = image;
 	}
 
 	public Instant getCreatedTime() {
