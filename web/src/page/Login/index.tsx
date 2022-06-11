@@ -23,7 +23,6 @@ function Login() {
     try {
       const rawData = await login(loginFormValues);
       const { data } = rawData;
-      console.log(data);
 
       if (data) {
         dispatch(getCurrentUser(data));

@@ -10,7 +10,7 @@ import { ACTIONS } from './componentConstant';
 import { avatarStyle } from './ElementCss';
 
 interface Props {
-  comments: [];
+  comments: PinterestComment[];
 }
 
 export default function CommentList({ comments }: Props) {

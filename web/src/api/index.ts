@@ -21,14 +21,12 @@ const getPhotoListByKeyword = async (keyword: string) => {
       params: {
         key: pixabayApiKey,
         q: keyword,
-        per_page: 200,
+        per_page: 100,
       },
     });
 
     const data: PixabayPhoto[] = rawData.data.hits!.map(
-      ({ ...rest }: PixabayPhoto) => ({
-        ...rest,
-      })
+      (item: PixabayPhoto) => item
     );
     return data;
   } catch (error: any) {
@@ -38,16 +36,7 @@ const getPhotoListByKeyword = async (keyword: string) => {
 };
 
 async function getStartPhotoList() {
-  let inputStringList = [
-    'girl',
-    'landscape',
-    'dog',
-    'anime',
-    'universe',
-    'typescript',
-    'waterfall',
-    'vietnam',
-  ];
+  let inputStringList = ['universe', 'landscape'];
 
   let pinterestData: PixabayPhoto[] = [];
 
@@ -65,6 +54,7 @@ async function getStartPhotoList() {
         ...item,
       };
     });
+
     pinterestData = [...pinterestData, ...data];
   }
   return pinterestData;

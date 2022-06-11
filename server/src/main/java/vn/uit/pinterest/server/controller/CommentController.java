@@ -106,8 +106,7 @@ public class CommentController {
 			} else {
 				Image newImg = new Image();
 				newImg.setImageId(id);
-				List<Comment> comments = newImg.getComments();
-				comments = new ArrayList<>();
+				List<Comment> comments = new ArrayList<>();
 				comments.add(requestedComment);
 				newImg.setComments(comments);
 				imageRepository.save(newImg);

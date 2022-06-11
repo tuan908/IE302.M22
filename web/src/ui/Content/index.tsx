@@ -1,24 +1,11 @@
-import { useEffect, useState } from 'react';
-import { getStartPhotoList, PixabayPhoto } from 'src/api';
+import { PixabayPhoto } from 'src/api';
 import Pin from '../Pin';
 
-const PinterestContent = () => {
-  const [items, setItems] = useState<PixabayPhoto[]>([]);
-  const getData = async () => {
-    const data = await getStartPhotoList();
-    console.log(data);
-    try {
-      setItems(data!);
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
-    return data;
-  };
+interface Props {
+  items: PixabayPhoto[];
+}
 
-  useEffect(() => {
-    getData();
-  }, []);
-
+const PinterestContent = ({ items }: Props) => {
   return (
     <>
       {items!?.map(({ ...rest }, index) => (
