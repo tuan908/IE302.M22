@@ -147,8 +147,7 @@ public class User implements Serializable, Permissible {
 
 	@Override
 	public List<PermissionEnum> getPermissions() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.permissions;
 	}
 
 	@Override
