@@ -1,7 +1,6 @@
 import FaceIcon from '@mui/icons-material/Face';
 import KeyboardArrowIcon from '@mui/icons-material/KeyboardArrowDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import PinterestIcon from '@mui/icons-material/Pinterest';
 import SearchIcon from '@mui/icons-material/Search';
 import TextSMSIcon from '@mui/icons-material/Textsms';
 import {
@@ -29,6 +28,7 @@ import {
   getStartPhotoList,
   PixabayPhoto,
 } from 'src/api';
+import PinterestIcon from 'src/asset/images/logo.png';
 import useDebounce from 'src/hook/useDebounce';
 import { usePinterestSelector } from 'src/redux/hooks';
 import { logout } from '../../service/auth.service';
@@ -125,9 +125,9 @@ function Header() {
           <LogoWrapper>
             <Link to="/home">
               <Tooltip title="Home">
-                <PinterestIcon
-                  className="pinterest-icon"
-                  style={{ height: 50, width: 50 }}
+                <img
+                  src={PinterestIcon}
+                  style={{ width: '50px', height: '50px', borderRadius: '50%' }}
                 />
               </Tooltip>
             </Link>

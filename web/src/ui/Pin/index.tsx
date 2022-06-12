@@ -86,6 +86,8 @@ const Pin: FC<Props> = ({ id, webformatURL, ...otherImageProps }: Props) => {
         marginTop: '.5rem',
         boxShadow: '1px 1px solid black',
         border: '.01rem solid rgba(212, 203, 203, 0.4)',
+        cursor: 'pointer',
+        objectFit: 'contain',
       }}
     >
       <Button

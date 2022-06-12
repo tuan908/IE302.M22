@@ -1,13 +1,7 @@
 import { Edit } from '@mui/icons-material';
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import { Fragment, useReducer } from 'react';
+import { CssTextField } from 'src/page/Login/Component';
 import { holdComment } from 'src/redux/action/comment';
 import { usePinterestDispatch, usePinterestSelector } from 'src/redux/hooks';
 import FileServices from 'src/service/file.service';
@@ -93,7 +87,7 @@ export default function CommentList({ comments }: Props) {
             </Grid>
 
             <div style={{ display: item.isEditing ? '' : 'none' }}>
-              <TextField
+              <CssTextField
                 value={comment}
                 type="text"
                 onChange={(e) => onEdit(e.target.value)}

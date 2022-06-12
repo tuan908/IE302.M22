@@ -1,4 +1,4 @@
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import initLoginStateAfterLogin from 'src/redux/action/login';
@@ -6,6 +6,7 @@ import { getCurrentUser } from 'src/redux/action/user';
 import { usePinterestDispatch } from 'src/redux/hooks';
 import { register as pinterestRegister } from 'src/service/auth.service';
 import { saveUserInfoIntoStorage } from 'src/util/user';
+import { CssTextField } from '../Login/Component';
 import './style.scss';
 
 type RegisterFormValues = {
@@ -65,24 +66,24 @@ const Register = () => {
             >
               Register
             </Typography>
-            <TextField
+            <CssTextField
               {...register('email')}
               type="email"
               sx={{ marginBottom: 1.25 }}
               placeholder="Email"
             />
-            <TextField
+            <CssTextField
               {...register('username')}
               sx={{ marginBottom: 1.25 }}
               placeholder="Username"
             />
-            <TextField
+            <CssTextField
               {...register('password')}
               type="password"
               sx={{ marginBottom: 1.25 }}
               placeholder="Password"
             />
-            <TextField
+            <CssTextField
               {...register('confirmPassword')}
               type="password"
               sx={{ marginBottom: 1.25 }}
@@ -101,6 +102,7 @@ const Register = () => {
               color="primary"
               variant="contained"
               disableElevation
+              sx={{ backgroundColor: '#0000ff' }}
             >
               Register
             </Button>

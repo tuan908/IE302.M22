@@ -1,5 +1,4 @@
-import { TextField, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -9,6 +8,7 @@ import { getCurrentUser } from 'src/redux/action/user';
 import { usePinterestDispatch } from 'src/redux/hooks';
 import { login } from 'src/service/auth.service';
 import { saveUserInfoIntoStorage } from 'src/util/user';
+import { CssTextField } from './Component';
 import './Login.scss';
 
 type LoginFormValues = {
@@ -77,12 +77,12 @@ function Login() {
             >
               Login
             </Typography>
-            <TextField
+            <CssTextField
               {...register('username')}
-              sx={{ marginBottom: 1.25 }}
-              placeholder="Email or username"
+              sx={{ marginBottom: 1.25, marginTop: 1.25 }}
+              placeholder="Email"
             />
-            <TextField
+            <CssTextField
               {...register('password')}
               type="password"
               placeholder="Password"
@@ -93,9 +93,9 @@ function Login() {
             <Button
               title="Login"
               type="submit"
-              color="primary"
               variant="contained"
               disableElevation
+              color="info"
             >
               Login
             </Button>
