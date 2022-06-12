@@ -2,7 +2,6 @@ import {
     Grid,
     Typography,
     Avatar,
-    Button,
     Tab,
     Tabs,
     Box,
@@ -124,15 +123,15 @@ function PinterestProfile() {
                     <div className="d-flex justify-content-center mb-3">
                         <Avatar
                             src={userInfo?.avatarUrl || ''}
-                            alt={userInfo?.nameDisplay}
+                            alt={userInfo?.username}
                             sx={{ width: '100px', height: '100px' }}
                         />
                     </div>
                     <Typography sx={{ fontWeight: '750' }} variant="h3">
-                        {userInfo?.nameDisplay || 'name display'}
+                        {userInfo?.username || 'user name'}
                     </Typography>
-                    <p>@{userInfo?.email || 'user@gmail.com'}</p>
-                    <Button variant="contained">Edit Profile</Button>
+                   <em><p><span style={{fontStyle: 'itatlic', marginRight: '5px', color: '#0000ff'}}>@</span>{userInfo?.email || 'user@gmail.com'}</p></em> 
+                    {/* <Button variant="contained">Edit Profile</Button> */}
                 </Grid>
                 {/* sub nav for post and saved*/}
                 <Grid item xs={12} className={'d-flex justify-content-center'}>
@@ -155,8 +154,8 @@ function PinterestProfile() {
                         2
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <div style={{ width: '200px !important' }}>
-                            <SettingProfile />
+                        <div>
+                            <SettingProfile userInfo={userInfo?.username} />
                         </div>
                     </TabPanel>
                 </Grid>
