@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getUserProfile } from 'src/service/user.service';
 import Posted from './Posted';
-import SettingProfile from './SettingProfile'
+import SettingProfile from './SettingProfile';
 
 interface User {
     userIdFromLocalStorage: string;
@@ -135,7 +135,7 @@ function PinterestProfile() {
                     <Button variant="contained">Edit Profile</Button>
                 </Grid>
                 {/* sub nav for post and saved*/}
-                <Grid item  xs={12} className={'d-flex justify-content-center'}>
+                <Grid item xs={12} className={'d-flex justify-content-center'}>
                     <Tabs
                         value={value}
                         onChange={handleChange}
@@ -143,19 +143,24 @@ function PinterestProfile() {
                     >
                         <Tab label="Posted" {...a11yProps(0)} />
                         <Tab label="Saved" {...a11yProps(1)} />
+                        <Tab label="Setting" {...a11yProps(2)} />
                     </Tabs>
                 </Grid>
 
-                <Grid item  xs={12}>
+                <Grid item xs={12}>
                     <TabPanel value={value} index={0}>
                         <Posted listPostId={userInfo?.list}></Posted>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         2
                     </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <div style={{ width: '200px !important' }}>
+                            <SettingProfile />
+                        </div>
+                    </TabPanel>
                 </Grid>
             </Grid>
-            <SettingProfile />
         </>
     );
 }
