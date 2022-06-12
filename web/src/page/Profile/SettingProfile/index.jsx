@@ -50,11 +50,6 @@ const SettingProfile = ({ userInfo }) => {
         setActiveChangeInput(false);
     };
 
-    const handleSave = () => {
-       
-
-    };
-
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -92,6 +87,7 @@ const SettingProfile = ({ userInfo }) => {
                                         sx={{
                                             display: 'flex',
                                             alignItems: 'center',
+                                            marginLeft: '10px'
                                         }}
                                     >
                                         <EditIcon
@@ -129,13 +125,14 @@ const SettingProfile = ({ userInfo }) => {
                                             size="small"
                                             type={'password'}
                                         />
-                                        <div>{errors?.oldPw.message}</div>
+                                        <div>{errors?.oldPw?.message}</div>
                                     </Grid>
                                     <Grid
                                         item
                                         sx={{
                                             display: 'flex',
                                             alignItems: 'center',
+                                                marginLeft: '10px'
                                         }}
                                     >
                                         <EditIcon
