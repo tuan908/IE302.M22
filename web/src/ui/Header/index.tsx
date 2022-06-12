@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import TextSMSIcon from '@mui/icons-material/Textsms';
 import {
   Avatar,
+  Button,
   CircularProgress,
   ClickAwayListener,
   Grow,
@@ -16,6 +17,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
+  Fragment,
   MouseEventHandler,
   Suspense,
   useEffect,
@@ -31,6 +33,7 @@ import {
 import PinterestIcon from 'src/asset/images/logo.png';
 import useDebounce from 'src/hook/useDebounce';
 import { usePinterestSelector } from 'src/redux/hooks';
+import { defaultKeyword } from 'src/util/keyword';
 import { logout } from '../../service/auth.service';
 import { sidePages } from '../../util/page';
 import {
@@ -46,6 +49,8 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
   const [photoList, setPhotoList] = useState<PixabayPhoto[]>([]);
+  const [clickedKeyword, setClickedKeyword] = useState<string>('');
+
   const ref = useRef<HTMLDivElement>(null);
   const push = useNavigate();
   const [userId, setUserId] = useState();
@@ -76,6 +81,19 @@ function Header() {
       setPhotoList(data);
     });
   }, [debouncedKeyword]);
+
+  useEffect(() => {
+    getPhotoListByKeyword(clickedKeyword).then((data) => {
+      setPhotoList(data);
+    });
+  }, []);
+
+  function handleSearchByClickedKeyword(item: string) {
+    console.log(item);
+    setClickedKeyword(item);
+    const sortedList = photoList.sort(() => 0.5 - Math.random());
+    push(`/search?q=${clickedKeyword}`, { state: sortedList });
+  }
 
   const handleSubmitSearchImage: MouseEventHandler<HTMLButtonElement> = async (
     e
@@ -222,6 +240,26 @@ function Header() {
             </Popper>
           </IconsWrapper>
         </Wrapper>
+        <div
+          style={{
+            padding: '0 .75em',
+            display: 'inline-flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            width: '80%',
+          }}
+        >
+          {defaultKeyword.map((item, index) => (
+            <Fragment key={index}>
+              <Button
+                color="info"
+                onClick={() => handleSearchByClickedKeyword(item)}
+              >
+                {item}
+              </Button>
+            </Fragment>
+          ))}
+        </div>
       </Container>
     </Suspense>
   );

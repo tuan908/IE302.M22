@@ -3,7 +3,8 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   align-items: center;
-  height: 80px;
+  flex-direction: column;
+  height: 15%;
   background-color: white;
   color: black;
   top: 0;
@@ -16,7 +17,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: 80%;
-  margin: auto;
+  margin: 1.17em auto 0.75em;
 
   display: flex;
 `;

@@ -1,5 +1,5 @@
 import { Close, CloseOutlined } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { IconButton, Input } from '@mui/material';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import setMessage from 'src/redux/action/message';
@@ -29,15 +29,19 @@ interface PostForm {
   file: File;
   text: string;
   title: string;
+  category: string;
 }
 
 export interface PostDetail {
   username: string;
   base64ImageString: string;
+  imgUrlFromSave?: string;
   postReactCount: number;
   postStatus: string;
   title: string;
   content: string;
+  category?: string;
+  author?: string;
 }
 
 const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
@@ -60,7 +64,7 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
   const isLoad = usePinterestSelector((state) => state.userReducer.isLoad);
 
   const onSubmit = (data: any) => {
-    const { status, text, title } = data;
+    const { status, text, title, category } = data;
 
     const imgDataString = imgPreviewUrl!.toString();
 
@@ -71,6 +75,7 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
       username: userInfo.username,
       title,
       content: text,
+      category,
     };
 
     uploadNewPost(postDetail);
@@ -139,16 +144,27 @@ const Post: FC<PostProps> = ({ isPostOpen, closePost }) => {
               </ImgWrapper>
 
               <FormWrapper className="form">
-                <input
+                <Input
                   type="text"
                   placeholder="Create a title"
                   style={inputTitleCss}
                   {...register('title')}
                 />
-                <hr style={hrCss} />
+
+                <Input
+                  type="text"
+                  placeholder="Add your image's category"
+                  style={{
+                    padding: '5px 10px',
+                    fontSize: '1.25rem',
+                    marginBottom: '1rem',
+                  }}
+                  {...register('category')}
+                />
 
                 <textarea
                   {...register('text')}
+                  style={{ fontSize: '1.25rem' }}
                   placeholder="What's in your mind?"
                 />
 

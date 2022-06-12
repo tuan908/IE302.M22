@@ -44,9 +44,10 @@ const formCss: Style = {
 const inputTitleCss: Style = {
   border: 'none',
   height: '40px',
-  fontSize: '24px',
+  fontSize: '1.25rem',
   outline: 'none',
   paddingLeft: '10px',
+  marginBottom: '1rem',
 };
 
 const fileInputCss: Style = {

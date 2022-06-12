@@ -1,4 +1,4 @@
-import { Add } from '@mui/icons-material';
+import { AddOutlined } from '@mui/icons-material';
 import { CircularProgress, Container, IconButton } from '@mui/material';
 import { FC, useEffect, useState, useTransition } from 'react';
 import { getStartPhotoList, PixabayPhoto } from 'src/api';
@@ -59,8 +59,11 @@ const PinterestHome: FC<Props> = () => {
           <PinterestContent items={items} />
 
           <CreatePostWrapper>
-            <IconButton onClick={() => setOpen(!isOpen)}>
-              <Add fontSize="large" />
+            <IconButton
+              onClick={() => setOpen(!isOpen)}
+              style={{ border: '2px solid #0000ff', color: '#0000ff' }}
+            >
+              <AddOutlined sx={{ fontSize: '2em' }} />
             </IconButton>
           </CreatePostWrapper>
 

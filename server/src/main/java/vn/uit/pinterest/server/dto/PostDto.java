@@ -3,7 +3,7 @@ package vn.uit.pinterest.server.dto;
 import java.time.Instant;
 
 public class PostDto {
-	
+
 	public String postId;
 
 	public String username;
@@ -24,15 +24,22 @@ public class PostDto {
 
 	public Instant updatedTime;
 
+	private String category;
+
+	private String imgUrlFromSave;
+
+	private String author;
+
 	public PostDto() {
 		super();
 	}
 
-	public PostDto(String postId, String user, String postStatus, String postUrl, Long postReactCount,
-			String base64ImageString, String title, String content, Instant createdTime, Instant updatedTime) {
+	public PostDto(String postId, String username, String postStatus, String postUrl, Long postReactCount,
+			String base64ImageString, String title, String content, Instant createdTime, Instant updatedTime,
+			String category, String imgUrlFromSave, String author) {
 		super();
 		this.postId = postId;
-		this.username = user;
+		this.username = username;
 		this.postStatus = postStatus;
 		this.postUrl = postUrl;
 		this.postReactCount = postReactCount;
@@ -41,6 +48,9 @@ public class PostDto {
 		this.content = content;
 		this.createdTime = createdTime;
 		this.updatedTime = updatedTime;
+		this.category = category;
+		this.imgUrlFromSave = imgUrlFromSave;
+		this.author = author;
 	}
 
 	public String getPostId() {
@@ -51,12 +61,12 @@ public class PostDto {
 		this.postId = postId;
 	}
 
-	public String getUser() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUser(String user) {
-		this.username = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPostStatus() {
@@ -83,12 +93,12 @@ public class PostDto {
 		this.postReactCount = postReactCount;
 	}
 
-	public String getImage() {
+	public String getBase64ImageString() {
 		return base64ImageString;
 	}
 
-	public void setImage(String image) {
-		this.base64ImageString = image;
+	public void setBase64ImageString(String base64ImageString) {
+		this.base64ImageString = base64ImageString;
 	}
 
 	public String getTitle() {
@@ -121,6 +131,30 @@ public class PostDto {
 
 	public void setUpdatedTime(Instant updatedTime) {
 		this.updatedTime = updatedTime;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getImgUrlFromSave() {
+		return imgUrlFromSave;
+	}
+
+	public void setImgUrlFromSave(String imgUrlFromSave) {
+		this.imgUrlFromSave = imgUrlFromSave;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 }

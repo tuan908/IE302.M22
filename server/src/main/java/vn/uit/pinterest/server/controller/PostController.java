@@ -49,11 +49,11 @@ public class PostController {
 			if (post != null) {
 				PostDto response = new PostDto();
 
-				response.setImage(post.getImage());
+				response.setBase64ImageString(post.getBase64ImageString());
 				response.setPostId(post.getPostId());
 				response.setPostReactCount(post.getPostReactCount());
 				response.setPostStatus(post.getPostStatus());
-				response.setUser(post.getUser());
+				response.setUsername(post.getUsername());
 				response.setPostUrl(post.getPostUrl());
 
 				return ResponseEntity.status(200).body(response);
@@ -69,18 +69,20 @@ public class PostController {
 	@PostMapping(value = "/api/post/create")
 	public ResponseEntity<?> createNewPost(@RequestBody PostDto request) {
 		if (request != null) {
-			User user = userRepository.findByUsername(request.getUser());
+			User user = userRepository.findByUsername(request.getUsername());
 			if (user != null) {
 				Post newPost = new Post();
 				PostDto response = new PostDto();
 
-				newPost.setImage(request.getImage());
+				newPost.setBase64ImageString(request.getBase64ImageString());
 				newPost.setPostReactCount(request.getPostReactCount());
 				newPost.setPostStatus(request.getPostStatus());
-				newPost.setUser(request.getUser());
+				newPost.setUsername(request.getUsername());
 				newPost.setCreatedTime(Instant.now());
 				newPost.setContent(request.getContent());
 				newPost.setPostTitle(request.getTitle());
+				newPost.setCategory(request.getCategory());
+				newPost.setAuthor(request.getAuthor());
 
 				List<Post> posts = new ArrayList<>();
 				posts.add(newPost);
@@ -89,17 +91,7 @@ public class PostController {
 
 				postRepository.save(newPost);
 
-				response.setCreatedTime(Instant.now());
-				response.setImage(request.getImage());
-				response.setPostReactCount(request.getPostReactCount());
-				response.setPostStatus(request.getPostStatus());
-				response.setPostId(newPost.getPostId());
-				response.setContent(request.getContent());
-				response.setTitle(request.getTitle());
-				response.setUser(request.getUser());
-				response.setPostId(newPost.getPostId());
-
-				return ResponseEntity.status(200).body(response);
+				return ResponseEntity.status(200).body(new MessageResponse("Save post successfully"));
 			}
 
 			return ResponseEntity.status(400).body(badRequestMsg);
@@ -119,17 +111,17 @@ public class PostController {
 				post.setPostReactCount(updatedPost.getPostReactCount());
 				post.setPostStatus(updatedPost.getPostStatus());
 				post.setPostUrl(updatedPost.getPostUrl());
-				post.setImage(updatedPost.getImage());
+				post.setBase64ImageString(updatedPost.getBase64ImageString());
 
 				postRepository.save(post);
 
 				PostDto response = new PostDto();
 
 				response.setCreatedTime(Instant.now());
-				response.setImage(post.getImage());
+				response.setBase64ImageString(post.getBase64ImageString());
 				response.setPostReactCount(post.getPostReactCount());
 				response.setPostStatus(post.getPostStatus());
-				response.setUser(post.getUser());
+				response.setUsername(post.getUsername());
 				response.setUpdatedTime(Instant.now());
 				response.setPostId(postId);
 

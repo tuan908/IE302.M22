@@ -33,6 +33,7 @@ const ScrollTopWrapper = div`
   z-index: 999;
   background-color: white;
   border-radius: 50%;
+  border: .01em solid #0000ff
 `;
 
 export { CreatePostWrapper, ScrollTopWrapper, Wrapper };

@@ -15,7 +15,9 @@ import axios from 'axios';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
+import { createUserPost } from 'src/service/user.service';
 import { v4 } from 'uuid';
+import { PostDetail } from '../Post';
 
 interface Props extends PixabayPhoto {}
 
@@ -72,6 +74,21 @@ const Pin: FC<Props> = ({ id, webformatURL, ...otherImageProps }: Props) => {
       });
   }
 
+  async function saveToCollection() {
+    const data: PostDetail = {
+      base64ImageString: '',
+      content: '',
+      category: otherImageProps.tags,
+      postReactCount: otherImageProps.likes,
+      postStatus: '',
+      title: '',
+      username: 'admin',
+      author: otherImageProps.user,
+      imgUrlFromSave: webformatURL,
+    };
+    await createUserPost(data);
+  }
+
   return (
     <Box
       onMouseEnter={() => onMouseEnter()}
@@ -99,6 +116,7 @@ const Pin: FC<Props> = ({ id, webformatURL, ...otherImageProps }: Props) => {
           backgroundColor: 'red',
           color: 'white',
         }}
+        onClick={saveToCollection}
       >
         Save
       </Button>

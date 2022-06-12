@@ -39,23 +39,36 @@ public class Post {
 	@Field(name = "post_content", targetType = FieldType.STRING)
 	private String content;
 
+	@Field(name = "category", targetType = FieldType.STRING)
+	private String category;
+
+	@Field(name = "img_pixabay_url")
+	private String imgUrlFromSave;
+
+	@Field(name = "author")
+	private String author;
+
 	public Post() {
 		super();
 	}
 
-	public Post(String postId, String user, String postStatus, String postUrl, Long postReactCount, String image,
-			Instant createdTime, Instant updatedTime, String postTitle, String content) {
+	public Post(String postId, String username, String postStatus, String postUrl, Long postReactCount,
+			String base64ImageString, Instant createdTime, Instant updatedTime, String postTitle, String content,
+			String category, String imgUrlFromSave, String author) {
 		super();
 		this.postId = postId;
-		this.username = user;
+		this.username = username;
 		this.postStatus = postStatus;
 		this.postUrl = postUrl;
 		this.postReactCount = postReactCount;
-		this.base64ImageString = image;
+		this.base64ImageString = base64ImageString;
 		this.createdTime = createdTime;
 		this.updatedTime = updatedTime;
 		this.postTitle = postTitle;
 		this.content = content;
+		this.category = category;
+		this.imgUrlFromSave = imgUrlFromSave;
+		this.author = author;
 	}
 
 	public String getPostId() {
@@ -66,12 +79,12 @@ public class Post {
 		this.postId = postId;
 	}
 
-	public String getUser() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUser(String user) {
-		this.username = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPostStatus() {
@@ -98,12 +111,12 @@ public class Post {
 		this.postReactCount = postReactCount;
 	}
 
-	public String getImage() {
+	public String getBase64ImageString() {
 		return base64ImageString;
 	}
 
-	public void setImage(String image) {
-		this.base64ImageString = image;
+	public void setBase64ImageString(String base64ImageString) {
+		this.base64ImageString = base64ImageString;
 	}
 
 	public Instant getCreatedTime() {
@@ -136,6 +149,30 @@ public class Post {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getImgUrlFromSave() {
+		return imgUrlFromSave;
+	}
+
+	public void setImgUrlFromSave(String imgUrlFromSave) {
+		this.imgUrlFromSave = imgUrlFromSave;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 }
