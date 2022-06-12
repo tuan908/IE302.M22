@@ -28,7 +28,7 @@ const privatePages = [
   },
 ];
 
-const sidePages = [
+export const sidePages = [
   {
     pageName: 'Help',
     path: '/help',
@@ -37,4 +37,5 @@ const sidePages = [
     pageName: 'Sign out',
   },
 ];
-export { privatePages, sidePages };
+
+export default privatePages;

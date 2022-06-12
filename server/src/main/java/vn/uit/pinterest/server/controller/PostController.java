@@ -1,6 +1,7 @@
 package vn.uit.pinterest.server.controller;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class PostController {
 				newPost.setContent(request.getContent());
 				newPost.setPostTitle(request.getTitle());
 
-				List<Post> posts = user.getPosts();
+				List<Post> posts = new ArrayList<>();
 				posts.add(newPost);
 				user.setPosts(posts);
 				userRepository.save(user);

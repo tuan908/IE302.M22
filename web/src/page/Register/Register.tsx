@@ -1,28 +1,27 @@
-import { TextField, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import { useEffect } from 'react';
+import { Button, Grid, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import initLoginStateAfterLogin from 'src/redux/action/login';
 import { getCurrentUser } from 'src/redux/action/user';
 import { usePinterestDispatch } from 'src/redux/hooks';
-import { login } from 'src/service/auth.service';
+import { register as pinterestRegister } from 'src/service/auth.service';
 import { saveUserInfoIntoStorage } from 'src/util/user';
-import './Login.scss';
+import './style.scss';
 
-type LoginFormValues = {
+type RegisterFormValues = {
   username: string;
   password: string;
+  email: string;
+  confirmPassword: string;
 };
 
-function Login() {
-  const { handleSubmit, register } = useForm<LoginFormValues>();
+const Register = () => {
+  const { handleSubmit, register } = useForm<RegisterFormValues>();
   const navigate = useNavigate();
   const dispatch = usePinterestDispatch();
-  const onSubmit: SubmitHandler<LoginFormValues> = async (loginFormValues) => {
+  const onSubmit: SubmitHandler<RegisterFormValues> = async (registerData) => {
     try {
-      const rawData = await login(loginFormValues);
+      const rawData = await pinterestRegister(registerData);
       const { data } = rawData;
 
       if (data) {
@@ -50,23 +49,12 @@ function Login() {
     }
   };
 
-  useEffect(() => {
-    const userInfo = localStorage.getItem('user_info');
-    if (userInfo && userInfo !== 'undefined') {
-      navigate('/home', {
-        replace: true,
-      });
-    } else {
-      navigate('/login', { replace: true });
-    }
-  }, []);
-
   return (
-    <Grid container className="login">
-      <Grid container className="login-content">
-        <Grid item className="login__paper">
+    <Grid container className="register">
+      <Grid container className="register-content">
+        <Grid item className="register__paper">
           <form
-            className="login__form"
+            className="register__form"
             noValidate
             onSubmit={handleSubmit(onSubmit)}
           >
@@ -75,41 +63,52 @@ function Login() {
               sx={{ marginBottom: 3, textAlign: 'center' }}
               gutterBottom
             >
-              Login
+              Register
             </Typography>
+            <TextField
+              {...register('email')}
+              type="email"
+              sx={{ marginBottom: 1.25 }}
+              placeholder="Email"
+            />
             <TextField
               {...register('username')}
               sx={{ marginBottom: 1.25 }}
-              placeholder="Email or username"
+              placeholder="Username"
             />
             <TextField
               {...register('password')}
               type="password"
+              sx={{ marginBottom: 1.25 }}
               placeholder="Password"
             />
-            <Link className="forgot-password-link" to="/forgot-password">
-              <p>Forgot password?</p>
-            </Link>
+            <TextField
+              {...register('confirmPassword')}
+              type="password"
+              sx={{ marginBottom: 1.25 }}
+              placeholder="Confirm password"
+            />
+            <div className="login-link">
+              Already have an account?&nbsp;
+              <Link to="/login">
+                <p>Login</p>
+              </Link>
+            </div>
+
             <Button
-              title="Login"
+              title="Register"
               type="submit"
               color="primary"
               variant="contained"
               disableElevation
             >
-              Login
+              Register
             </Button>
-            <div className="register-link">
-              Don&apos;t have an account?&nbsp;
-              <Link to="/register">
-                <p>Sign up</p>
-              </Link>
-            </div>
           </form>
         </Grid>
       </Grid>
     </Grid>
   );
-}
+};
 
-export default Login;
+export default Register;

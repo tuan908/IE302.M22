@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import { pixabayApi } from '../hook/useGetImageByKeyword';
 import commentReducer from './reducer/comment';
 import fileReducer from './reducer/file';
+import initLoginStateReducer from './reducer/login';
 import messageReducer from './reducer/message';
 import pinReducer from './reducer/pin';
 import userReducer from './reducer/user';
@@ -17,6 +18,7 @@ const reducers = {
   pinReducer,
   commentReducer,
   [pixabayApi.reducerPath]: pixabayApi.reducer,
+  initLoginStateReducer,
 };
 
 const mainReducer = combineReducers(reducers);

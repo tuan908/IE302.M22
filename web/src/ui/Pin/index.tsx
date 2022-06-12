@@ -1,5 +1,6 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {
+  Box,
   Button,
   Fade,
   IconButton,
@@ -15,7 +16,6 @@ import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
 import { v4 } from 'uuid';
-import { PinWrapper } from './Component';
 
 interface Props extends PixabayPhoto {}
 
@@ -73,10 +73,20 @@ const Pin: FC<Props> = ({ id, webformatURL, ...otherImageProps }: Props) => {
   }
 
   return (
-    <PinWrapper
+    <Box
       onMouseEnter={() => onMouseEnter()}
       onMouseLeave={() => onMouseLeave()}
-      style={{ position: 'relative' }}
+      style={{
+        display: 'block',
+        position: 'relative',
+        borderRadius: '16px',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        marginTop: '.5rem',
+        boxShadow: '1px 1px solid black',
+        border: '.01rem solid rgba(212, 203, 203, 0.4)',
+      }}
     >
       <Button
         style={{
@@ -125,15 +135,17 @@ const Pin: FC<Props> = ({ id, webformatURL, ...otherImageProps }: Props) => {
 
       <img
         src={webformatURL}
-        style={{ display: 'block', width: '100%' }}
         alt=""
         onClick={() =>
           navigate(`/image/${id}`, {
             state: pinState,
           })
         }
+        style={{
+          width: '100%',
+        }}
       />
-    </PinWrapper>
+    </Box>
   );
 };
 

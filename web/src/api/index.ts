@@ -36,7 +36,7 @@ const getPhotoListByKeyword = async (keyword: string) => {
 };
 
 async function getStartPhotoList() {
-  let inputStringList = ['universe', 'landscape'];
+  let inputStringList = ['universe', 'landscape', 'girl'];
 
   let pinterestData: PixabayPhoto[] = [];
 
