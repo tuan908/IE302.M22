@@ -1,7 +1,8 @@
 import FaceIcon from '@mui/icons-material/Face';
 import KeyboardArrowIcon from '@mui/icons-material/KeyboardArrowDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import PinterestIcon from '@mui/icons-material/Pinterest';
+// import PinterestIcon from '@mui/icons-material/Pinterest';
+import logo from './logo.png'
 import SearchIcon from '@mui/icons-material/Search';
 import TextSMSIcon from '@mui/icons-material/Textsms';
 import {
@@ -104,13 +105,14 @@ function Header() {
   return (
     <Container>
       <Wrapper>
-        <LogoWrapper>
+        <LogoWrapper className='d-flex align-items-center' >
           <Link to="/home">
             <Tooltip title="Home">
-              <PinterestIcon
+              {/* <PinterestIcon
                 className="pinterest-icon"
                 style={{ height: 50, width: 50 }}
-              />
+              /> */}
+              <Avatar  src={logo} ></Avatar>
             </Tooltip>
           </Link>
         </LogoWrapper>
