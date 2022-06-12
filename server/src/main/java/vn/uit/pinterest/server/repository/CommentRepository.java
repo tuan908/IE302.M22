@@ -11,7 +11,7 @@ import vn.uit.pinterest.server.entity.Comment;
 @Repository
 public interface CommentRepository extends MongoRepository<Comment, String> {
 	
-    @Query("{'imgId': ?0}")
+    @Query("{'_id': ?0}")
     List<Comment> findAllByImageId(String imageId);
 
     @Query("{'_id': ?0}")

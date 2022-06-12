@@ -27,7 +27,7 @@ public class User implements Serializable {
 	@Field(name = "email", targetType = FieldType.STRING)
 	public String email;
 
-	@Field(name = "user_name", targetType = FieldType.STRING)
+	@Field(name = "username", targetType = FieldType.STRING)
 	public String userName;
 
 	@Field(name = "password", targetType = FieldType.STRING)

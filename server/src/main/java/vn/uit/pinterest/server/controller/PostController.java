@@ -1,8 +1,8 @@
 package vn.uit.pinterest.server.controller;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -26,7 +26,7 @@ import vn.uit.pinterest.server.repository.UserRepository;
 
 @RestController
 public class PostController {
-	
+
 	@Autowired
 	public MongoTemplate mongoTemplate;
 
@@ -69,27 +69,53 @@ public class PostController {
 	@PostMapping(value = "/api/post/create")
 	public ResponseEntity<?> createNewPost(@RequestBody PostDto request) {
 		if (request != null) {
-			User user = userRepository.findByUsername(request.getUsername());
-			if (user != null) {
-				Post newPost = new Post();
-				PostDto response = new PostDto();
+			Optional<User> user = userRepository.findByName(request.getUsername());
+			if (user.isPresent()) {
+				User existedUser = user.get();
+				List<Post> list = postRepository.findPostsByUser(request.getUsername());
+				if (list.isEmpty()) {
+					Post newPost = new Post();
 
-				newPost.setBase64ImageString(request.getBase64ImageString());
-				newPost.setPostReactCount(request.getPostReactCount());
-				newPost.setPostStatus(request.getPostStatus());
-				newPost.setUsername(request.getUsername());
-				newPost.setCreatedTime(Instant.now());
-				newPost.setContent(request.getContent());
-				newPost.setPostTitle(request.getTitle());
-				newPost.setCategory(request.getCategory());
-				newPost.setAuthor(request.getAuthor());
+					String base64Str = request.getBase64ImageString() == "" ? "" : request.getBase64ImageString();
+					String imgUrlFromSave = request.getImgUrlFromSave() != "" ? request.getBase64ImageString() : "";
+					newPost.setBase64ImageString(base64Str);
+					newPost.setBase64ImageString(request.getBase64ImageString());
+					newPost.setPostReactCount(request.getPostReactCount());
+					newPost.setPostStatus(request.getPostStatus());
+					newPost.setUsername(request.getUsername());
+					newPost.setCreatedTime(Instant.now());
+					newPost.setContent(request.getContent());
+					newPost.setPostTitle(request.getTitle());
+					newPost.setCategory(request.getCategory());
+					newPost.setAuthor(request.getAuthor());
+					newPost.setImgUrlFromSave(imgUrlFromSave);
 
-				List<Post> posts = new ArrayList<>();
-				posts.add(newPost);
-				user.setPosts(posts);
-				userRepository.save(user);
+					list.add(newPost);
+					postRepository.save(newPost);
 
-				postRepository.save(newPost);
+					existedUser.setPosts(list);
+					userRepository.save(existedUser);
+				} else {
+					Post newPost = new Post();
+					String base64Str = request.getBase64ImageString() == "" ? "" : request.getBase64ImageString();
+					String imgUrlFromSave = request.getImgUrlFromSave() == "" ? "" : request.getImgUrlFromSave();
+					newPost.setBase64ImageString(base64Str);
+					newPost.setPostReactCount(request.getPostReactCount());
+					newPost.setPostStatus(request.getPostStatus());
+					newPost.setUsername(request.getUsername());
+					newPost.setCreatedTime(Instant.now());
+					newPost.setContent(request.getContent());
+					newPost.setPostTitle(request.getTitle());
+					newPost.setCategory(request.getCategory());
+					newPost.setAuthor(request.getAuthor());
+					newPost.setImgUrlFromSave(imgUrlFromSave);
+
+					list.add(newPost);
+					postRepository.save(newPost);
+
+					existedUser.setPosts(list);
+					userRepository.save(existedUser);
+				}
 
 				return ResponseEntity.status(200).body(new MessageResponse("Save post successfully"));
 			}

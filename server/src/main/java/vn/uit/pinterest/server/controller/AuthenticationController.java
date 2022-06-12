@@ -2,6 +2,7 @@ package vn.uit.pinterest.server.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -93,11 +94,16 @@ public class AuthenticationController {
 
 		RefreshToken refreshToken = refreshTokenService.create(usernameToCreateRefreshToken);
 		final int TOKEN_EXPIRED_TIME = refreshToken.getTokenExpiredTime();
-		ObjectId userId = userRepository.findByUsername(username).userId;
-		JwtResponse responseBody = new JwtResponse(token, refreshToken.getToken(), userId.toString(), username, roles,
-				TOKEN_EXPIRED_TIME);
+		Optional<User> user = userRepository.findByName(username);
 
-		return ResponseEntity.ok().body(responseBody);
+		if (user.isPresent()) {
+			ObjectId userId = user.get().userId;
+			JwtResponse responseBody = new JwtResponse(token, refreshToken.getToken(), userId.toString(), username,
+					roles, TOKEN_EXPIRED_TIME);
+			return ResponseEntity.ok().body(responseBody);
+		}
+		return ResponseEntity.status(401).body(new MessageResponse("Not authorized"));
+
 	}
 
 	@PostMapping("/register")

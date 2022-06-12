@@ -17,7 +17,7 @@ interface User {
   userIdFromLocalStorage: string;
 }
 
-interface PinterestImage {
+export interface PinterestImage {
   base64ImageString: string;
   content: string;
   createdTime: Date;
@@ -27,7 +27,9 @@ interface PinterestImage {
   postTitle: string;
   postUrl: string;
   updatedTime: string;
-  user: string;
+  username: string;
+  imgUrlFromSave?: string;
+  author?: string;
 }
 
 type UserInfo = {
@@ -44,6 +46,11 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
+type HandleChangeFunction = (
+  event: React.SyntheticEvent<Element, Event>,
+  value: any
+) => void;
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -81,7 +88,7 @@ function PinterestProfile() {
 
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange: HandleChangeFunction = (_, newValue: number) => {
     setValue(newValue);
   };
 
@@ -96,26 +103,6 @@ function PinterestProfile() {
 
   return (
     <>
-      {/* <Typography variant="h5" gutterBottom>
-        Posts
-      </Typography>
-      <h4>{userInfo?.username}</h4>
-
-      {userInfo!?.list === null
-        ? []
-        : userInfo?.list.map(
-            ({ postReactCount, createdTime, base64ImageString }, index) => {
-              return (
-                <Grid key={index}>
-                  <Typography>{postReactCount}</Typography>
-                  <Typography>{createdTime.toString()}</Typography>
-                  <img src={base64ImageString} alt="" />
-                </Grid>
-              );
-            }
-          )} */}
-      {/* start dev by chien */}
-      {console.log(userInfo)}
       <Grid
         container
         className="userPage d-flex justify-content-center text-center"
@@ -149,7 +136,7 @@ function PinterestProfile() {
 
         <Grid item xs={12}>
           <TabPanel value={value} index={0}>
-            <Posted listPostId={userInfo?.list}></Posted>
+            <Posted listPostId={userInfo?.list!}></Posted>
           </TabPanel>
           <TabPanel value={value} index={1}>
             2
