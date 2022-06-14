@@ -4,7 +4,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 15%;
+  height: auto;
   background-color: white;
   color: black;
   top: 0;
@@ -66,7 +66,7 @@ const SearchWrapper = styled.div`
 const SearchBarWrapper = styled.div`
   display: flex;
   background-color: #efefef;
-  height: 3rem;
+  height: 2.5rem;
   width: 90%;
   border-radius: 50px;
   border: none;
