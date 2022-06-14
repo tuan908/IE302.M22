@@ -22,7 +22,7 @@ const getPhotoListByKeyword = async (keyword: string) => {
       params: {
         key: pixabayApiKey,
         q: keyword,
-        per_page: 100,
+        per_page: 200,
       },
     });
 
