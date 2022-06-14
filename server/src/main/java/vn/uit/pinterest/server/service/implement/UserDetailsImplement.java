@@ -37,10 +37,10 @@ public class UserDetailsImplement implements UserDetails {
 	public static UserDetailsImplement build(User user) {
 
 		List<GrantedAuthority> userAuthorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+				.map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
 		ObjectId userId = user.getUserId();
-		String username = user.getUserName();
+		String username = user.getName();
 		String password = user.getEncryptedPassword();
 
 		UserDetailsImplement userDetailsImplement = new UserDetailsImplement(userId, username, password,

@@ -4,25 +4,25 @@ import java.time.Instant;
 
 public class PostDto {
 
-	public String postId;
+	private String postId;
 
-	public String username;
+	private String username;
 
-	public String postStatus;
+	private String postStatus;
 
-	public String postUrl;
+	private String postUrl;
 
-	public Long postReactCount;
+	private Long postReactCount;
 
-	public String base64ImageString;
+	private String base64ImageString;
 
 	private String title;
 
 	private String content;
 
-	public Instant createdTime;
+	private Instant createdTime;
 
-	public Instant updatedTime;
+	private Instant updatedTime;
 
 	private String category;
 

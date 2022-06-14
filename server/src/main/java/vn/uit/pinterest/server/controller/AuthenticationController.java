@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -97,7 +96,7 @@ public class AuthenticationController {
 		Optional<User> user = userRepository.findByName(username);
 
 		if (user.isPresent()) {
-			ObjectId userId = user.get().userId;
+			ObjectId userId = user.get().getUserId();
 			JwtResponse responseBody = new JwtResponse(token, refreshToken.getToken(), userId.toString(), username,
 					roles, TOKEN_EXPIRED_TIME);
 			return ResponseEntity.ok().body(responseBody);
@@ -173,7 +172,6 @@ public class AuthenticationController {
 				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());
 				String refreshToken = jwtUtils.generateToken(authenticationToken);
-				new ResponseEntity<>(HttpStatus.OK);
 				return ResponseEntity.ok().body(new AuthenticationResponse(refreshToken));
 			}
 		}

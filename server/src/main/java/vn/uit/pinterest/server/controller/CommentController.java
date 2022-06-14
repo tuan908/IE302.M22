@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -32,13 +27,11 @@ import vn.uit.pinterest.server.repository.CommentRepository;
 import vn.uit.pinterest.server.repository.ImageRepository;
 
 @RestController
+@RequestMapping("/api/comment/")
 public class CommentController {
 
 	@Autowired
 	CommentRepository commentRepository;
-
-	@Autowired
-	MongoTemplate mongoTemplate;
 
 	@Autowired
 	ImageRepository imageRepository;
@@ -55,33 +48,25 @@ public class CommentController {
 
 			return ResponseEntity.ok().body(comments);
 		} else {
-			List<Comment> comments = commentRepository.findAllByImageId(imgId);
+			Optional<List<Comment>> comments = commentRepository.findAllByImageId(imgId);
 
-			return ResponseEntity.ok().body(comments);
+			if (comments.isEmpty()) {
+
+				return ResponseEntity.ok().body(comments.get());
+			} else {
+				return ResponseEntity.ok().body(comments.get());
+			}
 		}
 
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	@RequestMapping("/api/comment/get/{id}")
-	public ResponseEntity<?> getCommentById(@PathVariable String id) {
-		Comment comment = commentRepository.findOneById(id);
-		CommentDto response = new CommentDto();
-
-		response.setCommentId(comment.getCommentId());
-		response.setAvatarUrl(null);
-		response.setCommentTime(comment.getCreatedTime());
-		response.setContent(comment.getContent());
-		response.setImgId(comment.getImgId());
-
-		new ResponseEntity<Comment>(HttpStatus.OK);
-		return ResponseEntity.status(200).body(response);
-	}
-
-	@Transactional(rollbackFor = Exception.class)
-	@PostMapping(value = "/api/comment/create")
+	@PostMapping(value = "create")
 	public ResponseEntity<?> postNewComment(@RequestBody CommentDto comment) {
 		if (StringUtils.hasLength(comment.getContent())) {
+			String id = comment.getImgId();
+			Optional<Image> img = imageRepository.findByImageId(id);
+
 			Comment requestedComment = new Comment();
 			requestedComment.setAvatarUrl(comment.getAvatarUrl());
 			requestedComment.setContent(comment.getContent());
@@ -90,17 +75,21 @@ public class CommentController {
 			requestedComment.setImageUrl(comment.getImageUrl());
 			requestedComment.setUsername(comment.getUsername());
 
-			commentRepository.save(requestedComment);
-			String id = comment.getImgId();
-
-			Optional<Image> img = imageRepository.findByImageId(id);
-
 			if (img.isPresent()) {
 				Image image = img.get();
-				List<Comment> comments = new ArrayList<>();
-				comments.add(requestedComment);
-				image.setComments(comments);
-				imageRepository.save(image);
+				Optional<List<Comment>> results = commentRepository.findAllByImageId(id);
+				if (results.isEmpty()) {
+					List<Comment> initList = new ArrayList<>();
+					initList.add(requestedComment);
+					image.setComments(initList);
+					imageRepository.save(image);
+					commentRepository.save(requestedComment);
+				} else {
+					results.get().add(requestedComment);
+					image.setComments(results.get());
+					imageRepository.save(image);
+					commentRepository.save(requestedComment);
+				}
 			} else {
 				Image newImg = new Image();
 				newImg.setImageId(id);
@@ -109,46 +98,33 @@ public class CommentController {
 				newImg.setComments(comments);
 				imageRepository.save(newImg);
 			}
-			new ResponseEntity<CommentDto>(HttpStatus.OK);
 			return ResponseEntity.status(200).body(comment);
 		} else {
-			new ResponseEntity<Comment>(HttpStatus.BAD_REQUEST);
 			return ResponseEntity.status(400).body(new MessageResponse("Bad request"));
 		}
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	@PutMapping(value = "/api/comment/update/{commentId}")
-	public ResponseEntity<?> updateExistedComment(@PathVariable String commentId, @RequestBody UpdateCommentDto updateCommentDto) {
-		if (commentId != null) {
-			Query updateQuery = new Query(Criteria.where("_id").is(commentId));
-			Update update = new Update();
-			update.set("content", updateCommentDto.getContentToUpdate());
-			update.set("updated_time", Instant.now());
-			mongoTemplate.updateFirst(updateQuery, update, Comment.class);
-			Comment updatedComment = mongoTemplate.findOne(updateQuery, Comment.class);
-			
-			return ResponseEntity.status(200).body(updatedComment);
+	@PutMapping(value = "update/{commentId}")
+	public ResponseEntity<?> updateExistedComment(@PathVariable String commentId,
+			@RequestBody UpdateCommentDto request) {
+		Optional<Comment> result = commentRepository.findOneById(commentId);
+		if (result.isPresent()) {
+			result.get().setContent(request.getContentToUpdate());
+			result.get().setUpdatedTime(Instant.now());
+
+			return ResponseEntity.ok().body(result.get());
 		} else {
-			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			return ResponseEntity.status(400).body("Bad request");
+			return ResponseEntity.badRequest().body(new MessageResponse("Bad request."));
 		}
 
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	@DeleteMapping(value = "/api/comment/delete/{id}")
+	@DeleteMapping(value = "delete/{id}")
 	public ResponseEntity<?> deleteCommentById(@PathVariable String id) {
-		if (id != null) {
-			Query query = new Query(Criteria.where("_id").is(id));
-			mongoTemplate.findAndRemove(query, Comment.class);
-			new ResponseEntity<Comment>(HttpStatus.OK);
-			return ResponseEntity.status(200).body("Comment deleted");
-		} else {
-			new ResponseEntity<Comment>(HttpStatus.BAD_REQUEST);
-			return ResponseEntity.status(400).body("Bad request");
-		}
-
+		commentRepository.deleteById(id);
+		return ResponseEntity.status(200).body("Comment deleted");
 	}
 
 }

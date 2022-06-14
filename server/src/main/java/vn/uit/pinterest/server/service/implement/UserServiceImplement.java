@@ -12,11 +12,11 @@ import vn.uit.pinterest.server.repository.RefreshTokenRepository;
 public class UserServiceImplement {
 
 	@Autowired
-	RefreshTokenRepository tokenRepo;
+	RefreshTokenRepository repository;
 
 	public void createForgotPasswordToken(User user, String token) {
 		RefreshToken resetToken = new RefreshToken(user, token);
-		tokenRepo.save(resetToken);
+		repository.save(resetToken);
 	}
 
 	public SimpleMailMessage createResetTokenEmail(String contextPath, String token, User user) {

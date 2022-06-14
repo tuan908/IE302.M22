@@ -12,9 +12,9 @@ import vn.uit.pinterest.server.entity.Post;
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
 	@Query("{'_id': ?0}")
-	Post findByPostId(String postId);
+	Optional<Post> findByPostId(String postId);
 
 	@Query("{'username': ?0}")
-	List<Post> findPostsByUser(String username);
+	Optional<List<Post>> findPostsByUser(String username);
 
 }

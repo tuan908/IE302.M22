@@ -5,15 +5,15 @@ import vn.uit.pinterest.server.entity.Post;
 
 public class UserDto {
 
-	public String avatarUrl;
+	private String avatarUrl;
 
-	public String email;
+	private String email;
 
-	public String username;
+	private String username;
 
-	public String userId;
+	private String userId;
 
-	public List<Post> list;
+	private List<Post> list;
 
 	public UserDto() {
 	}

@@ -1,7 +1,7 @@
 package vn.uit.pinterest.server.dto;
 
 public class AuthenticationResponse {
-    String token;
+    private String token;
 
     public String getToken() {
         return this.token;

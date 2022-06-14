@@ -1,8 +1,9 @@
 package vn.uit.pinterest.server.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.uit.pinterest.server.dto.MessageResponse;
 import vn.uit.pinterest.server.dto.UserDto;
+import vn.uit.pinterest.server.entity.Post;
 import vn.uit.pinterest.server.entity.User;
 import vn.uit.pinterest.server.repository.UserRepository;
 
@@ -20,41 +23,40 @@ import vn.uit.pinterest.server.repository.UserRepository;
 @RequestMapping("/api/user/")
 public class UserController {
 	@Autowired
-	public MongoOperations mongoOperations;
-
-	@Autowired
 	public UserRepository userRepository;
 
 	@Transactional(rollbackFor = Exception.class)
 	@GetMapping(value = "{userId}/get")
 	public ResponseEntity<?> getUserInfo(@PathVariable(name = "userId") String userId) {
-		User userInfoExisted = mongoOperations.findById(userId, User.class);
+		Optional<User> result = userRepository.findById(userId);
 
-		if (userInfoExisted != null) {
-			UserDto userInfo = new UserDto(userInfoExisted.getAvatarUrl(), userInfoExisted.getEmail(),
-					userInfoExisted.getUserName(), userInfoExisted.getUserId().toString(), userInfoExisted.getPosts());
-			new ResponseEntity<User>(HttpStatus.OK);
-			return ResponseEntity.ok(userInfo);
+		if (result.isPresent()) {
+			String avatarUrl = result.get().getAvatarUrl();
+			String email = result.get().getEmail();
+			String username = result.get().getName();
+			String id = result.get().getUserId().toString();
+			List<Post> posts = result.get().getPosts();
+			UserDto userInfo = new UserDto(avatarUrl, email, username, id, posts);
+			return ResponseEntity.ok().body(userInfo);
 		} else {
-			new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 			return ResponseEntity.status(404).body("Not found any user");
 		}
 
 	}
 
 	@PutMapping(value = "{userId}/update")
-	public ResponseEntity<?> update(@PathVariable(name = "userId") String id, @RequestBody User entity) {
-		User requestedUpdateInfoUser = mongoOperations.findById(id, User.class);
+	public ResponseEntity<?> update(@PathVariable(name = "userId") String userId, @RequestBody User request) {
+		Optional<User> result = userRepository.findById(userId);
 
-		if (requestedUpdateInfoUser != null) {
-			requestedUpdateInfoUser.avatarUrl = entity.avatarUrl;
-			mongoOperations.save(requestedUpdateInfoUser);
+		if (result.isPresent()) {
+			result.get().setAvatarUrl(request.getAvatarUrl());
+			userRepository.save(result.get());
 
-			new ResponseEntity<User>(HttpStatus.OK);
-			return ResponseEntity.status(200).body(requestedUpdateInfoUser);
+			User response = result.get();
+
+			return ResponseEntity.status(200).body(response);
 		} else {
-			new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-			return ResponseEntity.status(404).body("User can't not found");
+			return ResponseEntity.status(404).body(new MessageResponse("User did't found."));
 		}
 
 	}

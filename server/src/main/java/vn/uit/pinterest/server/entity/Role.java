@@ -15,10 +15,10 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = -2839127778756069896L;
 
 	@Id
-	public ObjectId roleId;
+	private ObjectId roleId;
 
 	@Field(name = "role_name", targetType = FieldType.STRING)
-	public String roleName;
+	private String roleName;
 
 	public Role() {
 		super();
@@ -39,7 +39,7 @@ public class Role implements Serializable {
 		this.roleId = roleId;
 	}
 
-	public String getRoleName() {
+	public String getName() {
 		return roleName;
 	}
 
