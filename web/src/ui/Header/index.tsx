@@ -56,6 +56,9 @@ function Header() {
   const [userId, setUserId] = useState();
   const [token, setToken] = useState();
 
+  // active search keyword
+  const [getIndex, setGetIndex] = useState(-1)
+
   const userInfo = usePinterestSelector((state) => state.initLoginStateReducer);
 
   useEffect(() => {
@@ -135,6 +138,9 @@ function Header() {
       push(path);
     } else handleLogout();
   };
+
+
+
 
   return (
     <Suspense fallback={<CircularProgress />}>
@@ -253,7 +259,8 @@ function Header() {
             <Fragment key={index}>
               <Button
                 color="info"
-                onClick={() => handleSearchByClickedKeyword(item)}
+                onClick={() => {handleSearchByClickedKeyword(item); setGetIndex(index)}}
+                sx={index === getIndex ? {textTransform: 'none', borderBottom: '3px solid #0000ff', borderRadius: 0} :{textTransform: 'none'} }
               >
                 {item}
               </Button>
