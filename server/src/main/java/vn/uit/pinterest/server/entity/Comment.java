@@ -19,28 +19,28 @@ public class Comment implements Serializable {
 
 	@Id
 	@Indexed(unique = true)
-	public String commentId;
+	private String commentId;
 
 	@Field(name = "img_id", targetType = FieldType.STRING)
-	public String imgId;
+	private String imgId;
 
 	@Field(name = "user_id", targetType = FieldType.STRING)
-	public String userId;
+	private String userId;
 
 	@Field(name = "username", targetType = FieldType.STRING)
-	public String username;
+	private String username;
 
 	@Field(name = "avatar_url", targetType = FieldType.STRING)
-	public String avatarUrl;
+	private String avatarUrl;
 
 	@Field(name = "content", targetType = FieldType.STRING)
-	public String content;
+	private String content;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
-	public Instant createdTime;
+	private Instant createdTime;
 
 	@Field(name = "updated_time", targetType = FieldType.DATE_TIME)
-	private String updatedTime;
+	private Instant updatedTime;
 
 	@Field(name = "image_url", targetType = FieldType.STRING)
 	private String imageUrl;
@@ -50,7 +50,7 @@ public class Comment implements Serializable {
 	}
 
 	public Comment(String commentId, String imgId, String userId, String username, String avatarUrl, String content,
-			Instant createdTime, String updatedTime, String imageUrl) {
+			Instant createdTime, Instant updatedTime, String imageUrl) {
 		super();
 		this.commentId = commentId;
 		this.imgId = imgId;
@@ -111,12 +111,12 @@ public class Comment implements Serializable {
 		this.createdTime = createdTime;
 	}
 
-	public String getUpdatedTime() {
+	public Instant getUpdatedTime() {
 		return updatedTime;
 	}
 
-	public void setUpdatedTime(String updatedTime) {
-		this.updatedTime = updatedTime;
+	public void setUpdatedTime(Instant instant) {
+		this.updatedTime = instant;
 	}
 
 	public String getImageUrl() {

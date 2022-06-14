@@ -16,28 +16,28 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	public ObjectId userId;
+	private ObjectId userId;
 
 	@Field(name = "avatar_url", targetType = FieldType.STRING)
-	public String avatarUrl;
+	private String avatarUrl;
 
 	@Field(name = "post_list")
 	private List<Post> posts;
 
 	@Field(name = "email", targetType = FieldType.STRING)
-	public String email;
+	private String email;
 
 	@Field(name = "username", targetType = FieldType.STRING)
-	public String userName;
+	private String userName;
 
 	@Field(name = "password", targetType = FieldType.STRING)
-	public String encryptedPassword;
+	private String encryptedPassword;
 
 	@Field(name = "user_role", targetType = FieldType.STRING)
-	public Set<Role> roles;
+	private Set<Role> roles;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
-	public Instant createdTime;
+	private Instant createdTime;
 
 	@Field(name = "updated_time", targetType = FieldType.DATE_TIME)
 	private Instant updatedTime;
@@ -97,7 +97,7 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String getUserName() {
+	public String getName() {
 		return userName;
 	}
 

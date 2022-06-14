@@ -33,7 +33,7 @@ public class RefreshToken implements Serializable {
 	private Instant expiredDate;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
-	public Instant createdTime;
+	private Instant createdTime;
 
 	public RefreshToken() {
 	}

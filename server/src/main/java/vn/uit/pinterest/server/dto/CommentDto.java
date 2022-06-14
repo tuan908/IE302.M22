@@ -6,7 +6,7 @@ public class CommentDto {
 
 	private String commentId;
 
-	public String imgId;
+	private String imgId;
 
 	private String content;
 

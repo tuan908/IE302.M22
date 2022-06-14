@@ -10,25 +10,25 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 @Document(collection = "post_collection")
 public class Post {
 	@Id
-	public String postId;
+	private String postId;
 
 	@Field(name = "username")
 	private String username;
 
 	@Field(name = "post_status", targetType = FieldType.STRING)
-	public String postStatus;
+	private String postStatus;
 
 	@Field(name = "post_url", targetType = FieldType.STRING)
-	public String postUrl;
+	private String postUrl;
 
 	@Field(name = "post_react_count", targetType = FieldType.STRING)
-	public Long postReactCount;
+	private Long postReactCount;
 
 	@Field(name = "image", targetType = FieldType.STRING)
-	public String base64ImageString;
+	private String base64ImageString;
 
 	@Field(name = "created_time", targetType = FieldType.DATE_TIME)
-	public Instant createdTime;
+	private Instant createdTime;
 
 	@Field(name = "updated_time", targetType = FieldType.DATE_TIME)
 	private Instant updatedTime;
