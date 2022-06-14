@@ -9,6 +9,7 @@ interface PixabayPhoto {
   webformatURL: string;
   user: string;
   type: string;
+  userImageURL: string;
 }
 const { get } = axios;
 
@@ -45,7 +46,7 @@ async function getStartPhotoList() {
       params: {
         key: pixabayApiKey,
         q: inputStringList[index],
-        per_page: 200,
+        per_page: 150,
         page: 1,
       },
     });
