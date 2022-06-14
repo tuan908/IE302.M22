@@ -60,9 +60,10 @@ public class User implements Serializable {
 		this.updatedTime = updatedTime;
 	}
 
-	public User(String username, String password) {
+	public User(String email, String username, String password) {
 		this.userName = username;
 		this.encryptedPassword = password;
+		this.email = email;
 	}
 
 	public ObjectId getUserId() {

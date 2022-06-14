@@ -108,12 +108,12 @@ public class AuthenticationController {
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Validated @RequestBody RegisterRequest registerRequest) {
 
-		Boolean isUserExists = userRepository.existsByUserName(registerRequest.getUsername());
+		Boolean isUserExists = userRepository.existsByEmail(registerRequest.getEmail());
 
 		if (!isUserExists) {
 			String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
-			User user = new User(registerRequest.getUsername(), encodedPassword);
+			User user = new User(registerRequest.getEmail(), registerRequest.getUsername(), encodedPassword);
 
 			Set<String> roleStr = registerRequest.getRoles();
 			Set<Role> roles = new HashSet<Role>();

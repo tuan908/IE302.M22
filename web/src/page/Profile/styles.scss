@@ -1,0 +1,14 @@
+.d-flex {
+    display: flex;
+}
+
+.profileContainer {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .avatar {
+        margin: auto;
+        justify-content: center;
+    }
+}

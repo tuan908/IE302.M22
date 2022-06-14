@@ -1,17 +1,10 @@
-import {
-    Grid,
-    Typography,
-    Avatar,
-    Tab,
-    Tabs,
-    Box,
-    Button,
-} from '@mui/material';
+import { Typography, Avatar, Tab, Tabs, Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getUserProfile } from 'src/service/user.service';
 import Posted from './Posted';
 import SettingProfile from './SettingProfile';
+import './styles.scss';
 
 interface User {
     userIdFromLocalStorage: string;
@@ -103,142 +96,62 @@ function PinterestProfile() {
 
     return (
         <>
-            <Grid
-                container
-                className="userPage d-flex justify-content-center text-center"
-                children={
-                    <>
-                        <Grid className="userPage_item mb-3" item xs={12}>
-                            <div className="d-flex justify-content-center mb-3">
-                                <Avatar
-                                    src={userInfo?.avatarUrl || ''}
-                                    alt={userInfo?.nameDisplay}
-                                    sx={{ width: '100px', height: '100px' }}
-                                />
-                            </div>
-                            <Typography sx={{ fontWeight: '750' }} variant="h3">
-                                {userInfo?.nameDisplay || 'name display'}
-                            </Typography>
-                            <p>@{userInfo?.email || 'user@gmail.com'}</p>
-                            <Button variant="contained">Edit Profile</Button>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            className={'d-flex justify-content-center'}
-                        >
-                            <Tabs
-                                value={value}
-                                onChange={handleChange}
-                                aria-label="nav tabs example"
+            {console.log(userInfo)}
+            <Box className="d-flex profileContainer">
+                <Box>
+                    <div className="d-flex avatar">
+                        <Avatar
+                            src={userInfo?.avatarUrl || ''}
+                            alt={userInfo?.username}
+                            sx={{ width: '100px', height: '100px' }}
+                        />
+                    </div>
+                    <Typography sx={{ fontWeight: '750' }} variant="h3">
+                        {userInfo?.username || 'user name'}
+                    </Typography>
+                    <em>
+                        <p>
+                            <span
+                                style={{
+                                    fontStyle: 'itatlic',
+                                    marginRight: '5px',
+                                    color: '#0000ff',
+                                }}
                             >
-                                <Tab label="Posted" {...a11yProps(0)} />
-                                <Tab label="Saved" {...a11yProps(1)} />
-                                <Tab label="Setting" {...a11yProps(2)} />
-                            </Tabs>
-                        </Grid>
+                                @
+                            </span>
+                            {userInfo?.email || 'user@gmail.com'}
+                        </p>
+                    </em>
+                    {/* <Button variant="contained">Edit Profile</Button> */}
+                </Box>
+                {/* sub nav for post and saved*/}
+                <Box>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="nav tabs example"
+                    >
+                        <Tab label="Posted" {...a11yProps(0)} />
+                        <Tab label="Saved" {...a11yProps(1)} />
+                        <Tab label="Setting" {...a11yProps(2)} />
+                    </Tabs>
+                </Box>
 
-                        {userInfo!?.list === null
-                            ? []
-                            : userInfo?.list.map(
-                                  (
-                                      {
-                                          postReactCount,
-                                          createdTime,
-                                          base64ImageString,
-                                      },
-                                      index
-                                  ) => {
-                                      return (
-                                          <Grid key={index}>
-                                              <Typography>
-                                                  {postReactCount}
-                                              </Typography>
-                                              <Typography>
-                                                  {createdTime.toString()}
-                                              </Typography>
-                                              <img
-                                                  src={base64ImageString}
-                                                  alt=""
-                                              />
-                                          </Grid>
-                                      );
-                                  }
-                              )}
-                        {/* start dev by chien */}
-                        {console.log(userInfo)}
-                        <Grid
-                            container
-                            className="userPage d-flex justify-content-center text-center"
-                        >
-                            <Grid className="userPage_item mb-3" item xs={12}>
-                                <div className="d-flex justify-content-center mb-3">
-                                    <Avatar
-                                        src={userInfo?.avatarUrl || ''}
-                                        alt={userInfo?.username}
-                                        sx={{ width: '100px', height: '100px' }}
-                                    />
-                                </div>
-                                <Typography
-                                    sx={{ fontWeight: '750' }}
-                                    variant="h3"
-                                >
-                                    {userInfo?.username || 'user name'}
-                                </Typography>
-                                <em>
-                                    <p>
-                                        <span
-                                            style={{
-                                                fontStyle: 'itatlic',
-                                                marginRight: '5px',
-                                                color: '#0000ff',
-                                            }}
-                                        >
-                                            @
-                                        </span>
-                                        {userInfo?.email || 'user@gmail.com'}
-                                    </p>
-                                </em>
-                                {/* <Button variant="contained">Edit Profile</Button> */}
-                            </Grid>
-                            {/* sub nav for post and saved*/}
-                            <Grid
-                                item
-                                xs={12}
-                                className={'d-flex justify-content-center'}
-                            >
-                                <Tabs
-                                    value={value}
-                                    onChange={handleChange}
-                                    aria-label="nav tabs example"
-                                >
-                                    <Tab label="Posted" {...a11yProps(0)} />
-                                    <Tab label="Saved" {...a11yProps(1)} />
-                                    <Tab label="Setting" {...a11yProps(2)} />
-                                </Tabs>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <TabPanel value={value} index={0}>
-                                    <Posted
-                                        listPostId={userInfo?.list!}
-                                    ></Posted>
-                                </TabPanel>
-                                <TabPanel value={value} index={1}>
-                                    2
-                                </TabPanel>
-                                <TabPanel value={value} index={2}>
-                                    <div>
-                                        <SettingProfile
-                                            userInfo={userInfo?.username}
-                                        />
-                                    </div>
-                                </TabPanel>
-                            </Grid>
-                        </Grid>
-                    </>
-                }
-            />
+                <Box>
+                    <TabPanel value={value} index={0}>
+                        <Posted listPostId={userInfo?.list!}></Posted>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        2
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <div>
+                            <SettingProfile userInfo={userInfo?.username} />
+                        </div>
+                    </TabPanel>
+                </Box>
+            </Box>
         </>
     );
 }

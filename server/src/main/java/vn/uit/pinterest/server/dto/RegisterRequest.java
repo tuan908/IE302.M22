@@ -10,15 +10,17 @@ public class RegisterRequest implements Serializable {
 	 */
 	private static final long serialVersionUID = -8127984548299736843L;
 	private String username;
+	private String email;
 	private String password;
 	private Set<String> roles;
 
 	public RegisterRequest() {
 	}
 
-	public RegisterRequest(String username, String password, Set<String> roles) {
+	public RegisterRequest(String email, String username, String password, Set<String> roles) {
 		this.username = username;
 		this.password = password;
+		this.email = email;
 		this.roles = roles;
 	}
 
@@ -44,6 +46,14 @@ public class RegisterRequest implements Serializable {
 
 	public void setRoles(Set<String> roles) {
 		this.roles = roles;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

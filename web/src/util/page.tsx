@@ -3,7 +3,7 @@ import Home from 'src/page/Home';
 import Profile from 'src/page/Profile';
 import Search from 'src/page/Search';
 import DefaultLayout from 'src/ui/Layout/Default';
-import HeaderLessLayout from 'src/ui/Layout/HeaderLessLayout';
+// import HeaderLessLayout from 'src/ui/Layout/HeaderLessLayout';
 
 const privatePages = [
   {
@@ -14,7 +14,7 @@ const privatePages = [
   {
     path: '/user/:id',
     element: <Profile />,
-    layout: HeaderLessLayout,
+    layout: DefaultLayout,
   },
   {
     path: '/image/:id',
