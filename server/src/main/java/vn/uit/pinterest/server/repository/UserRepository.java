@@ -16,6 +16,6 @@ public interface UserRepository extends MongoRepository<User, Long> {
     @Query("{'username': ?0}")
     public Optional<User> findByName(String username);
     
-    @Query("{'_id:': ?0")
+    @Query("{'_id': ?0}")
     public Optional<User> findById(String userId);
 }
