@@ -36,6 +36,10 @@ export const sidePages = [
   {
     pageName: 'Sign out',
   },
+  {
+    pageName: 'Admin UI',
+    path: '/admin'
+  }
 ];
 
 export default privatePages;

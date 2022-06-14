@@ -1,6 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import Admin from 'src/page/Admin'
 
 import privatePages from './util/page';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path='/admin' element={<Admin/>} />
 
         {privatePages.map((page, index) => (
           <Route
