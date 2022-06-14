@@ -12,8 +12,8 @@ const Container = styled.div`
   z-index: 997;
   width: 100%;
   margin: 0 auto;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 20px 0px;
-`;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 10px 0px;
+  `;
 
 const Wrapper = styled.div`
   width: 80%;
