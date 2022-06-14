@@ -30,9 +30,9 @@ public class RefreshTokenService {
 		return refreshTokenRepository.findByToken(token);
 	}
 
-	public RefreshToken create(String username) {
+	public RefreshToken create(String email) {
 		RefreshToken token = new RefreshToken();
-		Optional<User> existedUser = userRepository.findByName(username);
+		Optional<User> existedUser = userRepository.findByEmail(email);
 
 		if (existedUser.isPresent()) {
 			token.setUser(existedUser.get());

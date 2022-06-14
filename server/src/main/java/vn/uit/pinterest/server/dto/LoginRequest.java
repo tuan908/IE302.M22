@@ -8,23 +8,23 @@ public class LoginRequest implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 5551899623769447104L;
-	private String username;
+	private String email;
 	private String password;
 
 	public LoginRequest() {
 	}
 
-	public LoginRequest(String username, String password) {
-		this.username = username;
+	public LoginRequest(String email, String password) {
+		this.email = email;
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

@@ -51,7 +51,7 @@ public class PostController {
 			response.setPostId(result.get().getPostId());
 			response.setPostReactCount(result.get().getPostReactCount());
 			response.setPostStatus(result.get().getPostStatus());
-			response.setUsername(result.get().getUsername());
+			response.setEmail(result.get().getUsername());
 			response.setPostUrl(result.get().getPostUrl());
 
 			return ResponseEntity.status(200).body(response);
@@ -64,10 +64,10 @@ public class PostController {
 	@PostMapping(value = "create")
 	public ResponseEntity<?> createNewPost(@RequestBody PostDto request) {
 
-		Optional<User> user = userRepository.findByName(request.getUsername());
+		Optional<User> user = userRepository.findByEmail(request.getEmail());
 		if (user.isPresent()) {
 			User existedUser = user.get();
-			Optional<List<Post>> result = postRepository.findPostsByUser(request.getUsername());
+			Optional<List<Post>> result = postRepository.findPostsByUser(request.getEmail());
 			if (result.isEmpty()) {
 				Post newPost = new Post();
 
@@ -78,7 +78,7 @@ public class PostController {
 				newPost.setBase64ImageString(request.getBase64ImageString());
 				newPost.setPostReactCount(request.getPostReactCount());
 				newPost.setPostStatus(request.getPostStatus());
-				newPost.setUsername(request.getUsername());
+				newPost.setUsername(request.getEmail());
 				newPost.setCreatedTime(Instant.now());
 				newPost.setContent(request.getContent());
 				newPost.setPostTitle(request.getTitle());
@@ -98,7 +98,7 @@ public class PostController {
 				newPost.setBase64ImageString(base64Str);
 				newPost.setPostReactCount(request.getPostReactCount());
 				newPost.setPostStatus(request.getPostStatus());
-				newPost.setUsername(request.getUsername());
+				newPost.setUsername(request.getEmail());
 				newPost.setCreatedTime(Instant.now());
 				newPost.setContent(request.getContent());
 				newPost.setPostTitle(request.getTitle());
@@ -139,7 +139,7 @@ public class PostController {
 			response.setBase64ImageString(post.get().getBase64ImageString());
 			response.setPostReactCount(post.get().getPostReactCount());
 			response.setPostStatus(post.get().getPostStatus());
-			response.setUsername(post.get().getUsername());
+			response.setEmail(post.get().getUsername());
 			response.setUpdatedTime(Instant.now());
 			response.setPostId(postId);
 

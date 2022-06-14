@@ -6,8 +6,8 @@ public class PostDto {
 
 	private String postId;
 
-	private String username;
-
+	private String email;
+ 
 	private String postStatus;
 
 	private String postUrl;
@@ -34,12 +34,12 @@ public class PostDto {
 		super();
 	}
 
-	public PostDto(String postId, String username, String postStatus, String postUrl, Long postReactCount,
+	public PostDto(String postId, String email, String postStatus, String postUrl, Long postReactCount,
 			String base64ImageString, String title, String content, Instant createdTime, Instant updatedTime,
 			String category, String imgUrlFromSave, String author) {
 		super();
 		this.postId = postId;
-		this.username = username;
+		this.email = email;
 		this.postStatus = postStatus;
 		this.postUrl = postUrl;
 		this.postReactCount = postReactCount;
@@ -61,12 +61,12 @@ public class PostDto {
 		this.postId = postId;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPostStatus() {

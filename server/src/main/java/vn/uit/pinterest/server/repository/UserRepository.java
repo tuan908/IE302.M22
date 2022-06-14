@@ -13,8 +13,8 @@ public interface UserRepository extends MongoRepository<User, Long> {
 
 	public Boolean existsByEmail(String email);
 
-	@Query("{'username': ?0}")
-	public Optional<User> findByName(String username);
+	@Query("{'email': ?0}")
+	public Optional<User> findByEmail(String email);
 
 	@Query("{'_id': ?0}")
 	public Optional<User> findById(String userId);

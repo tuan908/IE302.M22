@@ -76,10 +76,10 @@ public class AuthenticationController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Validated @RequestBody LoginRequest request) {
-		String username = request.getUsername();
+		String email = request.getEmail();
 		String password = request.getPassword();
 
-		UsernamePasswordAuthenticationToken userAuthToken = new UsernamePasswordAuthenticationToken(username, password);
+		UsernamePasswordAuthenticationToken userAuthToken = new UsernamePasswordAuthenticationToken(email, password);
 		Authentication authentication = authenticationManager.authenticate(userAuthToken);
 		SecurityContextHolder.getContext().setAuthentication(userAuthToken);
 
@@ -93,11 +93,11 @@ public class AuthenticationController {
 
 		RefreshToken refreshToken = refreshTokenService.create(usernameToCreateRefreshToken);
 		final int TOKEN_EXPIRED_TIME = refreshToken.getTokenExpiredTime();
-		Optional<User> user = userRepository.findByName(username);
+		Optional<User> user = userRepository.findByEmail(email);
 
 		if (user.isPresent()) {
 			ObjectId userId = user.get().getUserId();
-			JwtResponse responseBody = new JwtResponse(token, refreshToken.getToken(), userId.toString(), username,
+			JwtResponse responseBody = new JwtResponse(token, refreshToken.getToken(), userId.toString(), email,
 					roles, TOKEN_EXPIRED_TIME);
 			return ResponseEntity.ok().body(responseBody);
 		}
