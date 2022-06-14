@@ -1,13 +1,12 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import GoBack from 'src/ui/Button/GoBack';
+import GoBackButton from 'src/ui/Button/GoBack';
 import ScrollToTop from 'src/ui/Button/ScrollTop';
 import Comment from 'src/ui/Comment';
 import {
@@ -22,15 +21,12 @@ interface ImageInfoProps extends PixabayPhoto {}
 const Detail = () => {
   let [isLike, setIsLike] = useState(false);
   const imageInfo = useLocation().state as ImageInfoProps;
-  const navigate = useNavigate();
   let [countLike, setCountLike] = useState(imageInfo.likes);
 
   return (
     <div style={{ height: '100%' }}>
       <DetailWrapper>
-        <GoBack onClick={() => navigate(-1)}>
-          <ArrowBackIcon />
-        </GoBack>
+        <GoBackButton />
         <ImageContainer>
           <ImageDetail>
             <img src={imageInfo.webformatURL} alt="" />

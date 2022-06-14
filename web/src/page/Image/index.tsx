@@ -1,5 +1,4 @@
 import {
-  ArrowBack,
   Favorite,
   FavoriteBorder,
   GetApp,
@@ -8,9 +7,9 @@ import {
 } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { PixabayPhoto } from 'src/api';
-import GoBack from '../../ui/Button/GoBack';
+import GoBackButton from '../../ui/Button/GoBack';
 import ScrollToTop from '../../ui/Button/ScrollTop';
 import {
   DetailWrapper,
@@ -22,16 +21,13 @@ import {
 const PinterestDetail = () => {
   const { downloads, likes, tags, user, views, webformatURL } = useLocation()
     .state as PixabayPhoto;
-  const navigate = useNavigate();
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
   let [like, setLike] = useState<number>(likes);
 
   return (
     <DetailWrapper>
-      <GoBack onClick={() => navigate(-1)}>
-        <ArrowBack />
-      </GoBack>
+      <GoBackButton />
       <ImageContainer>
         <ImageDetail>
           <img src={webformatURL} alt="" />
